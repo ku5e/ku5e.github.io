@@ -46,46 +46,6 @@ Portfolio content and writeups: © 2026 Mario Martinez Jr. All rights reserved.
 
 *Seeking remote SOC Analyst or Penetration Tester opportunities.*
 ```
-
----
-
-## MAKERMINDSTUDIO REPOSITORY SETTINGS
-
-### Repository Name
-```
-makermindstudio
-```
-
----
-
-### Description
-```
-MakerMindStudio digital shop - Parametric 3D models, laser designs, and maker projects
-```
-
----
-
-### Website
-```
-https://makermindstudio.com
-```
-
----
-
-### Topics
-```
-3d-printing
-fusion360
-laser-engraving
-maker
-3d-models
-cad
-parametric-design
-digital-products
-etsy
-shop
-design
-manufacturing
 laser-cutting
 cnc
 stl
