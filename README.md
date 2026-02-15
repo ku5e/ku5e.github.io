@@ -46,6 +46,3 @@ Portfolio content and writeups: © 2026 Mario Martinez Jr. All rights reserved.
 
 *Seeking remote SOC Analyst or Penetration Tester opportunities.*
 ```
-laser-cutting
-cnc
-stl
