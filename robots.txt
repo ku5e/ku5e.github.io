@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://ku5e.com/sitemap.xml
