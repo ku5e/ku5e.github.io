@@ -10,8 +10,8 @@
     },
     "items": [
         {
-            "id": "https://ku5e.com/test/index.html",
-            "url": "https://ku5e.com/test/index.html",
+            "id": "https://ku5e.com/blog/test/index.html",
+            "url": "https://ku5e.com/blog/test/index.html",
             "title": "Test",
             "author": {
                 "name": "Mario Martinez, Jr."
@@ -22,8 +22,8 @@
             "date_modified": "2026-02-15T18:54:22-05:00"
         },
         {
-            "id": "https://ku5e.com/security-writeups-and-projects-2/index.html",
-            "url": "https://ku5e.com/security-writeups-and-projects-2/index.html",
+            "id": "https://ku5e.com/blog/security-writeups-and-projects-2/index.html",
+            "url": "https://ku5e.com/blog/security-writeups-and-projects-2/index.html",
             "title": "SECURITY WRITEUPS &amp; PROJECTS",
             "summary": "TryHackMe room writeups, security labs, and project documentation coming soon. Currently: USA Rank #90 (Global #824) Goal: Top 50 by June 2026 Check back soon for detailed walkthroughs and security analysis.",
             "content_html": "<p>TryHackMe room writeups, security labs, and project documentation <br>coming soon.<br><br>Currently: USA Rank #90 (Global #824)<br>Goal: Top 50 by June 2026<br><br>Check back soon for detailed walkthroughs and security analysis.</p>",
