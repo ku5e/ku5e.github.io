@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
-    <title>ku5e.com</title>
+    <title>Mario Martinez, Jr.</title>
     <link href="https://ku5e.com/feed.xml" rel="self" />
     <link href="https://ku5e.com" />
-    <updated>1969-12-31T19:00:00-05:00</updated>
+    <updated>2026-02-15T18:26:30-05:00</updated>
     <author>
         <name>Mario Martinez, Jr.</name>
     </author>
     <id>https://ku5e.com</id>
 
+    <entry>
+        <title>SECURITY WRITEUPS &amp; PROJECTS</title>
+        <author>
+            <name>Mario Martinez, Jr.</name>
+        </author>
+        <link href="https://ku5e.com/security-writeups-and-projects-2/index.html"/>
+        <id>https://ku5e.com/security-writeups-and-projects-2/index.html</id>
+
+        <updated>2026-02-15T18:26:30-05:00</updated>
+            <summary type="html">
+                <![CDATA[
+                    TryHackMe room writeups, security labs, and project documentation coming soon. Currently: USA Rank #90 (Global #824) Goal: Top 50 by June 2026 Check back soon for detailed walkthroughs and security analysis.
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>TryHackMe room writeups, security labs, and project documentation <br>coming soon.<br><br>Currently: USA Rank #90 (Global #824)<br>Goal: Top 50 by June 2026<br><br>Check back soon for detailed walkthroughs and security analysis.</p>
+            ]]>
+        </content>
+    </entry>
 </feed>
