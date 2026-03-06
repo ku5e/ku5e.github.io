@@ -2,3 +2,6 @@ baseURL = "https://ku5e.com/"
 languageCode = "en-us"
 title = "ku5e | Cybersecurity Portfolio"
 theme = "PaperMod"
+
+[params]
+    author = "Mario Martinez Jr."
