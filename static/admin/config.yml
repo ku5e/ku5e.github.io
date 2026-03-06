@@ -1,0 +1,21 @@
+backend:
+    name: github
+    repo: ku5e/ku5e.github.io
+    branch: main
+    auth_endpoint: https://sveltia-cms-auth.ku5e.workers.dev/auth
+
+media_folder: static/images
+public_folder: /images
+
+collections:
+    - name: blog
+      label: Blog Posts
+      folder: content/blog
+      create: true
+      slug: "{{slug}}"
+      fields:
+        - { label: Title, name: title, widget: string }
+        - { label: Date, name: date, widget: datetime }
+        - { label: Draft, name: draft, widget: boolean, default: false }
+        - { label: Tags, name: tags, widget: list }
+        - { label: Body, name: body, widget: markdown }
