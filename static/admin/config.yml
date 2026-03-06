@@ -18,4 +18,26 @@ collections:
         - { label: Date, name: date, widget: datetime }
         - { label: Draft, name: draft, widget: boolean, default: false }
         - { label: Tags, name: tags, widget: list }
+        - { label: Description, name: description, widget: string, required: false }
         - { label: Body, name: body, widget: markdown }
+
+    - name: services
+      label: Services
+      folder: content/services
+      create: true
+      slug: "{{slug}}"
+      fields:
+        - { label: Title, name: title, widget: string }
+        - { label: Description, name: description, widget: string, required: false }
+        - { label: Body, name: body, widget: markdown }
+
+    - name: pages
+      label: Pages
+      files:
+        - name: homepage
+          label: Homepage
+          file: content/_index.md
+          fields:
+            - { label: Title, name: title, widget: string }
+            - { label: Description, name: description, widget: string, required: false }
+            - { label: Body, name: body, widget: markdown }
