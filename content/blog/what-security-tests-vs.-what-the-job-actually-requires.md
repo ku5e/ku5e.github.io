@@ -53,6 +53,6 @@ The certification gets you past resume filters. The practical work is what gets 
 
 Security+ is a gate, not a finish line. Most job postings that require it also require one to three years of experience, which means the certification is establishing a baseline, not proving competency. Treating it that way changes how you prepare and what you do after you pass.
 
----
+***
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_blog.ku5e.com_](https://blog.ku5e.com)
