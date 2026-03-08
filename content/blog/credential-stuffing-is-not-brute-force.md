@@ -1,6 +1,6 @@
 ---
 title: Credential Stuffing Is Not Brute Force
-date: 2026-03-10T07:03:00
+date: 2026-03-08T13:47:00
 draft: false
 tags:
   - '- cybersecurity'
@@ -54,4 +54,4 @@ Fixing it on the defender side means requiring MFA, checking passwords against b
 
 ***
 
-_Written by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_blog.ku5e.com_](https://blog.ku5e.com)
+Written by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)
