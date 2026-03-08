@@ -9,7 +9,7 @@ tags:
   - passwords
 description: Credential stuffing uses real passwords from real breaches. Understanding the difference changes how you defend against it.
 cover:
-  image: ''
+  image: /images/hero-2026-03-10-credential-stuffing2.png
   alt: ''
   caption: ''
   relative: false
