@@ -15,8 +15,6 @@ description: 'This room covers the full pipeline: deploying agents, building adv
 
 # TryHackMe: CALDERA
 
-Related: [THM Walkthroughs MOC](THM Walkthroughs MOC) | [MASTER_TODO](MASTER_TODO)
-
 **Author:** Mario Martinez Jr. (ku5e / Gary7) | TryHackMe USA Rank #76 | Top 1%
 
 **Difficulty:** Medium
@@ -28,8 +26,6 @@ Related: [THM Walkthroughs MOC](THM Walkthroughs MOC) | [MASTER_TODO](MASTER_TOD
 Answers are redacted within the narrative to allow you to complete the tasks on your own, but a full table of answers is available at the end of this walkthrough.
 
 CALDERA is MITRE's open-source adversary emulation framework. This room covers the full pipeline: deploying agents, building adversary profiles, running operations, analyzing detections with Sysmon and Aurora EDR, and executing autonomous incident response. The final task emulates APT41, a threat group attributed to Chinese state-sponsored espionage and financial crime active since 2012.
-
-
 
 ***
 
@@ -93,7 +89,7 @@ Access the web interface at `http://ATTACKBOX_IP:8888` with credentials `red` / 
 
 ### Deploying an Agent
 
-### 
+###
 
 Navigate to the agents tab and deploy a **Manx** agent targeting the Windows victim. The default IP shown during configuration is **[REDACTED]**. Replace it with your AttackBox IP before copying the deployment commands.
 
