@@ -8,6 +8,11 @@ tags:
   - authentication
   - passwords
 description: Credential stuffing uses real passwords from real breaches. Understanding the difference changes how you defend against it.
+cover:
+  image: ''
+  alt: ''
+  caption: ''
+  relative: false
 ---
 
 Brute force guesses passwords. Credential stuffing already has them.
