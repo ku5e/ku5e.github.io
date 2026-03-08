@@ -3,10 +3,10 @@ title: Credential Stuffing Is Not Brute Force
 date: 2026-03-08T13:49:00
 draft: false
 tags:
-  - '- cybersecurity'
-  - '- attack-techniques'
-  - '- authentication'
-  - '- passwords'
+  - cybersecurity
+  - attack-techniques
+  - authentication
+  - passwords
 description: Credential stuffing uses real passwords from real breaches. Understanding the difference changes how you defend against it.
 ---
 
