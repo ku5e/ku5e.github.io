@@ -13,7 +13,11 @@ tags:
   - credential-access
   - defense-evasion
 description: 'Part 2 of the Atomic Bird Goes Purple Purple Team series. Covers cleartext credential discovery, typosquatted decoy account creation, malicious service installation, registry defacement, ransomware-style file renaming, and reverse shell persistence via registry. Techniques: T1552.001, T1078.003, T1543.003, T1491, T1112, T1012.'
-cover: null
+cover:
+  image: /images/frostfire2.png
+  alt: ''
+  caption: ''
+  relative: false
 ---
 
 # TryHackMe: Atomic Bird Goes Purple #2
@@ -24,7 +28,7 @@ cover: null
 
 **Topics:** Purple Teaming, Threat Emulation, Atomic Red Team, Credential Access, Defense Evasion, Persistence, Registry Manipulation, Service Creation
 
----
+***
 
 Answers are redacted within the narrative to allow you to complete the tasks on your own, but a full table of answers is available at the end of this walkthrough.
 
@@ -32,7 +36,7 @@ This room continues the Atomic Bird Goes Purple series. Where Part 1 focused on 
 
 <!--image 5-->
 
----
+***
 
 ## Task 1: Introduction
 
@@ -40,7 +44,7 @@ Start the VM and proceed. The room maps two active tasks across six technique re
 
 Complete Part 1 before working this room. The toolset is identical: THM-Utils, Atomic Red Team, PowerShell, Windows Event Viewer, and Registry Editor.
 
----
+***
 
 ## Task 2: In-Between — Discover and Hide
 
@@ -98,7 +102,7 @@ Invoke-AtomicTest T0002-1 -Cleanup
 Invoke-AtomicTest T0002-2 -Cleanup
 ```
 
----
+***
 
 ## Task 3: Manipulate, Deface, Persistence
 
@@ -168,14 +172,14 @@ This technique stores a Netcat reverse shell command in the registry for later e
 
 Cleanup:
 
-```powershell
+```markdown
 Invoke-AtomicTest T0003-1 -Cleanup
 Invoke-AtomicTest T0003-2 -Cleanup
 Invoke-AtomicTest T0003-3 -Cleanup
 Invoke-AtomicTest T0003-4 -Cleanup
 ```
 
----
+***
 
 ## Task 4: Conclusion
 
@@ -183,14 +187,14 @@ The two Atomic Bird Goes Purple rooms cover a complete adversary simulation cycl
 
 The recommended next rooms are Tempest and Caldera, which extend the purple team methodology into more complex scenarios.
 
----
+***
 
 ## Answer Table
 
 | Task | Question | Answer |
-|---|---|---|
+| --- | --- | --- |
 | 2 | Detected PowerShell library file | YamlDotNet.xml |
-| 2 | Code snippet to add .bak files | ,*.bak |
+| 2 | Code snippet to add .bak files | ,\*.bak |
 | 2 | Secret key from output file | L1LAFLHQ5peGsjh7Pee8wHFY1SBQHe85A1HZhVrK47Yf6cqmH3n8 |
 | 2 | New decoy account name | Adminstrator |
 | 3 | Name of created service | thm-registered-service |
@@ -199,6 +203,6 @@ The recommended next rooms are Tempest and Caldera, which extend the purple team
 | 3 | Updated file extension | .thm-jhn |
 | 3 | Malicious registry value | nc 10.10.thm.jhn 4499 -e powershell |
 
----
+***
 
-*Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)*
+_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_blog.ku5e.com_](https://blog.ku5e.com)
