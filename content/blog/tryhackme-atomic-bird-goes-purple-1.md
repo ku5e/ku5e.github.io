@@ -1,5 +1,5 @@
 ---
-title: '# TryHackMe: Atomic Bird Goes Purple #1'
+title: 'TryHackMe: Atomic Bird Goes Purple #1'
 date: 2026-03-08T19:57:00
 draft: false
 tags:
@@ -22,7 +22,7 @@ cover: null
 
 **Topics:** Purple Teaming, Threat Emulation, Atomic Red Team, Windows Event Logs, Sysmon, Aurora EDR
 
----
+***
 
 Answers are redacted within the narrative to allow you to complete the tasks on your own, but a full table of answers is available at the end of this walkthrough.
 
@@ -30,7 +30,7 @@ This room puts you inside a Purple Team exercise built around the Atomic Red Tea
 
 <!--image 5-->
 
----
+***
 
 ## Task 1: Introduction
 
@@ -38,14 +38,14 @@ Start the attached VM and proceed. The machine loads in split-screen view. Nothi
 
 The prerequisites for this room are not decorative. If Windows Event Logs, Sysmon, Sigma, Aurora EDR, and the Hacking with PowerShell rooms are not in your history, the artifact investigation sections will be difficult to follow. The room assumes you can read event logs and correlate process activity without a guide.
 
----
+***
 
 ## Task 2: Getting Started With Custom Exercises and Investigation Process
 
 This task frames the methodology. The room uses custom Atomic Red Team tests mapped to real MITRE ATT&CK techniques. The mapping across the three active tasks is:
 
 | Task | Tactics | Techniques |
-|---|---|---|
+| --- | --- | --- |
 | 4 | Execution, Discovery, Collection | T1056.002, T1059, T1082 |
 | 5 | Lateral Movement | T1091 |
 | 6 | Collection | T1115 |
@@ -54,7 +54,7 @@ The investigation mindset matters here. You are running each test, then immediat
 
 The note about obfuscated atomics is worth taking seriously. Some test payloads are not provided in cleartext. The task descriptions and event logs give you enough to reconstruct what happened. This mirrors real-world forensics, where you often work backward from artifacts rather than forward from source code.
 
----
+***
 
 ## Task 3: Toolset and Hints
 
@@ -88,7 +88,7 @@ The cleanup command for a hypothetical test T0123-4 follows the same pattern: **
 
 <!--image 1-->
 
----
+***
 
 ## Task 4: Execute, Investigate, Detect
 
@@ -144,7 +144,7 @@ Invoke-AtomicTest T0004-2 -Cleanup
 Invoke-AtomicTest T0004-3 -Cleanup
 ```
 
----
+***
 
 ## Task 5: Universal Suspicious Share
 
@@ -189,7 +189,7 @@ Cleanup:
 Invoke-AtomicTest T0005-1 -Cleanup
 ```
 
----
+***
 
 ## Task 6: Dump and Go
 
@@ -232,7 +232,7 @@ Invoke-AtomicTest T0006-1 -Cleanup
 Invoke-AtomicTest T0006-2 -Cleanup
 ```
 
----
+***
 
 ## Task 7: Conclusion
 
@@ -240,22 +240,22 @@ The room walks a complete Purple Team cycle: emulate, observe, investigate, clea
 
 Atomic Bird Goes Purple #2 continues with more scenarios in the same format.
 
----
+***
 
 ## Answer Table
 
-| Task | Question                                     | Answer |
-| ---- | -------------------------------------------- | ------ |
-| 3    | Flag from THM-LogStats-Flag                  | THM{Emulation_is_fun_but_needs_focus_and_exploration} |
-| 3    | Cleanup command for T0123-4                  | Invoke-AtomicTest T0123-4 -Cleanup |
-| 4    | OS Build info from T0004-1                   | 10.0.17763 N/A Build 17763 |
-| 4    | Flag from T0004-2                            | THM{THM_Emulation_Room} |
-| 4    | Failed command from T0004-3                  | <!bin/bash> |
-| 5    | SHA256 of .txt before T0005-1                | 3CA9FB42ACF0A347BDFDC78E0435331BC458194E4BC7FBFFB255BC4CF02CDC1A |
-| 5    | SHA256 of .txt after T0005-1                 | 626DBB861DCFF600DABEFCE7BF93F2C72C0F6462CC5729B963FC8242D7D43990 |
-| 6    | Flag from history dump (T0006-1)             | THM{THM_analytics_to_exfiltration_with_NexGenHunt} |
-| 6    | Flag from system file modification (T0006-2) | THM{NextGenHunt.thm.jhn} |
+| Task | Question | Answer |
+| --- | --- | --- |
+| 3 | Flag from THM-LogStats-Flag | THM{Emulation_is_fun_but_needs_focus_and_exploration} |
+| 3 | Cleanup command for T0123-4 | Invoke-AtomicTest T0123-4 -Cleanup |
+| 4 | OS Build info from T0004-1 | 10.0.17763 N/A Build 17763 |
+| 4 | Flag from T0004-2 | THM{THM_Emulation_Room} |
+| 4 | Failed command from T0004-3 | <!bin/bash> |
+| 5 | SHA256 of .txt before T0005-1 | 3CA9FB42ACF0A347BDFDC78E0435331BC458194E4BC7FBFFB255BC4CF02CDC1A |
+| 5 | SHA256 of .txt after T0005-1 | 626DBB861DCFF600DABEFCE7BF93F2C72C0F6462CC5729B963FC8242D7D43990 |
+| 6 | Flag from history dump (T0006-1) | THM{THM_analytics_to_exfiltration_with_NexGenHunt} |
+| 6 | Flag from system file modification (T0006-2) | THM{NextGenHunt.thm.jhn} |
 
----
+***
 
-*Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)*
+_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_blog.ku5e.com_](https://blog.ku5e.com)
