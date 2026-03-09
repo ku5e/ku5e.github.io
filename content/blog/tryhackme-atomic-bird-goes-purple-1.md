@@ -11,7 +11,11 @@ tags:
   - sysmon
   - aurora-edr
 description: A hands-on Purple Team exercise using custom Atomic Red Team tests to emulate system discovery, credential capture, file manipulation, and exfiltration staging. Covers T1082, T1056.002, T1091, and T1115 with full artifact investigation in Windows Event Logs, Sysmon, and Aurora EDR.
-cover: null
+cover:
+  image: /images/frostandfire.png
+  alt: ''
+  caption: ''
+  relative: false
 ---
 
 # TryHackMe: Atomic Bird Goes Purple #1
@@ -258,4 +262,4 @@ Atomic Bird Goes Purple #2 continues with more scenarios in the same format.
 
 ***
 
-_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_blog.ku5e.com_](https://blog.ku5e.com)
+_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | _[_blog.ku5e.com_](https://blog.ku5e.com)
