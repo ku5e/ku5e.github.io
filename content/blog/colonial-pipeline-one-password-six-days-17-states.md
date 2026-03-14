@@ -57,6 +57,6 @@ CISA published the Known Exploited Vulnerabilities catalog in November 2021, par
 
 The attack did not produce new security concepts. MFA, access reviews, and network segmentation between IT and OT environments were all documented controls before May 2021. Colonial is a case study in what happens when known controls are not applied to the systems that most need them.
 
----
+***
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ |  [_blog.ku5e.com_](https://ku5e.com/blog)
