@@ -61,3 +61,5 @@ The good news is that the barrier to building hands-on AI knowledge is lower tha
 The next article in this series covers exactly that: building a home AI lab on a Raspberry Pi with a Hailo AI accelerator module. Under $200 in hardware. Runs local models without a cloud dependency. The kind of setup that lets you test, break, and understand AI behavior on your own network before you encounter it on someone else's.
 
 The Star Trek future is worth building toward. The work between here and there is yours to do.
+
+If you are working toward a cybersecurity career and want a clear map of what to build, study, and prove before you apply, the Cybersecurity Career Roadmap covers that for $47. [Cybersecurity Career Roadmap](https://ku5e.com/services/cybersecurity-career-roadmap/)
