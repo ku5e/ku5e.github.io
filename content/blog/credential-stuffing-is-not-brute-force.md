@@ -57,4 +57,4 @@ Fixing it on the defender side means requiring MFA, checking passwords against b
 
 ***
 
-Written by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)
+Written by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) |  [_blog.ku5e.com_](https://ku5e.com/blog)
