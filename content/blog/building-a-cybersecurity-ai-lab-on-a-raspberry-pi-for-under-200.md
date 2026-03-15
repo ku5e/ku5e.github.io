@@ -1,5 +1,5 @@
 ---
-title: '# Building a Cybersecurity AI Lab on a Raspberry Pi for Under $200'
+title: Building a Cybersecurity AI Lab on a Raspberry Pi for Under $200
 date: 2026-03-15T19:40:00
 draft: false
 tags:
@@ -41,11 +41,11 @@ If you want more headroom, the **Hailo-10H AI HAT+ 2** steps up to 40 TOPS with 
 
 Total cost with Pi 5 4GB and Hailo-8L AI Kit: under $200.
 
----
+***
 
-**Already have your Pi set up? Skip to [Network Security Use Cases](#network-security-use-cases).**
+**Already have your Pi set up? Skip to **[**Network Security Use Cases**](#network-security-use-cases)**.**
 
----
+***
 
 ## Setup
 
@@ -73,7 +73,7 @@ hailortcli fw-control identify
 
 A successful response returns the device architecture, firmware version, and serial number. If the command returns an error, confirm the HAT is seated correctly in the M.2 slot and that PCIe is enabled in `/boot/firmware/config.txt`:
 
-```
+```plain
 dtparam=pciex1
 ```
 
@@ -86,11 +86,11 @@ cd hailo-rpi5-examples
 
 Follow the README to run the basic detection pipeline. Once you see inference output, the hardware is confirmed.
 
----
+***
 
-**Already configured Hailo? Skip to [Network Security Use Cases](#network-security-use-cases).**
+**Already configured Hailo? Skip to **[**Network Security Use Cases**](#network-security-use-cases)**.**
 
----
+***
 
 ## Network Security Use Cases
 
@@ -153,4 +153,4 @@ The hardware you just built is a foundation. Future articles in this series will
 
 If you are building toward an entry-level security role and want a clear map of what to study and prove before you apply, the Cybersecurity Career Roadmap covers that for $47. [Cybersecurity Career Roadmap](https://ku5e.com/services/cybersecurity-career-roadmap/)
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_ku5e.com/blog_](https://ku5e.com/blog)
