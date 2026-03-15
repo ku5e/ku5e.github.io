@@ -59,4 +59,4 @@ The attack did not produce new security concepts. MFA, access reviews, and netwo
 
 ***
 
-Written by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) |  [_blog.ku5e.com_](https://ku5e.com/blog)
+Written by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) |  [_ku5e.com/blog_](https://ku5e.com/blog)

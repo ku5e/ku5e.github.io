@@ -68,4 +68,4 @@ Nmap is not just a reconnaissance tool. It is an audit tool that every network d
 
 ---
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)*
+*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*

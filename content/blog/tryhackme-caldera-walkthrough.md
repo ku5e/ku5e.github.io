@@ -425,4 +425,4 @@ The training plugin ships with a CTF-style challenge for further hands-on practi
 
 ***
 
-_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | _[_blog.ku5e.com_](https://blog.ku5e.com)
+_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | _[_ku5e.com/blog_](https://ku5e.com/blog)

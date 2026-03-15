@@ -262,4 +262,4 @@ Atomic Bird Goes Purple #2 continues with more scenarios in the same format.
 
 ***
 
-_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | _[_blog.ku5e.com_](https://blog.ku5e.com)
+_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | _[_ku5e.com/blog_](https://ku5e.com/blog)

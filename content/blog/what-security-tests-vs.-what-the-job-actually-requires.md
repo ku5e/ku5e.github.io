@@ -55,4 +55,4 @@ Security+ is a gate, not a finish line. Most job postings that require it also r
 
 ***
 
-_Written by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_blog.ku5e.com_](https://blog.ku5e.com)
+_Written by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_ku5e.com/blog_](https://ku5e.com/blog)
