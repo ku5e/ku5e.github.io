@@ -24,7 +24,7 @@ Now I run VirtualBox on a homebuilt rack server. Same concept, a fraction of the
 
 The most common thing I hear from people trying to break into cybersecurity is that they don't know where to start. The lab is where you start. And it costs nothing.
 
----
+***
 
 ## What you actually need
 
@@ -36,14 +36,14 @@ When I first set Kali up in VirtualBox, I expected a fight. I came from the era 
 
 Allocate 4GB of RAM and 30 to 40GB of storage to the VM. Select the ISO as your boot disk. Follow the installer. Set your password and create your user account, then run two commands:
 
-```
+```plain
 sudo apt update
 sudo apt upgrade
 ```
 
 That updates every tool and package Kali ships with. You now have a functional cybersecurity lab.
 
----
+***
 
 ## The part nobody tells beginners
 
@@ -53,7 +53,7 @@ The entire point of a home lab is that you can break it. You can misconfigure it
 
 When you hit a wall, take a step back and look at the problem from a different angle. If that doesn't clear it, take two steps back. If you're still stuck, explain the problem out loud to someone who has no idea what you're working on. A colleague, a rubber duck sitting on your desk. The act of explaining forces you to organize your thinking, and that's usually where the gap shows up.
 
----
+***
 
 ## What to do with the lab once it's running
 
@@ -65,7 +65,7 @@ For structured challenges, CTFtime.org lists every active Capture the Flag compe
 
 If defensive security is your direction, add a SIEM to the lab. Security analysts work inside SIEMs every day. Standing one up yourself, generating logs, building alerts, and learning to read what the tool is telling you is more useful resume material than most certifications.
 
----
+***
 
 ## The actual cost
 
@@ -73,7 +73,7 @@ Zero dollars if your machine meets the minimum specs. VirtualBox is free. Kali i
 
 Security+ is worth pursuing alongside the lab work. The exam covers the concepts your lab will make concrete. Building the lab first means you're not memorizing definitions in isolation. You're attaching them to something you've already done with your hands.
 
----
+***
 
 Cybersecurity is competitive because the threats are real. Nation-state actors and ransomware groups are hitting healthcare and financial infrastructure every day. The people defending those systems had to learn somewhere.
 
@@ -81,6 +81,6 @@ Build the lab and start breaking things. That is the job.
 
 If you want a structured path from lab work to job-ready, the Cybersecurity Career Roadmap covers what to build, study, and prove before you apply — for $47. [Cybersecurity Career Roadmap](https://ku5e.com/services/cybersecurity-career-roadmap/)
 
----
+***
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [_ku5e.com/blog_](https://ku5e.com/blog)
