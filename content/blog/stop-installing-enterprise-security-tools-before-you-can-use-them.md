@@ -44,4 +44,4 @@ Start with these five. Add complexity when you have outgrown them. Most people n
 
 If you are mapping the gap between where you are now and where you need to be for an entry-level security role, the Cybersecurity Career Roadmap covers that for $47. [Cybersecurity Career Roadmap](https://ku5e.com/services/cybersecurity-career-roadmap/)
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)
