@@ -13,3 +13,6 @@ theme = "PaperMod"
     apple_touch_icon = "/assets/apple-touch-icon.png"
     safari_pinned_tab = "/assets/safari-pinned-tab.svg"   
 
+[services]
+  [services.googleAnalytics]
+    ID = "G-3M2FR31Y15"
