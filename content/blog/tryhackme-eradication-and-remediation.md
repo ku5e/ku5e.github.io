@@ -1,6 +1,6 @@
 ---
 title: 'TryHackMe: Eradication and Remediation'
-date: 2026-03-15T20:13:00
+date: 2026-03-15T20:22:00
 draft: false
 tags:
   - 'tags:'
@@ -28,7 +28,7 @@ Answers are redacted within the narrative to allow you to complete the tasks on 
 
 This is the fourth room in the Live IR Module, picking up after Preparation, Identification and Scoping, and Threat Intel and Containment. By this point the scope is set and the bad guys are identified. The job now is to remove them cleanly, patch what let them in, and bring systems back online without handing the attacker a warning signal in the process. The room tests your sleuthing ability as much as your IR theory — and the MITRE ATT&CK Framework proves its worth again.
 
----
+***
 
 ![](/images/Screenshot%202026-03-15%20201607.png)
 
@@ -136,7 +136,7 @@ The scenario: a Linux server running Jenkins has been compromised through the `s
 
 SSH into the server using the provided credentials and start digging.
 
----
+***
 
 ![](/images/image-7.png)
 
@@ -146,7 +146,7 @@ The account that gave the threat actors their initial foothold is **[REDACTED]**
 
 Navigate to the Jenkins service in the browser. The server administrator has not changed the default admin password — that default password is **[REDACTED]**.
 
----
+***
 
 ![](/images/image-8.png)
 
@@ -154,7 +154,7 @@ Inside the Jenkins dashboard you will find a second account. Its email address i
 
 The project in the dashboard reveals a suspicious command being invoked: **[REDACTED]**. That path is worth examining in full on the filesystem.
 
----
+***
 
 ![](/images/image-9.png)
 
@@ -199,7 +199,7 @@ Against the Lockheed Martin Cyber Kill Chain, the threat actor is already in the
 
 The room closes the loop on Phase 4 of the IR framework. Eradication removes attacker presence. Remediation closes the vulnerabilities that made the compromise possible. Recovery brings operations back to normal and validates that the fixes held. All three are planned together and executed in sequence.
 
----
+***
 
 ![](/images/image-13.png)
 
@@ -238,4 +238,4 @@ No answer required.
 
 ***
 
-_Written by Mario Martinez Jr. (ku5e / Gary7) | _[_TryHackMe Profile_](https://tryhackme.com/p/ku5e)_ | _[_ku5e.com/blog_](https://ku5e.com/blog)
+_Written by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | _[_ku5e.com/blog_](https://ku5e.com/blog)
