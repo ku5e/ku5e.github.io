@@ -19,7 +19,9 @@ cover: null
 ---
 
 **Author:** Mario Martinez Jr. (ku5e / Gary7) | TryHackMe USA Top 1%
+
 **Difficulty:** Medium
+
 **Topics:** Incident Response, Eradication, Remediation, MITRE ATT&CK, Jenkins, Cyber Kill Chain
 
 ***
