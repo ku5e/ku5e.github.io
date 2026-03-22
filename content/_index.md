@@ -43,7 +43,15 @@ TryHackMe room writeups published as completed. Each walkthrough covers the tool
 
 ## Services
 
-Three services available now. Each is flat-rate, no subscription.
+Four services available now. Each is flat-rate, no subscription.
+
+### Security Audit — Starting at $499
+
+Code review for security vulnerabilities with a written findings report, severity ratings, and specific fixes. Three tiers: Entry Scan ($499), Standard Audit ($1,200–$2,500), and Full Certification. Entry Scan turnaround is 72 hours.
+
+[Get started](/services/security-audit)
+
+---
 
 ### Resume + LinkedIn Review — $97
 
