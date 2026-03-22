@@ -1,9 +1,15 @@
 ---
-title: "TryHackMe: OWASP Top 10 2025 — Insecure Data Handling"
+title: 'TryHackMe: OWASP Top 10 2025 — Insecure Data Handling'
 date: 2026-02-20
 draft: false
-tags: ["tryhackme", "walkthrough", "owasp", "cryptography", "ssti", "deserialization"]
-description: "Walkthrough covering Cryptographic Failures, Server-Side Template Injection, and Insecure Deserialization."
+tags:
+  - tryhackme
+  - walkthrough
+  - owasp
+  - cryptography
+  - ssti
+  - deserialization
+description: Walkthrough covering Cryptographic Failures, Server-Side Template Injection, and Insecure Deserialization.
 ---
 
 **Author:** Mario Martinez Jr. (ku5e / Gary7) | TryHackMe USA Rank #76 | Top 1%
@@ -12,13 +18,13 @@ description: "Walkthrough covering Cryptographic Failures, Server-Side Template 
 
 **Topics:** Cryptographic Failures, Injection (SSTI), Software and Data Integrity Failures
 
----
+***
 
 These three vulnerability classes show up in real production applications constantly. Knowing them well is what separates someone who finds a critical bug in a bug bounty program from someone who walks right past it. This walkthrough documents the steps, payloads, and reasoning used to solve each lab.
 
 Flags and answers are collected at the end so you can work through the room without spoilers.
 
----
+***
 
 ## Task 1: Introduction
 
@@ -28,7 +34,7 @@ Start your machines before proceeding.
 
 **ANSWER:** No answer needed.
 
----
+***
 
 ## Task 2: A04 — Cryptographic Failures
 
@@ -55,7 +61,7 @@ To prevent cryptographic failures, developers should use modern algorithms like 
 
 **ANSWER:** See flag summary at the end.
 
----
+***
 
 ## Task 3: A05 — Injection (Server-Side Template Injection)
 
@@ -83,7 +89,7 @@ Use this payload in the vulnerable input field:
 
 **ANSWER:** See flag summary at the end.
 
----
+***
 
 ## Task 4: A08 — Software and Data Integrity Failures (Insecure Deserialization)
 
@@ -129,7 +135,7 @@ print(encoded)
 
 **ANSWER:** See flag summary at the end.
 
----
+***
 
 ## Key Takeaways
 
@@ -139,16 +145,16 @@ print(encoded)
 
 **Insecure Deserialization:** Never deserialize untrusted data using pickle or similar formats. Use JSON or other safer serialization formats for data that crosses trust boundaries.
 
----
+***
 
 ## Flag Summary
 
 | Task | Vulnerability | Flag |
-|---|---|---|
-| Task 2 | Cryptographic Failures (Weak XOR) | THM{WEAK\_CRYPTO\_FLAG} |
-| Task 3 | Injection (SSTI via Jinja2) | THM{SSTI\_FLAG\_OBTAINED} |
-| Task 4 | Data Integrity (Pickle Deserialization) | THM{INSECURE\_DESERIALIZATION} |
+| --- | --- | --- |
+| Task 2 | Cryptographic Failures (Weak XOR) | THM{WEAK_CRYPTO_FLAG} |
+| Task 3 | Injection (SSTI via Jinja2) | THM{SSTI_FLAG_OBTAINED} |
+| Task 4 | Data Integrity (Pickle Deserialization) | THM{INSECURE_DESERIALIZATION} |
 
----
+***
 
-*Walkthrough by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com](https://ku5e.com)*
+_Walkthrough by Mario Martinez Jr. (ku5e / Gary7) |_ [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) _|_ [_ku5e.com_](https://ku5e.com)

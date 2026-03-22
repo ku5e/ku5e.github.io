@@ -51,7 +51,7 @@ Code review for security vulnerabilities with a written findings report, severit
 
 [Get started](/services/security-audit)
 
----
+***
 
 ### Resume + LinkedIn Review — $97
 
