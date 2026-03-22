@@ -1,15 +1,15 @@
 ---
-title: "ku5e | Cybersecurity Portfolio"
-description: "Mario Martinez Jr. — Cybersecurity professional, AP CS teacher, TryHackMe USA Top 1%."
+title: ku5e | Cybersecurity Portfolio
+description: Mario Martinez Jr. — Cybersecurity professional, AP CS teacher, TryHackMe USA Top 1%.
 ---
 
 ## Mario Martinez Jr.
 
 Cybersecurity Professional. AP Computer Science and Cybersecurity Teacher. TryHackMe USA Rank #76 — Top 1%.
 
-[View Walkthroughs](/blog) | [Services](/services) | [Resume](/resume)
+[View Walkthroughs and Articles](/blog)  | [Services](/services) | [Resume](/resume)
 
----
+***
 
 ## About
 
@@ -19,7 +19,7 @@ My TryHackMe profile sits at USA Rank #76, Top 1% globally. I hold a Physical Pe
 
 I also run MakerMindStudio, a 3D printing and laser engraving operation, and publish health and systems writing under the FACTOTUM Protocol.
 
----
+***
 
 ## Skills
 
@@ -31,7 +31,7 @@ I also run MakerMindStudio, a 3D printing and laser engraving operation, and pub
 
 **Tools:** Fusion 360, Kali Linux, Ubuntu Server, GitHub, VS Code
 
----
+***
 
 ## Walkthroughs
 
@@ -39,7 +39,7 @@ TryHackMe room writeups published as completed. Each walkthrough covers the tool
 
 [Browse all walkthroughs](/blog)
 
----
+***
 
 ## Services
 
@@ -59,7 +59,7 @@ I review your resume and LinkedIn profile against current cybersecurity and tech
 
 Turnaround: 48 hours. [Get started](/services/resume-linkedin-review)
 
----
+***
 
 ### Cybersecurity Career Roadmap — $47
 
@@ -67,7 +67,7 @@ A structured 90-day plan built around your current certifications, experience le
 
 Turnaround: 48 hours. [Get started](/services/cybersecurity-career-roadmap)
 
----
+***
 
 ### AP CS FRQ Feedback — $25-$45
 
@@ -75,7 +75,7 @@ Line-by-line feedback on AP Computer Science Free Response Questions. Written fo
 
 Per submission. [Get started](/services/ap-cs-frq-feedback)
 
----
+***
 
 ## Contact
 

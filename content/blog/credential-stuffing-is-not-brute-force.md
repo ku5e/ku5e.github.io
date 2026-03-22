@@ -8,6 +8,11 @@ tags:
   - authentication
   - passwords
 description: Credential stuffing uses real passwords from real breaches. Understanding the difference changes how you defend against it.
+cover:
+  image: /images/hero-2026-03-10-credential-stuffing2.png
+  alt: ''
+  caption: ''
+  relative: false
 ---
 
 Brute force guesses passwords. Credential stuffing already has them.
@@ -52,4 +57,4 @@ Fixing it on the defender side means requiring MFA, checking passwords against b
 
 ***
 
-Written by Mario Martinez Jr. (ku5e / Gary7) | [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) | [blog.ku5e.com](https://blog.ku5e.com)
+Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) |  [blog.ku5e.com](https://ku5e.com/blog)
