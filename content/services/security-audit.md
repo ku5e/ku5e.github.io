@@ -1,11 +1,11 @@
 ---
-title: "Security Audit — Starting at $499"
-description: "Code security audit with a written findings report, specific fixes, and a round-by-round delivery. For indie devs launching a product, small businesses handling customer data, and teams blocked by a client's security requirements."
+title: Security Audit — Starting at $499
+description: Code security audit with a written findings report, specific fixes, and a round-by-round delivery. For indie devs launching a product, small businesses handling customer data, and teams blocked by a client's security requirements.
 ---
 
 **Three tiers. Prices below. All audits include a written findings report with severity ratings, exact file and line locations, and fixes specific enough that a developer can implement them without guessing.**
 
----
+***
 
 ### What an Audit Is Not
 
@@ -13,7 +13,7 @@ A vulnerability scanner is not an audit. A scanner finds known CVEs in your depe
 
 Those are the findings that matter. Those are what this audit looks for.
 
----
+***
 
 ### What I Find
 
@@ -21,7 +21,7 @@ Those are the findings that matter. Those are what this audit looks for.
 
 **Broken Access Control.** A user changed their Organization ID in a URL parameter and could read another company's billing data without admin credentials. The app had no server-side check that the requested resource belonged to the requesting user. This class of vulnerability is in the OWASP Top 10 for a reason. It shows up in production codebases regularly.
 
----
+***
 
 ### The Three Tiers
 
@@ -31,7 +31,7 @@ A one-round review of your five most critical endpoints: authentication, passwor
 
 Right for: Indie devs and solo founders preparing for a public launch who need confirmation that the obvious doors are closed before the internet finds out they were not.
 
----
+***
 
 **Standard Audit — $1,200 to $2,500**
 
@@ -43,7 +43,7 @@ Price depends on codebase size and complexity. Quote on request after a brief in
 
 Right for: Small businesses handling customer data, e-commerce stores, and local clinics that need to know their exposure before a breach notification letter becomes a business problem.
 
----
+***
 
 **Full Certification — Contact for Quote**
 
@@ -51,7 +51,7 @@ Everything in the Standard Audit plus a formal PDF report formatted for third-pa
 
 Right for: Teams that need to satisfy an enterprise client's legal department, respond to a VC's technical due diligence request, or begin a SOC 2 or HIPAA compliance process. If someone outside your company needs to read the report and act on it, this is the tier.
 
----
+***
 
 ### What You Receive
 
@@ -62,7 +62,7 @@ Every audit includes:
 - For Standard and Full tiers: `AUDIT_REPORT.md` and `MANUAL.md` in the repo root.
 - Code comments written for humans. Every function touched during the audit gets a docstring explaining what it does, what it expects, and why the security decision was made the way it was.
 
----
+***
 
 ### How to Order
 
@@ -70,6 +70,6 @@ Email [ku5e@ku5e.com](mailto:ku5e@ku5e.com) with the subject line **Security Aud
 
 For Standard and Full tiers, I will create a private GitHub repository, add you as a collaborator, and begin Round 1 within 48 hours of payment.
 
----
+***
 
 [Back to Services](/#services) | [Contact](mailto:ku5e@ku5e.com)
