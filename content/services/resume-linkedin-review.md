@@ -1,7 +1,7 @@
 ---
 title: "Resume + LinkedIn Review — $97"
 description: "Line-by-line resume and LinkedIn review against current cybersecurity hiring standards. 48-hour turnaround."
-weight: 2
+weight: 20
 ---
 
 **$97. 48-hour turnaround.**

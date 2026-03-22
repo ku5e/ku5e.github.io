@@ -1,7 +1,7 @@
 ---
 title: "AP CS FRQ Feedback — $25-$75"
 description: "Line-by-line feedback on AP Computer Science A Free Response Questions from a practicing AP CS teacher."
-weight: 4
+weight: 40
 ---
 
 **$25 per question or $75 for a full set. 48-hour turnaround.**

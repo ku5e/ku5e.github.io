@@ -38,6 +38,7 @@ collections:
       fields:
         - { label: Title, name: title, widget: string }
         - { label: Description, name: description, widget: string, required: false }
+        - { label: Weight, name: weight, widget: number, default: 10, hint: "Controls display order. Lower = higher on page. Use multiples of 10 (10, 20, 30...) to leave room for new entries." }
         - { label: Body, name: body, widget: markdown }
 
     - name: pages
