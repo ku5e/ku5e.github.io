@@ -2,6 +2,7 @@
 title: "Security Audit — Starting at $499"
 description: "Code security audit with a written findings report, specific fixes, and a round-by-round delivery. For indie devs launching a product, small businesses handling customer data, and teams blocked by a client's security requirements."
 weight: 10
+aliases: ["/audit"]
 ---
 
 **Three tiers. Prices below. All audits include a written findings report with severity ratings, exact file and line locations, and fixes specific enough that a developer can implement them without guessing.**
