@@ -1,6 +1,7 @@
 ---
 title: "Cybersecurity Career Roadmap — $47"
 description: "A structured 90-day plan built around your certifications, experience, and target role. 48-hour turnaround."
+weight: 3
 ---
 
 **$47. 48-hour turnaround.**
