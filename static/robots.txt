@@ -1,0 +1,51 @@
+# ku5e.com robots.txt
+# Policy: allow AI search and citation crawlers, block training-only harvesters
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+# AI search and citation crawlers — allowed
+# These power real-time answers in ChatGPT, Claude, Perplexity, Google AI Overviews, and Bing Copilot
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: BingPreview
+Allow: /
+
+# Training-only harvesters — blocked
+# These crawl for model training datasets, not for answering user queries
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+Sitemap: https://ku5e.com/sitemap.xml

@@ -2,10 +2,21 @@ baseURL = "https://ku5e.com/"
 languageCode = "en-us"
 title = "ku5e | Cybersecurity Portfolio"
 theme = "PaperMod"
+enableRobotsTXT = false
 
 [params]
     author = "Mario Martinez Jr."
+    description = "Mario Martinez Jr. — Cybersecurity professional, AP CS teacher, and TryHackMe USA Top 1%. Security audits, walkthroughs, and career resources for cybersecurity practitioners."
     goatcounter = "ku5e"
+    env = "production"
+
+[params.schema]
+    publisherType = "Person"
+    sameAs = [
+        "\"https://linkedin.com/in/mario-martinez-jr-mba-8a831813\"",
+        "\"https://github.com/ku5e\"",
+        "\"https://tryhackme.com/p/ku5e\""
+    ]
 
 [params.assets]
     favicon = "/assets/favicon.ico"

@@ -1,0 +1,121 @@
+# ku5e.com — llms.txt
+# Mario Martinez Jr. | Cybersecurity Portfolio
+
+## About
+
+Mario Martinez Jr. is a cybersecurity professional, AP Computer Science and Cybersecurity teacher, and TryHackMe USA Top 1% practitioner (Rank #76 globally as of 2026). He has been working in computer security since BBS networks in the 1980s. He documents TryHackMe walkthroughs, publishes cybersecurity articles grounded in practitioner experience, and offers flat-rate security and career services.
+
+Site: https://ku5e.com
+Contact: ku5e@ku5e.com
+LinkedIn: https://linkedin.com/in/mario-martinez-jr-mba-8a831813
+GitHub: https://github.com/ku5e
+TryHackMe: https://tryhackme.com/p/ku5e
+
+## Services
+
+Security Audit (Starting at $499): Code review for web application vulnerabilities with a written findings report, severity ratings, and specific remediation steps. Three tiers: Entry Scan ($499, 72hr), Standard Audit ($1,200-$2,500), Full Certification.
+https://ku5e.com/services/security-audit/
+
+Resume + LinkedIn Review ($97): Line-by-line review against current cybersecurity and tech hiring standards. Specific rewrites, not a checklist. 48hr turnaround.
+https://ku5e.com/services/resume-linkedin-review/
+
+Cybersecurity Career Roadmap ($47): Structured 90-day plan built around your certifications, experience level, and target role. 48hr turnaround.
+https://ku5e.com/services/cybersecurity-career-roadmap/
+
+AP CS FRQ Feedback ($25-$45): Line-by-line feedback on AP Computer Science Free Response Questions for students and teachers.
+https://ku5e.com/services/ap-cs-frq-feedback/
+
+## Articles (Cybersecurity Practice and Career)
+
+AGI Is Good for Humanity. It's a Problem for Your Network.
+https://ku5e.com/blog/agi-is-good-for-humanity.-it-s-a-problem-for-your-network./
+
+Building a Cybersecurity AI Lab on a Raspberry Pi for Under $200
+https://ku5e.com/blog/building-a-cybersecurity-ai-lab-on-a-raspberry-pi-for-under-200/
+
+The Bilingual Cybersecurity Professional Is Not a Diversity Hire
+https://ku5e.com/blog/the-bilingual-cybersecurity-professional-is-not-a-diversity-hire/
+
+TryHackMe Rooms Are Not as Easy as They Feel
+https://ku5e.com/blog/tryhackme-rooms-are-not-as-easy-as-they-feel/
+
+The First 90 Days in a Security Role Are Not on Any Cert Exam
+https://ku5e.com/blog/the-first-90-days-in-a-security-role-are-not-on-any-cert-exam/
+
+Security Is Not the Cert — The SOC Job Requires More
+https://ku5e.com/blog/security-is-not-the-cert-the-soc-job-requires/
+
+Stop Installing Enterprise Security Tools Before You Can Use Them
+https://ku5e.com/blog/stop-installing-enterprise-security-tools-before-you-can-use-them/
+
+I Built a Cybersecurity Home Lab for Free. So Can You.
+https://ku5e.com/blog/i-built-a-cybersecurity-home-lab-for-free.-so-can-you./
+
+How to Use AI as a Study Partner Without Using It as a Cheat Sheet
+https://ku5e.com/blog/how-to-use-ai-as-a-study-partner-without-using-it-as-a-cheat-sheet/
+
+What Security Certifications Assume You Already Know
+https://ku5e.com/blog/what-security-certifications-assume-you-already-know/
+
+What Security Tests vs. What the Job Actually Requires
+https://ku5e.com/blog/what-security-tests-vs.-what-the-job-actually-requires/
+
+Credential Stuffing Is Not Brute Force
+https://ku5e.com/blog/credential-stuffing-is-not-brute-force/
+
+What Nmap Actually Does
+https://ku5e.com/blog/what-nmap-actually-does/
+
+Colonial Pipeline: One Password, Six Days, 17 States
+https://ku5e.com/blog/colonial-pipeline-one-password-six-days-17-states/
+
+## TryHackMe Walkthroughs
+
+Threat Modelling
+https://ku5e.com/blog/tryhackme-threat-modelling-walkthrough/
+
+Threat Intelligence and Containment
+https://ku5e.com/blog/tryhackme-threat-intel-containment/
+
+Tardigrade
+https://ku5e.com/blog/tryhackme-tardigrade/
+
+Preparation
+https://ku5e.com/blog/tryhackme-preparation/
+
+Identification and Scoping
+https://ku5e.com/blog/tryhackme-identification-scoping/
+
+Eradication and Remediation
+https://ku5e.com/blog/tryhackme-eradication-and-remediation/
+
+Atomic Bird Goes Purple (Parts 1 and 2)
+https://ku5e.com/blog/tryhackme-atomic-bird-goes-purple-1/
+https://ku5e.com/blog/tryhackme-atomic-bird-goes-purple-2/
+
+Caldera
+https://ku5e.com/blog/tryhackme-caldera-walkthrough/
+
+Custom Alert Rules in Wazuh
+https://ku5e.com/blog/tryhackme-custom-alert-rules-in-wazuh/
+
+Logstash Data Processing Unit
+https://ku5e.com/blog/tryhackme-logstash-data-processing-unit/
+
+Fixit
+https://ku5e.com/blog/tryhackme-fixit/
+
+Splunk Dashboards and Reports
+https://ku5e.com/blog/tryhackme-splunk-dashboards-and-reports/
+
+OWASP Top 10 2025 — Insecure Data Handling
+https://ku5e.com/blog/tryhackme-owasp-top-10-2025-insecure-data-handling/
+
+## Credentials and Background
+
+- TryHackMe USA Rank #76, Top 1% globally (as of 2026)
+- Physical Penetration Testing certified
+- CompTIA Security+ in progress
+- AP Computer Science and Cybersecurity teacher
+- Computer security background from BBS networks (1980s)
+- Bilingual: English and Spanish
