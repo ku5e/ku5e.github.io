@@ -1,0 +1,59 @@
+{{- /* service_schema.html
+     Outputs Service schema and optional FAQPage schema for pages in the services section.
+     Requires: .Section == "services"
+     Optional frontmatter: faq (array of {q, a} objects) for FAQPage schema.
+     Reads: site.Params.fullName, .Title, .Description, .Permalink, .Params.price, .Params.faq
+*/ -}}
+
+{{- if (eq .Section "services") }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": {{ .Title }},
+  "description": {{ .Description | plainify }},
+  "url": {{ .Permalink | safeHTML }},
+  "provider": {
+    "@type": "Person",
+    "name": {{ site.Params.fullName | default site.Params.author }},
+    "url": {{ site.Home.Permalink | safeHTML }},
+    "jobTitle": "Cybersecurity Professional and AP Computer Science Teacher",
+    "sameAs": [
+      "https://linkedin.com/in/mario-martinez-jr-mba-8a831813",
+      "https://github.com/ku5e",
+      "https://tryhackme.com/p/ku5e"
+    ]
+  }
+  {{- with .Params.priceRange }},
+  "offers": {
+    "@type": "Offer",
+    "priceRange": {{ . }},
+    "priceCurrency": "USD"
+  }
+  {{- end }}
+}
+</script>
+
+{{- with .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{- range $i, $item := . }}
+    {{- if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": {{ $item.q }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ $item.a }}
+      }
+    }
+    {{- end }}
+  ]
+}
+</script>
+{{- end }}
+
+{{- end }}

@@ -10,8 +10,7 @@ tags:
   - phishing
   - blog
   - ku5e
-description: ''
-cover: null
+description: 'TryHackMe walkthrough for Identification and Scoping — determining what systems were affected, mapping phishing indicators, and building the initial picture of a live incident before containment begins.'
 ---
 
 **Author:** Mario Martinez Jr. (ku5e / Gary7) | TryHackMe USA Top 1%

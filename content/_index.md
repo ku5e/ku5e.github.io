@@ -1,6 +1,10 @@
 ---
 title: ku5e | Cybersecurity Portfolio
 description: Mario Martinez Jr. — Cybersecurity professional, AP CS teacher, TryHackMe USA Top 1%.
+cover:
+  image: /images/real_tools.png
+  alt: Security tools and practitioner workspace representing ku5e cybersecurity services.
+  relative: false
 ---
 
 ## Mario Martinez Jr.

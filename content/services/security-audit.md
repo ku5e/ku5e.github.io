@@ -3,6 +3,18 @@ title: "Security Audit — Starting at $499"
 description: "Code security audit with a written findings report, specific fixes, and a round-by-round delivery. For indie devs launching a product, small businesses handling customer data, and teams blocked by a client's security requirements."
 weight: 10
 aliases: ["/audit"]
+priceRange: "$499-$2500"
+faq:
+  - q: "What is the difference between a vulnerability scanner and a manual security audit?"
+    a: "A vulnerability scanner finds known CVEs in dependencies and flags common patterns. A manual audit reads your authentication flow, tests your password reset logic, and checks whether an attacker can manipulate URL parameters to access another user's data. Those logic flaws are what this audit finds."
+  - q: "What does the Entry Scan cover?"
+    a: "A one-round review of five critical endpoints covering authentication, authorization, data exposure, input validation, and session management. Turnaround is 72 hours. Price is $499."
+  - q: "What do I receive when the audit is complete?"
+    a: "A written findings report with severity ratings (Critical, High, Medium, Low), exact file and line locations for each finding, and specific fixes written clearly enough that a developer can implement them without guessing. Standard and Full tiers also include GitHub releases with tagged branches for each audit round."
+  - q: "What kinds of vulnerabilities do you find?"
+    a: "Broken access control, insecure authentication flows, logic flaws in password reset and account recovery, exposed sensitive data, injection points, and OWASP Top 10 issues that automated scanners miss because they require reading business logic."
+  - q: "How do I start a security audit?"
+    a: "Email mario@ku5e.com with a description of your codebase and the tier you want. Scope confirmation within 24 hours. Project starts within 48 hours after payment."
 ---
 
 **Three tiers. Prices below. All audits include a written findings report with severity ratings, exact file and line locations, and fixes specific enough that a developer can implement them without guessing.**

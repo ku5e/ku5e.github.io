@@ -6,6 +6,7 @@ enableRobotsTXT = false
 
 [params]
     author = "Mario Martinez Jr."
+    fullName = "Mario Martinez Jr."
     description = "Mario Martinez Jr. — Cybersecurity professional, AP CS teacher, and TryHackMe USA Top 1%. Security audits, walkthroughs, and career resources for cybersecurity practitioners."
     goatcounter = "ku5e"
     env = "production"

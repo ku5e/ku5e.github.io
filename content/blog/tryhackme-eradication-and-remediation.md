@@ -3,7 +3,6 @@ title: 'TryHackMe: Eradication and Remediation'
 date: 2026-03-15T20:22:00
 draft: false
 tags:
-  - 'tags:'
   - tryhackme
   - walkthrough
   - cybersecurity
@@ -14,8 +13,7 @@ tags:
   - remediation
   - jenkins
   - mitre-attack
-description: ''
-cover: null
+description: 'TryHackMe walkthrough covering eradication and remediation in incident response — removing attacker persistence, patching exploited systems, and restoring operations using MITRE ATT&CK and Jenkins-based tooling.'
 ---
 
 **Author:** Mario Martinez Jr. (ku5e / Gary7) | TryHackMe USA Top 1%

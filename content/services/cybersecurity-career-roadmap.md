@@ -2,6 +2,16 @@
 title: "Cybersecurity Career Roadmap — $47"
 description: "A structured 90-day plan built around your certifications, experience, and target role. 48-hour turnaround."
 weight: 30
+priceRange: "$47"
+faq:
+  - q: "What is included in the cybersecurity career roadmap?"
+    a: "A structured 90-day plan covering what to study, what to build, and what to skip — mapped to your certifications, experience level, and target role. Month 1 covers knowledge gaps. Month 2 covers a hands-on project for your resume. Month 3 covers the application process and technical screen preparation."
+  - q: "How is this different from a generic career guide?"
+    a: "It is written for your specific situation. A teacher transitioning into cybersecurity receives a different document than an IT admin moving into a SOC role. There is no advice that applies to everyone regardless of background."
+  - q: "What information do you need to build the roadmap?"
+    a: "Your current certifications, years of relevant experience, target role, and how many hours per week you can invest in preparation."
+  - q: "How long does it take to receive?"
+    a: "48-hour turnaround from your intake information submission."
 ---
 
 **$47. 48-hour turnaround.**

@@ -2,6 +2,16 @@
 title: "AP CS FRQ Feedback — $25-$75"
 description: "Line-by-line feedback on AP Computer Science A Free Response Questions from a practicing AP CS teacher."
 weight: 40
+priceRange: "$25-$75"
+faq:
+  - q: "Who is the AP CS FRQ feedback service for?"
+    a: "AP Computer Science A students preparing for the exam, and teachers who want a second set of eyes on student work before scoring or submitting."
+  - q: "What does the feedback include?"
+    a: "Line-by-line annotation of the code, specific identification of where AP rubric points are lost, a rewrite or correction for each error, and a one-paragraph summary of the pattern to fix before exam day."
+  - q: "How long does feedback take?"
+    a: "48-hour turnaround per submission."
+  - q: "Can teachers submit student work?"
+    a: "Yes. Teachers submit student work regularly for second opinions. Submissions are kept confidential."
 ---
 
 **$25 per question or $75 for a full set. 48-hour turnaround.**

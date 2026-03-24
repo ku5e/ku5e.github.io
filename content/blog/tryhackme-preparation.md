@@ -10,8 +10,7 @@ tags:
   - csirt
   - log-management
   - Windows-event-logs
-description: ''
-cover: null
+description: 'TryHackMe walkthrough for the Preparation phase of incident response — building a CSIRT, defining roles, establishing log management pipelines, and configuring Windows Event Log collection before an incident occurs.'
 ---
 
 **Author:** Mario Martinez Jr. (ku5e / Gary7) | TryHackMe USA Rank #76 | Top 1%

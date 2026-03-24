@@ -2,6 +2,16 @@
 title: "Resume + LinkedIn Review — $97"
 description: "Line-by-line resume and LinkedIn review against current cybersecurity hiring standards. 48-hour turnaround."
 weight: 20
+priceRange: "$97"
+faq:
+  - q: "What does the resume and LinkedIn review cover?"
+    a: "Your resume and LinkedIn profile reviewed line-by-line against current cybersecurity hiring standards. You receive a marked-up document with specific rewrites, cuts, and additions — not a checklist of generic suggestions."
+  - q: "How long does the review take?"
+    a: "48-hour turnaround from the time you submit your materials."
+  - q: "Is this review specific to cybersecurity roles?"
+    a: "Yes. The review is calibrated for SOC analyst, penetration tester, GRC analyst, and security engineering roles. The keyword strategy, skills section ordering, and LinkedIn framing all target cybersecurity and tech hiring managers."
+  - q: "What format does the feedback arrive in?"
+    a: "A marked-up version of your documents with line-by-line annotations and specific rewrites for each section that needs work. You will not receive a rubric or a list of vague suggestions."
 ---
 
 **$97. 48-hour turnaround.**

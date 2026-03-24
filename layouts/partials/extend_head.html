@@ -1,3 +1,13 @@
 {{- if .Site.Params.goatcounter }}
 <script data-goatcounter="https://{{ .Site.Params.goatcounter }}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-{{- end }}   
+{{- end }}
+
+{{- /* Default og:image fallback for pages with no cover image set.
+     PaperMod's opengraph partial only outputs og:image if a cover is present.
+     This ensures every page has a shareable image for AI platform rich previews. */ -}}
+{{- if not .Params.cover.image }}
+<meta property="og:image" content="{{ "/images/real_tools.png" | absURL }}">
+{{- end }}
+
+{{- /* Service schema + FAQ schema for pages in the services section */ -}}
+{{- partial "service_schema.html" . -}}

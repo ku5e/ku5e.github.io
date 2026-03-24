@@ -11,7 +11,7 @@ tags:
   - stride
   - pasta
   - cybersecurity
-description: ''
+description: 'TryHackMe Threat Modelling walkthrough covering MITRE ATT&CK mapping, DREAD risk scoring, STRIDE threat categorization, and PASTA framework application to financial services and e-commerce scenarios.'
 cover:
   image: /images/Screenshot 2026-03-15 212805.png
   alt: ''
