@@ -1,7 +1,7 @@
 ---
 title: "Resume + LinkedIn Review — $97"
 description: "Line-by-line resume and LinkedIn review against current cybersecurity hiring standards. 48-hour turnaround."
-weight: 20
+weight: 70
 priceRange: "$97"
 faq:
   - q: "What does the resume and LinkedIn review cover?"

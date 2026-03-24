@@ -1,7 +1,7 @@
 ---
 title: "AI Visibility Retainer — $350/month"
 description: "Monthly GEO re-audit with delta PDF showing score movement, plus all critical and high findings from the scan addressed — up to 3 hours of implementation work per month. Designed as follow-on maintenance after initial optimization. 3-month minimum, then month-to-month."
-weight: 30
+weight: 60
 priceRange: "$350/month"
 faq:
   - q: "What is the AI Visibility Retainer?"

@@ -1,7 +1,7 @@
 ---
 title: "Audit + Critical Fixes — $599"
 description: "Full GEO Audit Report PDF plus hands-on implementation of the critical and high-severity findings. robots.txt, llms.txt, schema markup, meta descriptions, OG image, FAQ schema. Verified before/after. Loom walkthrough included. 48-hour turnaround."
-weight: 34
+weight: 40
 priceRange: "$599"
 faq:
   - q: "What does Audit + Critical Fixes include?"

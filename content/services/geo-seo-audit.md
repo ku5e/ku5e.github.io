@@ -1,7 +1,7 @@
 ---
 title: "GEO Audit Report — $299"
 description: "Full Generative Engine Optimization audit delivered as a branded PDF. GEO score across 6 categories, AI platform readiness, crawler access map, every finding by severity, and a prioritized action plan. 48-hour turnaround. URL only required."
-weight: 32
+weight: 30
 priceRange: "$299"
 faq:
   - q: "What is a GEO Audit Report?"

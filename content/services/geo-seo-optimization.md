@@ -1,7 +1,7 @@
 ---
 title: "Full GEO Optimization — $1,200"
 description: "Complete GEO audit, all critical and high fixes implemented, content-layer optimization including article descriptions and structure rewrites, 60-day re-audit with delta report, and a 30-minute live strategy call."
-weight: 36
+weight: 50
 priceRange: "$1,200"
 faq:
   - q: "What does Full GEO Optimization include?"

@@ -1,7 +1,7 @@
 ---
 title: "AP CS FRQ Feedback — $25-$75"
 description: "Line-by-line feedback on AP Computer Science A Free Response Questions from a practicing AP CS teacher."
-weight: 40
+weight: 90
 priceRange: "$25-$75"
 faq:
   - q: "Who is the AP CS FRQ feedback service for?"

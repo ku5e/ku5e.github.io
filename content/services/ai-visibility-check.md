@@ -1,7 +1,7 @@
 ---
 title: "AI Visibility Check — $95"
 description: "48-hour email report showing your GEO score, the 3 critical issues blocking AI citations, and your AI crawler access status. Entry point to the full audit."
-weight: 25
+weight: 20
 priceRange: "$95"
 faq:
   - q: "What is an AI Visibility Check?"
