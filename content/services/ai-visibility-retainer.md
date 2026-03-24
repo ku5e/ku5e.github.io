@@ -1,46 +1,51 @@
 ---
 title: "AI Visibility Retainer — $350/month"
-description: "Monthly GEO re-audit with delta PDF showing score movement, plus up to 3 targeted fixes based on what the new scan finds. 3-month minimum, then month-to-month."
+description: "Monthly GEO re-audit with delta PDF showing score movement, plus all critical and high findings from the scan addressed — up to 3 hours of implementation work per month. Designed as follow-on maintenance after initial optimization. 3-month minimum, then month-to-month."
 weight: 30
 priceRange: "$350/month"
 faq:
   - q: "What is the AI Visibility Retainer?"
-    a: "A monthly service that re-audits your site against AI citation benchmarks, delivers a delta PDF showing how your GEO score moved from the prior month, and implements up to 3 targeted fixes based on what the new scan identifies."
-  - q: "What does 'up to 3 fixes' mean in practice?"
-    a: "Fixes are determined by the monthly scan — not a preset list. Month 1 might involve correcting schema markup on new pages. Month 3 might mean updating llms.txt after new content launches. If the scan finds nothing critical that month, we address the next tier down. Work is scoped to what the site actually needs, not padded to hit a number."
+    a: "A monthly maintenance service for sites that have already completed an initial GEO audit and optimization. Each month: a full re-audit runs, a delta PDF is delivered showing score movement from the prior month, and all critical and high findings from that scan are addressed — up to 3 hours of implementation work."
+  - q: "What does 'up to 3 hours of implementation' mean in practice?"
+    a: "After initial optimization work is complete, monthly scans in maintenance mode typically surface 2-3 small items: a new blog post without schema, llms.txt needing a new service added, a meta description gap on a new page. The 3-hour cap is a ceiling that protects against months where a large content launch generates a long list of new pages needing fixes. In most months it is not reached."
   - q: "What does the monthly delta report show?"
     a: "A branded PDF with your current GEO score, the change from the prior month across all six scoring categories, a summary of what was fixed and why, and the top remaining opportunities ranked by impact."
   - q: "What is the minimum commitment?"
     a: "3 months. GEO improvement — particularly brand authority and AI citation accumulation — takes 60-90 days to reflect in scores. After the 3-month minimum the retainer continues month-to-month and can be cancelled with 30 days notice."
-  - q: "Do I need the full audit first?"
-    a: "Recommended but not required. If you already have an audit report from this year, the retainer picks up from that baseline. If not, the first month's delta report establishes a baseline for comparison going forward."
+  - q: "Do I need an audit or optimization engagement first?"
+    a: "Yes, in most cases. The retainer is designed as ongoing maintenance after the major initial work is done. Clients who have not yet had a GEO audit should start with the AI Visibility Check ($95) or the Audit + Critical Fixes ($599) before moving to a retainer."
 ---
 
-**$350/month. 3-month minimum. Delta PDF + up to 3 fixes per month.**
+**$350/month. 3-month minimum. Monthly re-audit, delta PDF, all critical findings addressed — up to 3 hours of implementation.**
 
-AI search visibility is not a one-time fix. Crawler policies change. New platforms launch. Content ages. Schema that was valid in January may miss new structured data requirements by March.
+The retainer is not the starting point. It is what comes after.
 
-The AI Visibility Retainer keeps your site current each month and documents the improvement over time.
+After a GEO audit and initial optimization, your site has a baseline score and clean technical configuration. The retainer keeps it there as your content grows, platforms evolve, and AI crawler policies change.
 
 ---
 
 ### What You Get Each Month
 
+**Full Re-Audit**
+Your site is re-scanned against the same six-category benchmark used in the initial audit. New issues surface here — pages published without schema, llms.txt sections that no longer reflect your current services, meta descriptions missing on recent posts.
+
 **Delta Report PDF**
-A branded PDF delivered monthly showing:
+A branded PDF showing:
 - Current GEO score vs. prior month
 - Category-by-category score movement across all six dimensions
 - Summary of what changed and why
 - Top remaining opportunities ranked by impact
 
-**Up to 3 Targeted Fixes**
-Determined by the monthly scan, not a preset list. Work goes where the scan finds it — new pages without schema, updated robots.txt policies, llms.txt revisions after content launches, meta description gaps on new posts. If the scan finds nothing critical, the next tier gets addressed.
+**All Critical and High Findings Addressed**
+Every critical or high finding from that month's scan is resolved — up to 3 hours of implementation work. In maintenance mode, this is typically 2-3 small items. The 3-hour cap protects against months with large content launches that generate a longer fix list.
 
 ---
 
 ### How the 3-Month Minimum Works
 
-GEO improvement takes time. Brand authority builds over 60-90 days. AI citation accumulation follows content indexing cycles. A one-month snapshot shows a score. A three-month track record shows a trend — and a trend is what you bring to clients, stakeholders, or investors.
+A one-month snapshot shows a score. A three-month track record shows a trend — and a trend is what you bring to stakeholders, clients, or investors.
+
+Brand authority builds over 60-90 days. AI citation accumulation follows content indexing cycles. Three months is the minimum window where the retainer produces evidence of progress, not just activity.
 
 After the initial 3 months, the retainer continues month-to-month and can be cancelled with 30 days notice.
 
@@ -48,18 +53,20 @@ After the initial 3 months, the retainer continues month-to-month and can be can
 
 ### Who This Is For
 
-- Businesses that completed an audit and want continued improvement without managing it themselves
+- Clients who completed an audit or optimization engagement and want ongoing maintenance handled
 - Site owners publishing new content regularly who need monthly schema and metadata kept current
-- Anyone who wants AI search visibility treated as infrastructure, not a one-time project
+- Businesses that want AI search visibility treated as infrastructure, not a one-time project
+
+If you have not had an initial audit, start with the [AI Visibility Check ($95)](/services/ai-visibility-check) or [Audit + Critical Fixes ($599)](/services/geo-seo-audit-plus) first.
 
 ---
 
 ### How to Start
 
-Email [ku5e@ku5e.com](mailto:ku5e@ku5e.com) with the subject line **AI Visibility Retainer**. Include your website URL and whether you have an existing audit report. I'll confirm within 24 hours and invoice for the first month.
+Email [ku5e@ku5e.com](mailto:ku5e@ku5e.com) with the subject line **AI Visibility Retainer**. Include your website URL and your most recent audit report if you have one. I'll confirm within 24 hours and invoice for the first month.
 
 **$350/month. 3-month minimum. Month-to-month after that.**
 
 ---
 
-[AI Visibility Check — $95](/services/ai-visibility-check) | [Full Audit Report — $299](/services/geo-seo-audit) | [Back to Services](/#services)
+[Full GEO Optimization — $1,200](/services/geo-seo-optimization) | [Audit + Critical Fixes — $599](/services/geo-seo-audit-plus) | [Back to Services](/#services)
