@@ -1,18 +1,37 @@
 # ku5e.com
 
-Cybersecurity portfolio and blog by Mario Martinez Jr. (ku5e / Gary7).
+Cybersecurity portfolio and blog by Mario Martinez Jr. (ku5e).
 
 **Live site:** [ku5e.com](https://ku5e.com)
 
 ---
 
-## What's Here
+## What This Is
 
-Source for ku5e.com — Hugo + PaperMod, Sveltia CMS, deployed via GitHub Actions.
+Source for [ku5e.com](https://ku5e.com) — built with Hugo, PaperMod theme, and Sveltia CMS. Deployed automatically via GitHub Actions on every push to main.
 
-The `content/blog/` directory holds every published post: TryHackMe walkthroughs
-with full answer tables, cybersecurity career guidance, and tool explainers from
-hands-on work.
+The site serves as a working portfolio for cybersecurity and software development work: TryHackMe walkthroughs with full answer tables, hands-on tool breakdowns, GEO/AI search visibility writing, and career guidance for people breaking into security.
+
+---
+
+## Tech Stack
+
+- **Framework:** Hugo (static site generator)
+- **Theme:** PaperMod
+- **CMS:** Sveltia CMS (headless, Git-backed)
+- **Hosting:** GitHub Pages
+- **CI/CD:** GitHub Actions
+- **OAuth:** Cloudflare Worker ([sveltia-cms-auth](https://github.com/ku5e/sveltia-cms-auth))
+- **DNS/CDN:** Cloudflare
+
+---
+
+## Services
+
+- **Cybersecurity Audits** — Web application security audit and written findings report. [ku5e.com/services/security-audit](https://ku5e.com/services/security-audit)
+- **GEO / AI Visibility** — Optimize websites for ChatGPT, Perplexity, Google AI Overviews, and Claude. [ku5e.com/services](https://ku5e.com/services)
+
+Enterprise security work: [Kyber Point Security](https://kyberpoint.com) — a division of ku5e Labs.
 
 ---
 
@@ -20,5 +39,14 @@ hands-on work.
 
 Mario Martinez Jr. — AP CS / Cybersecurity teacher. TryHackMe USA Rank #75, Top 1%.
 
+**IBM SkillsBuild Certifications:**
+- Cybersecurity Fundamentals
+- Data Fundamentals
+- IT Fundamentals
+- Project Management Fundamentals
+
+**Links:**
+- [ku5e.com](https://ku5e.com)
 - [TryHackMe Profile](https://tryhackme.com/p/ku5e)
 - [Blog](https://ku5e.com/blog)
+- [LinkedIn](https://linkedin.com/in/ku5e)
