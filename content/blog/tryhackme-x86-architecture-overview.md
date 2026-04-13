@@ -24,19 +24,19 @@ cover:
 
 **Link:** [x86 Architecture Overview on TryHackMe](https://tryhackme.com/room/x86architectureoverview)
 
----
+***
 
 Answers are redacted within the narrative to allow you to complete the tasks on your own, but a full table of answers is available at the end of this walkthrough.
 
 This room gives you the mental model that makes malware analysis readable. Before you open a binary in Ghidra or step through a sample in x64dbg, you need to know what the CPU is actually doing with its registers and memory. The room covers Von Neumann architecture, x86 registers from EAX down to the segment registers, the four-section memory layout, and the stack. It takes about an hour. If you plan to do any serious reverse engineering, that hour is not optional.
 
----
+***
 
 ## Task 1: Introduction
 
 No questions. The learning objectives are worth reading because they set the scope: CPU components, register types, memory layout, and stack structure from a malware analysis point of view. The room is not trying to replace a full architecture course. It is giving you just enough to make sense of what a debugger is showing you.
 
----
+***
 
 ## Task 2: CPU Architecture Overview
 
@@ -56,7 +56,7 @@ The Decode step is where things get interesting for malware analysis. "Illegal I
 - What part of the CPU stores small amounts of data? **[REDACTED]**
 - Where are arithmetic operations performed? **[REDACTED]**
 
----
+***
 
 ## Task 3: Registers Overview
 
@@ -78,7 +78,7 @@ If you are stepping through a malware sample and expecting RAX to always hold a 
 - Which register in a 32-bit system is also called the Counter Register? **[REDACTED]**
 - Which registers are not present in a 32-bit system? **[REDACTED]**
 
----
+***
 
 ## Task 4: Registers — Continued
 
@@ -106,7 +106,7 @@ Bypassing this takes one of two approaches. The first is patching: find the POPF
 - Which flag sets when the most significant bit in an operation is 1? **[REDACTED]**
 - Which segment register contains the pointer to the code section? **[REDACTED]**
 
----
+***
 
 ## Task 5: Memory Overview
 
@@ -130,7 +130,7 @@ This is why modern binary exploitation is harder than the examples in most begin
 - Which section contains the code? **[REDACTED]**
 - Which section contains information related to control flow? **[REDACTED]**
 
----
+***
 
 ## Task 6: Stack Layout
 
@@ -166,7 +166,7 @@ When you get to the buffer overflow room, the first tool you will use is pattern
 
 - What is the flag from the static site? **[REDACTED]**
 
----
+***
 
 ## Task 7: Conclusion
 
@@ -180,12 +180,12 @@ If your work is web application pentesting, XSS, or SQL injection, you will almo
 
 The verdict: if you plan to touch a debugger or write an exploit, take the hour. If you just want to find bugs in web applications or manage a security program, skip it.
 
----
+***
 
 ## Answer Table
 
 | Task | Question | Answer |
-|---|---|---|
+| --- | --- | --- |
 | Task 2 | Where are code and data for a program stored? | Memory |
 | Task 2 | What part of the CPU stores small amounts of data? | Registers |
 | Task 2 | Where are arithmetic operations performed? | Arithmetic Logic Unit |
@@ -200,6 +200,6 @@ The verdict: if you plan to touch a debugger or write an exploit, take the hour.
 | Task 5 | Which section contains control flow information? | Stack |
 | Task 6 | What is the flag from the static site? | THM{SMASHED_THE_STACK} |
 
----
+***
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) |_ [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) _|_ [_ku5e.com/blog_](https://ku5e.com/blog)
