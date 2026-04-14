@@ -60,6 +60,6 @@ If the answers are no, unclear, and no one, the exposure is open.
 
 This is also why AI vulnerability scanning is a category that does not exist yet at most organizations. Web app scanners test web apps and network scanners test network surfaces, but neither covers an AI agent reading applicant text and routing it into internal workflows. That surface has no dedicated tooling yet.
 
-If you want to know whether your AI-augmented hiring pipeline has an injection surface, KyberPoint runs AI vulnerability scans and delivers a full findings report with remediation steps. Engagements start at $800. [KyberPoint AI Vulnerability Scan](https://kyberpoint.com/ai-vulnerability-scan)
+If you want to know whether your AI-augmented hiring pipeline has an injection surface, KyberPoint runs AI vulnerability scans and delivers a full findings report with remediation steps. Engagements start at $800. [KyberPoint AI Vulnerability Scan](https://kyberpoint.com/ai-vulnerability-scan/)
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) |_ [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) _|_ [_ku5e.com/blog_](https://ku5e.com/blog)
