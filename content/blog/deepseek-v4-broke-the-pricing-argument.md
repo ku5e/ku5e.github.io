@@ -9,21 +9,21 @@ tags:
   - infra
 description: DeepSeek V4 is open weight, near-SOTA on benchmarks, and costs $1.74 per million input tokens. The pricing argument for closed frontier models just got harder to make.
 cover:
-  image: ''
-  alt: ''
+  image: /images/DeepSeekAPI.png
+  alt: A terminal monitor in a dark server room displaying API pricing comparison data in green text, server rack hardware with blinking LEDs in the background, dim ambient lighting.
   caption: ''
   relative: false
 ---
 
 **Topics:** AI Models, Open Source, Enterprise Costs, API Pricing
 
----
+***
 
 Claude Opus 4.7 costs $5 per million input tokens and $25 per million output tokens. GPT-5.5 is $5 input and $30 output. DeepSeek V4, released as open weights on Friday, costs $1.74 input and $3.48 output, runs a 1 million token context window, and scores within a few benchmark points of both on math and Q&A.
 
 The pricing argument for closed frontier models just got harder to make.
 
----
+***
 
 ## What Near-SOTA Actually Means Here
 
@@ -33,7 +33,7 @@ The question is whether the workload being priced needs the gap closed.
 
 Customer support routing, document summarization, pattern detection in structured data, light agents for intake and scheduling: on those tasks, the performance gap between DeepSeek V4 and a frontier closed model does not justify an 8x difference in output cost. Companies processing millions of tokens daily for predictable, repeatable workflows have known this math was coming. This week it arrived.
 
----
+***
 
 ## The Open Weight Factor
 
@@ -41,7 +41,7 @@ The per-token comparison is one part of it. The other part is that open weight m
 
 Anthropic goes down for maintenance. OpenAI has degraded service incidents. Every outage on a closed API is an operational dependency that a locally-hosted model eliminates by definition.
 
----
+***
 
 ## The GPU Restriction Irony
 
@@ -49,7 +49,7 @@ Export controls on high-end GPU hardware to China were designed to slow Chinese 
 
 The restriction accelerated the efficiency innovation it was designed to prevent.
 
----
+***
 
 ## What This Does Not Change
 
@@ -57,7 +57,7 @@ DeepSeek V4 is not a drop-in replacement for the frontier models on the hardest 
 
 The model also still requires either DeepSeek's own API or significant local infrastructure to run. The 1 million token context window is real, but processing at that scale has its own cost structure.
 
----
+***
 
 ## The Actual Shift
 
@@ -67,4 +67,4 @@ If you are building Python automation or evaluating which AI backend fits a prod
 
 <!-- shrtly: https://ku5e.com/shrtly/68E0E5 -->
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) |_ [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) _|_ [_ku5e.com/blog_](https://ku5e.com/blog)
