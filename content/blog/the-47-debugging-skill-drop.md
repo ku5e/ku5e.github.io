@@ -1,5 +1,5 @@
 ---
-title: The 47% Debugging Skill Drop
+title: the 47 percent debugging skill drop
 date: 2026-05-05T10:52:00
 draft: false
 tags:
@@ -17,13 +17,13 @@ cover:
 
 **Topics:** AI Coding Agents, Developer Skills, Claude Code, Software Engineering
 
----
+***
 
 Anthropic published research this year showing that developers who leaned heavily on AI coding agents experienced a 47% drop in debugging skills. The finding that made it uncomfortable is in the same document: supervising an AI coding agent effectively requires the exact debugging skills that atrophy from using one.
 
 You need the skill to catch what the agent gets wrong. Using the agent is what costs you the skill.
 
----
+***
 
 ## What the Supervision Paradox Looks Like in Practice
 
@@ -33,7 +33,7 @@ Six months later, the agent goes down for maintenance. Nobody on the team can tr
 
 This is different from the historical transitions in programming. When FORTRAN replaced assembly, when Java replaced C for web backends, developers had to understand the new abstraction layer to work inside it. Agentic coding does not require understanding what the agent generates. It requires reviewing it, which is a weaker form of the same skill, and that review degrades first.
 
----
+***
 
 ## The Cost Nobody Prices In
 
@@ -43,7 +43,7 @@ Skill atrophy does not get priced in because it does not show up in any metric u
 
 The debugging skill drop looks like nothing until the first production incident that nobody on the team can isolate without the agent. By then, the dependency is structural.
 
----
+***
 
 ## What the Fix Actually Is
 
@@ -53,7 +53,7 @@ Write 20 to 100% of each implementation yourself. Use the model for planning, fo
 
 The boundary is not a rule about AI use. It is a rule about what you are willing to be accountable for.
 
----
+***
 
 ## Who This Hits Hardest
 
@@ -63,4 +63,4 @@ If you are structuring a development team's workflow around AI coding tools and 
 
 <!-- shrtly: https://ku5e.com/shrtly/E870FE -->
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) |_ [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) _|_ [_ku5e.com/blog_](https://ku5e.com/blog)
