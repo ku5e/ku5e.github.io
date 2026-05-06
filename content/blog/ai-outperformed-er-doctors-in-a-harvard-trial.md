@@ -9,7 +9,7 @@ tags:
   - cyber
 description: Harvard published a controlled trial showing AI outperformed emergency physicians in triage diagnoses. What the result means and which conversation it actually changes.
 cover:
-  image: ''
+  image: /images/AIinhospital_.png
   alt: An empty hospital emergency triage station at night, medical monitors showing vital signs, a diagnostic computer terminal on the desk, dim clinical lighting, no people present.
   caption: ''
   relative: false
@@ -17,13 +17,13 @@ cover:
 
 **Topics:** AI, Healthcare, Clinical Trials, Emergency Medicine
 
----
+***
 
 Harvard ran a controlled trial of AI performance in emergency triage and published the results this week. The AI outperformed emergency physicians on diagnostic accuracy.
 
 Most of the conversations that follow a result like this focus immediately on liability. That conversation is worth having. It is not the most important one.
 
----
+***
 
 ## What Emergency Triage Actually Tests
 
@@ -31,7 +31,7 @@ Emergency triage is decision-making under a specific set of conditions: incomple
 
 AI models do not fatigue. They do not anchor on the last case. They apply the same pattern recognition to the 40th patient as the first. In clinical settings specifically characterized by the conditions that degrade human decision-making over time, this is not a minor edge.
 
----
+***
 
 ## The Liability Framing and What It Misses
 
@@ -41,7 +41,7 @@ What it displaces: if AI gets it right at a higher rate than the physician, and 
 
 That second question does not have a clean legal form yet. It will. Performance data accumulates faster than legal frameworks move, and Harvard is not the first study to show AI outperforming physicians in specific diagnostic contexts. It will not be the last.
 
----
+***
 
 ## What This Is Not
 
@@ -51,7 +51,7 @@ The trial result does not transfer cleanly to complex differential diagnosis, tr
 
 That is a different claim, and a more defensible one.
 
----
+***
 
 ## The Contrast That Sticks
 
@@ -65,4 +65,4 @@ If you teach technology and want curriculum materials on AI in healthcare, ethic
 
 <!-- shrtly: https://ku5e.com/shrtly/B05C70 -->
 
-*Written by Mario Martinez Jr. (ku5e / Gary7) | [TryHackMe Profile](https://tryhackme.com/p/ku5e) | [ku5e.com/blog](https://ku5e.com/blog)*
+_Written by Mario Martinez Jr. (ku5e / Gary7) |_ [_TryHackMe Profile_](https://tryhackme.com/p/ku5e) _|_ [_ku5e.com/blog_](https://ku5e.com/blog)
