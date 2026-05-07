@@ -17,6 +17,8 @@ cover:
 
 **Topics:** AI, Healthcare, Clinical Trials, Emergency Medicine
 
+{{< audio src="/audio/AIinHospitals.mp3" >}}
+
 ***
 
 Harvard ran a controlled trial of AI performance in emergency triage and published the results this week. The AI outperformed emergency physicians on diagnostic accuracy.
