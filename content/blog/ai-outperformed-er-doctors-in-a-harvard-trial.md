@@ -9,7 +9,7 @@ tags:
   - cyber
 description: Harvard published a controlled trial showing AI outperformed emergency physicians in triage diagnoses. What the result means and which conversation it actually changes.
 cover:
-  image: /images/AIinhospital_.png
+  image: /images/AIinhospital_2.png
   alt: An empty hospital emergency triage station at night, medical monitors showing vital signs, a diagnostic computer terminal on the desk, dim clinical lighting, no people present.
   caption: ''
   relative: false
