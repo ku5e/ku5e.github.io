@@ -18,6 +18,7 @@ cover:
 **Topics:** AI, Healthcare, Clinical Trials, Emergency Medicine
 
 {{< audio src="/audio/AIinHospitals.mp3" >}}
+
 _Listen to this article_
 
 ***
