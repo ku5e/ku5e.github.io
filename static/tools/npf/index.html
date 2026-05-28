@@ -108,9 +108,86 @@
       box-shadow: 0 0 8px var(--glow);
     }
 
-    select option {
+    /* Accordion camera picker */
+    .acc-brand {
+      width: 100%;
       background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--dim);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.55rem 0.8rem;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .acc-brand.has-selection {
+      border-color: var(--dim);
+      color: var(--text);
+    }
+
+    .acc-brand.open {
+      border-color: var(--text);
       color: var(--bright);
+      border-radius: 3px 3px 0 0;
+      margin-bottom: 0;
+    }
+
+    .acc-brand .chevron { transition: transform 0.2s; font-style: normal; }
+    .acc-brand.open .chevron { transform: rotate(90deg); }
+
+    .acc-list {
+      display: none;
+      background: var(--bg);
+      border: 1px solid var(--text);
+      border-top: none;
+      border-radius: 0 0 3px 3px;
+      margin-bottom: 2px;
+      overflow: hidden;
+    }
+
+    .acc-list.open { display: block; }
+
+    .acc-list input[type="radio"] { display: none; }
+
+    .cam-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.8rem;
+      cursor: pointer;
+      font-size: 0.78rem;
+      color: var(--dim);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .cam-label:last-of-type { border-bottom: none; }
+
+    .cam-label:active { background: var(--bg3); }
+
+    .acc-list input[type="radio"]:checked + .cam-label {
+      color: var(--bright);
+      background: var(--bg3);
+    }
+
+    .cam-pitch {
+      font-size: 0.68rem;
+      color: var(--border);
+      margin-left: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .acc-list input[type="radio"]:checked + .cam-label .cam-pitch {
+      color: var(--dim);
     }
 
     .unit {
@@ -314,43 +391,62 @@
   </div>
 
   <div id="panel-camera" class="show">
-    <label for="camera-select">Camera</label>
-    <select id="camera-select" onchange="applyPreset()">
-      <option value="">— Select camera —</option>
-      <optgroup label="Sony">
-        <option value="5.93">Sony α7 III / α7C — 5.93 µm</option>
-        <option value="3.76">Sony α7R IV / α7R V — 3.76 µm</option>
-        <option value="9.40">Sony α7S III — 9.40 µm</option>
-        <option value="5.36">Sony α7 IV — 5.36 µm</option>
-        <option value="4.15">Sony α7R III — 4.15 µm</option>
-      </optgroup>
-      <optgroup label="Nikon">
-        <option value="5.94">Nikon Z6 / Z6 II — 5.94 µm</option>
-        <option value="4.35">Nikon Z7 / Z7 II — 4.35 µm</option>
-        <option value="5.95">Nikon D750 / D780 — 5.95 µm</option>
-        <option value="4.88">Nikon D800 / D810 — 4.88 µm</option>
-        <option value="7.04">Nikon D3500 / D5600 — 3.90 µm</option>
-        <option value="3.90">Nikon Z8 / Z9 — 4.35 µm</option>
-      </optgroup>
-      <optgroup label="Canon">
-        <option value="5.36">Canon EOS R — 5.36 µm</option>
-        <option value="4.38">Canon EOS R5 — 4.38 µm</option>
-        <option value="6.56">Canon EOS R6 / R6 II — 6.56 µm</option>
-        <option value="5.72">Canon EOS 6D Mark II — 5.72 µm</option>
-        <option value="6.95">Canon EOS 6D — 6.95 µm</option>
-        <option value="4.31">Canon EOS 600D / T3i — 4.31 µm</option>
-      </optgroup>
-      <optgroup label="Fujifilm">
-        <option value="3.76">Fujifilm X-T4 / X-T3 / X-S10 — 3.76 µm</option>
-        <option value="4.17">Fujifilm X-T2 / X-Pro2 — 4.17 µm</option>
-        <option value="3.76">Fujifilm X-H2S — 3.76 µm</option>
-      </optgroup>
-      <optgroup label="Dedicated Astro">
-        <option value="3.80">ZWO ASI2600MC Pro — 3.76 µm</option>
-        <option value="2.40">ZWO ASI294MC Pro — 4.63 µm</option>
-        <option value="4.63">ZWO ASI183MC Pro — 2.40 µm</option>
-      </optgroup>
-    </select>
+    <div id="acc-container">
+
+      <button class="acc-brand" onclick="toggleBrand('sony')">
+        Sony <span class="chevron">&#9658;</span>
+      </button>
+      <div class="acc-list" id="acc-sony">
+        <input type="radio" name="camera" id="c1" value="5.93"><label class="cam-label" for="c1">α7 III / α7C<span class="cam-pitch">5.93 µm</span></label>
+        <input type="radio" name="camera" id="c2" value="3.76"><label class="cam-label" for="c2">α7R IV / α7R V<span class="cam-pitch">3.76 µm</span></label>
+        <input type="radio" name="camera" id="c3" value="9.40"><label class="cam-label" for="c3">α7S III<span class="cam-pitch">9.40 µm</span></label>
+        <input type="radio" name="camera" id="c4" value="5.36"><label class="cam-label" for="c4">α7 IV<span class="cam-pitch">5.36 µm</span></label>
+        <input type="radio" name="camera" id="c5" value="4.15"><label class="cam-label" for="c5">α7R III<span class="cam-pitch">4.15 µm</span></label>
+      </div>
+
+      <button class="acc-brand" onclick="toggleBrand('nikon')">
+        Nikon <span class="chevron">&#9658;</span>
+      </button>
+      <div class="acc-list" id="acc-nikon">
+        <input type="radio" name="camera" id="c6" value="5.94"><label class="cam-label" for="c6">Z6 / Z6 II<span class="cam-pitch">5.94 µm</span></label>
+        <input type="radio" name="camera" id="c7" value="4.35"><label class="cam-label" for="c7">Z7 / Z7 II<span class="cam-pitch">4.35 µm</span></label>
+        <input type="radio" name="camera" id="c8" value="4.34"><label class="cam-label" for="c8">Z8 / Z9<span class="cam-pitch">4.34 µm</span></label>
+        <input type="radio" name="camera" id="c9" value="5.95"><label class="cam-label" for="c9">D750 / D780<span class="cam-pitch">5.95 µm</span></label>
+        <input type="radio" name="camera" id="c10" value="4.88"><label class="cam-label" for="c10">D800 / D810<span class="cam-pitch">4.88 µm</span></label>
+        <input type="radio" name="camera" id="c11" value="3.90"><label class="cam-label" for="c11">D3500 / D5600<span class="cam-pitch">3.90 µm</span></label>
+      </div>
+
+      <button class="acc-brand" onclick="toggleBrand('canon')">
+        Canon <span class="chevron">&#9658;</span>
+      </button>
+      <div class="acc-list" id="acc-canon">
+        <input type="radio" name="camera" id="c12" value="5.36"><label class="cam-label" for="c12">EOS R<span class="cam-pitch">5.36 µm</span></label>
+        <input type="radio" name="camera" id="c13" value="4.38"><label class="cam-label" for="c13">EOS R5<span class="cam-pitch">4.38 µm</span></label>
+        <input type="radio" name="camera" id="c14" value="6.56"><label class="cam-label" for="c14">EOS R6 / R6 II<span class="cam-pitch">6.56 µm</span></label>
+        <input type="radio" name="camera" id="c15" value="5.72"><label class="cam-label" for="c15">EOS 6D Mark II<span class="cam-pitch">5.72 µm</span></label>
+        <input type="radio" name="camera" id="c16" value="6.95"><label class="cam-label" for="c16">EOS 6D<span class="cam-pitch">6.95 µm</span></label>
+        <input type="radio" name="camera" id="c17" value="4.31"><label class="cam-label" for="c17">EOS 600D / T3i<span class="cam-pitch">4.31 µm</span></label>
+      </div>
+
+      <button class="acc-brand" onclick="toggleBrand('fuji')">
+        Fujifilm <span class="chevron">&#9658;</span>
+      </button>
+      <div class="acc-list" id="acc-fuji">
+        <input type="radio" name="camera" id="c18" value="3.76"><label class="cam-label" for="c18">X-T4 / X-T3 / X-S10<span class="cam-pitch">3.76 µm</span></label>
+        <input type="radio" name="camera" id="c19" value="4.17"><label class="cam-label" for="c19">X-T2 / X-Pro2<span class="cam-pitch">4.17 µm</span></label>
+        <input type="radio" name="camera" id="c20" value="3.76"><label class="cam-label" for="c20">X-H2S<span class="cam-pitch">3.76 µm</span></label>
+      </div>
+
+      <button class="acc-brand" onclick="toggleBrand('astro')">
+        Dedicated Astro <span class="chevron">&#9658;</span>
+      </button>
+      <div class="acc-list" id="acc-astro">
+        <input type="radio" name="camera" id="c21" value="3.76"><label class="cam-label" for="c21">ZWO ASI2600MC Pro<span class="cam-pitch">3.76 µm</span></label>
+        <input type="radio" name="camera" id="c22" value="4.63"><label class="cam-label" for="c22">ZWO ASI294MC Pro<span class="cam-pitch">4.63 µm</span></label>
+        <input type="radio" name="camera" id="c23" value="2.40"><label class="cam-label" for="c23">ZWO ASI183MC Pro<span class="cam-pitch">2.40 µm</span></label>
+      </div>
+
+    </div>
     <div class="formula-box" style="margin-top:0.6rem;">
       Pixel pitch: <span id="pitch-display">—</span> µm
     </div>
@@ -435,6 +531,40 @@
   var currentMode = 'camera';
   var currentPitch = null;
 
+  // Accordion
+  var openBrand = null;
+
+  function toggleBrand(id) {
+    var list = document.getElementById('acc-' + id);
+    var btn = list.previousElementSibling;
+
+    if (openBrand && openBrand !== id) {
+      var prevList = document.getElementById('acc-' + openBrand);
+      prevList.classList.remove('open');
+      prevList.previousElementSibling.classList.remove('open');
+    }
+
+    var isOpen = list.classList.contains('open');
+    list.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    openBrand = isOpen ? null : id;
+  }
+
+  // Radio selection
+  document.getElementById('acc-container').addEventListener('change', function(e) {
+    if (e.target.type === 'radio') {
+      var val = parseFloat(e.target.value);
+      currentPitch = val;
+      document.getElementById('pitch-display').textContent = val.toFixed(2);
+
+      // Mark brand button as having selection
+      document.querySelectorAll('.acc-brand').forEach(function(b) { b.classList.remove('has-selection'); });
+      e.target.closest('.acc-list').previousElementSibling.classList.add('has-selection');
+
+      calculate();
+    }
+  });
+
   function setMode(mode) {
     currentMode = mode;
     document.getElementById('panel-camera').classList.remove('show');
@@ -448,19 +578,6 @@
     document.getElementById('btn-' + mode).classList.add('active');
 
     if (mode === 'sensor') updateSensorPitch();
-    if (mode === 'camera') applyPreset();
-  }
-
-  function applyPreset() {
-    var sel = document.getElementById('camera-select');
-    var val = parseFloat(sel.value);
-    if (!isNaN(val)) {
-      currentPitch = val;
-      document.getElementById('pitch-display').textContent = val.toFixed(2);
-    } else {
-      currentPitch = null;
-      document.getElementById('pitch-display').textContent = '—';
-    }
   }
 
   function updateSensorPitch() {
@@ -513,26 +630,21 @@
     }
 
     var cosDec = Math.cos(dec * Math.PI / 180);
-    if (cosDec < 0.001) cosDec = 0.001; // prevent /0 near 90 deg
+    if (cosDec < 0.001) cosDec = 0.001;
 
     var t = (35 * N + 30 * p) / (f * cosDec);
     var tCritical = t * 0.75;
 
     rv.textContent = t.toFixed(1);
-    rr.textContent = 'Critical (' + tCritical.toFixed(1) + 's) · Precise (f/' + N.toFixed(1) + ' · ' + p.toFixed(2) + 'µm · ' + f + 'mm · δ' + dec + '°)';
+    rr.textContent = 'Critical (' + tCritical.toFixed(1) + 's) · f/' + N.toFixed(1) + ' · ' + p.toFixed(2) + 'µm · ' + f + 'mm · δ' + dec + '°';
   }
 
   document.getElementById('calc-btn').addEventListener('click', calculate);
 
-  // Auto-calc on input change
   ['aperture','focal','dec','pitch-manual','sensor-w','sensor-px'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener('input', function() { if (currentMode !== 'camera') calculate(); });
   });
-  document.getElementById('camera-select').addEventListener('change', function() { applyPreset(); calculate(); });
-
-  // Initial state
-  applyPreset();
 </script>
 
 </body>
