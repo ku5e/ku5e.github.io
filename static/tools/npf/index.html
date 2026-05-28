@@ -396,6 +396,15 @@
   <div id="panel-camera" class="show">
     <div id="acc-container">
 
+      <button class="acc-brand" onclick="toggleBrand('mine')">
+        My Cameras <span class="chevron">&#9658;</span>
+      </button>
+      <div class="acc-list" id="acc-mine">
+        <input type="radio" name="camera" id="cm1" value="8.46"><label class="cam-label" for="cm1">Nikon D700<span class="cam-pitch">8.46 µm</span></label>
+        <input type="radio" name="camera" id="cm2" value="4.30"><label class="cam-label" for="cm2">Canon T4i (650D)<span class="cam-pitch">4.30 µm</span></label>
+        <input type="radio" name="camera" id="cm3" value="8.20"><label class="cam-label" for="cm3">Canon 5D Classic<span class="cam-pitch">8.20 µm</span></label>
+      </div>
+
       <button class="acc-brand" onclick="toggleBrand('sony')">
         Sony <span class="chevron">&#9658;</span>
       </button>
