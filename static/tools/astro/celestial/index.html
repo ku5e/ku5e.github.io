@@ -178,6 +178,7 @@
             <option value="uranus">Uranus</option>
             <option value="neptune">Neptune</option>
             <option value="pluto">Pluto</option>
+            <option value="ceres">Ceres</option>
           </optgroup>
           <optgroup label="── Milky Way ──">
             <option value="mw">Milky Way Core (GC)</option>
@@ -233,7 +234,11 @@
       </div>
       <div class="field">
         <label>Date</label>
-        <input type="date" id="plan-date" style="width:100%;">
+        <div style="display:flex;gap:.4rem;">
+          <input type="text" id="plan-year"  readonly placeholder="YYYY" style="flex:2;min-width:0;" onclick="openNumpad(this,'Year',false)">
+          <input type="text" id="plan-month" readonly placeholder="MM"   style="flex:1;min-width:0;" onclick="openNumpad(this,'Month',false)">
+          <input type="text" id="plan-day"   readonly placeholder="DD"   style="flex:1;min-width:0;" onclick="openNumpad(this,'Day',false)">
+        </div>
       </div>
     </div>
     <div class="custom-ra-dec row" id="custom-ra-dec-row">
@@ -435,7 +440,8 @@ var PLANET_ELEMENTS = {
   saturn:  function(d) { return { N:RAD*(113.6634+2.38980e-5*d), i:RAD*(2.4886-1.081e-7*d),   w:RAD*(339.3939+2.97661e-5*d), a:9.55475,            e:0.055546-9.499e-9*d,   M:RAD*norm360(316.9670+0.0334442282*d) }; },
   uranus:  function(d) { return { N:RAD*(74.0005+1.3978e-5*d),   i:RAD*(0.7733+1.9e-8*d),     w:RAD*(96.6612+3.0565e-5*d),   a:19.18171-1.55e-8*d, e:0.047318+7.45e-9*d,    M:RAD*norm360(142.5905+0.011725806*d)  }; },
   neptune: function(d) { return { N:RAD*(131.7806+3.0173e-5*d),  i:RAD*(1.7700-2.55e-7*d),    w:RAD*(272.8461-6.027e-6*d),   a:30.05826+3.313e-8*d,e:0.008606+2.15e-9*d,    M:RAD*norm360(260.2471+0.005995147*d)  }; },
-  pluto:   function(d) { return { N:RAD*(110.30347+1.3966e-5*d), i:RAD*(17.14175),             w:RAD*(113.76329+3.836e-5*d),  a:39.48168,           e:0.24882,               M:RAD*norm360(14.53470+0.003968789*d)  }; }
+  pluto:   function(d) { return { N:RAD*(110.30347+1.3966e-5*d), i:RAD*(17.14175),             w:RAD*(113.76329+3.836e-5*d),  a:39.48168,           e:0.24882,               M:RAD*norm360(14.53470+0.003968789*d)  }; },
+  ceres:   function(d) { return { N:RAD*(80.305+1.1975e-5*d),   i:RAD*(10.607),               w:RAD*(73.598+2.435e-5*d),     a:2.7653,             e:0.07934,               M:RAD*norm360(336.796+0.21408788*d)    }; }
 };
 
 function helioEcliptic(el) {
@@ -500,7 +506,7 @@ function getMoonPhase(date) {
 
 // ── Target catalog ──
 var TARGETS = {
-  // Solar System
+  // Solar System (magnitudes vary — omitted)
   moon:         { label: 'Moon', type: 'moon' },
   mercury:      { label: 'Mercury', type: 'planet', key: 'mercury' },
   venus:        { label: 'Venus', type: 'planet', key: 'venus' },
@@ -510,48 +516,49 @@ var TARGETS = {
   uranus:       { label: 'Uranus', type: 'planet', key: 'uranus' },
   neptune:      { label: 'Neptune', type: 'planet', key: 'neptune' },
   pluto:        { label: 'Pluto', type: 'planet', key: 'pluto' },
+  ceres:        { label: 'Ceres', type: 'planet', key: 'ceres' },
   // Milky Way
   mw:           { label: 'Milky Way Core', type: 'fixed', ra: 266.405, dec: -29.008 },
-  sagittarius:  { label: 'Sagittarius Star Cloud (M24)', type: 'fixed', ra: 274.7, dec: -18.5 },
+  sagittarius:  { label: 'Sagittarius Star Cloud (M24)', type: 'fixed', ra: 274.7,   dec: -18.5,  mag: 4.6 },
   // Nebulae
-  orion:        { label: 'Orion Nebula (M42)', type: 'fixed', ra: 83.82, dec: -5.39 },
-  horsehead:    { label: 'Horsehead & Flame (B33)', type: 'fixed', ra: 85.25, dec: -2.46 },
-  rosette:      { label: 'Rosette Nebula (NGC 2237)', type: 'fixed', ra: 97.5, dec: 4.95 },
-  crab:         { label: 'Crab Nebula (M1)', type: 'fixed', ra: 83.63, dec: 22.01 },
-  lagoon:       { label: 'Lagoon Nebula (M8)', type: 'fixed', ra: 270.9, dec: -24.4 },
-  trifid:       { label: 'Trifid Nebula (M20)', type: 'fixed', ra: 270.6, dec: -23.0 },
-  eagle:        { label: 'Eagle Nebula (M16)', type: 'fixed', ra: 274.67, dec: -13.79 },
-  omega_neb:    { label: 'Omega Nebula (M17)', type: 'fixed', ra: 275.2, dec: -16.2 },
-  ring:         { label: 'Ring Nebula (M57)', type: 'fixed', ra: 283.4, dec: 33.03 },
-  dumbbell:     { label: 'Dumbbell Nebula (M27)', type: 'fixed', ra: 299.9, dec: 22.72 },
-  veil:         { label: 'Veil Nebula (NGC 6960)', type: 'fixed', ra: 312.8, dec: 30.7 },
-  northamerica: { label: 'North America Nebula (NGC 7000)', type: 'fixed', ra: 314.7, dec: 44.5 },
-  helix:        { label: 'Helix Nebula (NGC 7293)', type: 'fixed', ra: 337.4, dec: -20.8 },
-  carina:       { label: 'Carina Nebula (NGC 3372)', type: 'fixed', ra: 161.0, dec: -59.9 },
+  orion:        { label: 'Orion Nebula (M42)',           type: 'fixed', ra: 83.82,   dec: -5.39,  mag: 4.0 },
+  horsehead:    { label: 'Horsehead & Flame (B33)',       type: 'fixed', ra: 85.25,   dec: -2.46,  mag: 10.0 },
+  rosette:      { label: 'Rosette Nebula (NGC 2237)',     type: 'fixed', ra: 97.5,    dec: 4.95,   mag: 9.0 },
+  crab:         { label: 'Crab Nebula (M1)',              type: 'fixed', ra: 83.63,   dec: 22.01,  mag: 8.4 },
+  lagoon:       { label: 'Lagoon Nebula (M8)',            type: 'fixed', ra: 270.9,   dec: -24.4,  mag: 6.0 },
+  trifid:       { label: 'Trifid Nebula (M20)',           type: 'fixed', ra: 270.6,   dec: -23.0,  mag: 6.3 },
+  eagle:        { label: 'Eagle Nebula (M16)',            type: 'fixed', ra: 274.67,  dec: -13.79, mag: 6.0 },
+  omega_neb:    { label: 'Omega Nebula (M17)',            type: 'fixed', ra: 275.2,   dec: -16.2,  mag: 6.0 },
+  ring:         { label: 'Ring Nebula (M57)',             type: 'fixed', ra: 283.4,   dec: 33.03,  mag: 8.8 },
+  dumbbell:     { label: 'Dumbbell Nebula (M27)',         type: 'fixed', ra: 299.9,   dec: 22.72,  mag: 7.5 },
+  veil:         { label: 'Veil Nebula (NGC 6960)',        type: 'fixed', ra: 312.8,   dec: 30.7,   mag: 7.0 },
+  northamerica: { label: 'North America Nebula (NGC 7000)',type:'fixed', ra: 314.7,   dec: 44.5,   mag: 4.0 },
+  helix:        { label: 'Helix Nebula (NGC 7293)',       type: 'fixed', ra: 337.4,   dec: -20.8,  mag: 7.3 },
+  carina:       { label: 'Carina Nebula (NGC 3372)',      type: 'fixed', ra: 161.0,   dec: -59.9,  mag: 6.2 },
   // Galaxies
-  andromeda:    { label: 'Andromeda (M31)', type: 'fixed', ra: 10.68, dec: 41.27 },
-  triangulum:   { label: 'Triangulum (M33)', type: 'fixed', ra: 23.46, dec: 30.66 },
-  bodes:        { label: "Bode's Galaxy (M81)", type: 'fixed', ra: 148.89, dec: 69.07 },
-  whirlpool:    { label: 'Whirlpool (M51)', type: 'fixed', ra: 202.47, dec: 47.20 },
-  sombrero:     { label: 'Sombrero (M104)', type: 'fixed', ra: 190.0, dec: -11.62 },
-  leotriplet:   { label: 'Leo Triplet (M65)', type: 'fixed', ra: 169.73, dec: 13.09 },
+  andromeda:    { label: 'Andromeda (M31)',               type: 'fixed', ra: 10.68,   dec: 41.27,  mag: 3.4 },
+  triangulum:   { label: 'Triangulum (M33)',              type: 'fixed', ra: 23.46,   dec: 30.66,  mag: 5.7 },
+  bodes:        { label: "Bode's Galaxy (M81)",           type: 'fixed', ra: 148.89,  dec: 69.07,  mag: 6.9 },
+  whirlpool:    { label: 'Whirlpool (M51)',               type: 'fixed', ra: 202.47,  dec: 47.20,  mag: 8.4 },
+  sombrero:     { label: 'Sombrero (M104)',               type: 'fixed', ra: 190.0,   dec: -11.62, mag: 8.0 },
+  leotriplet:   { label: 'Leo Triplet (M65)',             type: 'fixed', ra: 169.73,  dec: 13.09,  mag: 9.3 },
   // Clusters
-  pleiades:     { label: 'Pleiades (M45)', type: 'fixed', ra: 56.75, dec: 24.12 },
-  beehive:      { label: 'Beehive (M44)', type: 'fixed', ra: 130.1, dec: 19.98 },
-  hercules:     { label: 'Hercules Cluster (M13)', type: 'fixed', ra: 250.42, dec: 36.46 },
-  doublecluster:{ label: 'Double Cluster (NGC 869)', type: 'fixed', ra: 34.75, dec: 57.13 },
-  omegacen:     { label: 'Omega Centauri (NGC 5139)', type: 'fixed', ra: 201.7, dec: -47.5 },
+  pleiades:     { label: 'Pleiades (M45)',                type: 'fixed', ra: 56.75,   dec: 24.12,  mag: 1.6 },
+  beehive:      { label: 'Beehive (M44)',                 type: 'fixed', ra: 130.1,   dec: 19.98,  mag: 3.7 },
+  hercules:     { label: 'Hercules Cluster (M13)',        type: 'fixed', ra: 250.42,  dec: 36.46,  mag: 5.8 },
+  doublecluster:{ label: 'Double Cluster (NGC 869)',      type: 'fixed', ra: 34.75,   dec: 57.13,  mag: 4.3 },
+  omegacen:     { label: 'Omega Centauri (NGC 5139)',     type: 'fixed', ra: 201.7,   dec: -47.5,  mag: 3.9 },
   // Stars
-  scorpius:     { label: 'Antares (Scorpius)', type: 'fixed', ra: 247.35, dec: -26.43 },
-  sirius:       { label: 'Sirius (α CMa)', type: 'fixed', ra: 101.29, dec: -16.72 },
-  betelgeuse:   { label: 'Betelgeuse (α Ori)', type: 'fixed', ra: 88.79, dec: 7.41 },
-  rigel:        { label: 'Rigel (β Ori)', type: 'fixed', ra: 78.63, dec: -8.20 },
-  aldebaran:    { label: 'Aldebaran (α Tau)', type: 'fixed', ra: 68.98, dec: 16.51 },
-  arcturus:     { label: 'Arcturus (α Boo)', type: 'fixed', ra: 213.92, dec: 19.18 },
-  vega:         { label: 'Vega (α Lyr)', type: 'fixed', ra: 279.23, dec: 38.78 },
-  altair:       { label: 'Altair (α Aql)', type: 'fixed', ra: 297.70, dec: 8.87 },
-  deneb:        { label: 'Deneb (α Cyg)', type: 'fixed', ra: 310.36, dec: 45.28 },
-  fomalhaut:    { label: 'Fomalhaut (α PsA)', type: 'fixed', ra: 344.41, dec: -29.62 },
+  scorpius:     { label: 'Antares (Scorpius)',            type: 'fixed', ra: 247.35,  dec: -26.43, mag: 1.1 },
+  sirius:       { label: 'Sirius (α CMa)',                type: 'fixed', ra: 101.29,  dec: -16.72, mag: -1.5 },
+  betelgeuse:   { label: 'Betelgeuse (α Ori)',            type: 'fixed', ra: 88.79,   dec: 7.41,   mag: 0.4 },
+  rigel:        { label: 'Rigel (β Ori)',                 type: 'fixed', ra: 78.63,   dec: -8.20,  mag: 0.1 },
+  aldebaran:    { label: 'Aldebaran (α Tau)',             type: 'fixed', ra: 68.98,   dec: 16.51,  mag: 0.9 },
+  arcturus:     { label: 'Arcturus (α Boo)',              type: 'fixed', ra: 213.92,  dec: 19.18,  mag: -0.1 },
+  vega:         { label: 'Vega (α Lyr)',                  type: 'fixed', ra: 279.23,  dec: 38.78,  mag: 0.0 },
+  altair:       { label: 'Altair (α Aql)',                type: 'fixed', ra: 297.70,  dec: 8.87,   mag: 0.8 },
+  deneb:        { label: 'Deneb (α Cyg)',                 type: 'fixed', ra: 310.36,  dec: 45.28,  mag: 1.3 },
+  fomalhaut:    { label: 'Fomalhaut (α PsA)',             type: 'fixed', ra: 344.41,  dec: -29.62, mag: 1.2 },
   // Custom
   custom:       { label: 'Custom', type: 'fixed', ra: 0, dec: 0 }
 };
@@ -609,10 +616,9 @@ var currentLat = null, currentLng = null;
 
 function initUI() {
   var today = new Date();
-  var y = today.getFullYear();
-  var m = String(today.getMonth() + 1).padStart(2, '0');
-  var d2 = String(today.getDate()).padStart(2, '0');
-  document.getElementById('plan-date').value = y + '-' + m + '-' + d2;
+  document.getElementById('plan-year').value  = today.getFullYear();
+  document.getElementById('plan-month').value = String(today.getMonth() + 1).padStart(2, '0');
+  document.getElementById('plan-day').value   = String(today.getDate()).padStart(2, '0');
   renderPOIList();
 }
 
@@ -729,11 +735,13 @@ function targetCrossing(rows, threshold, goingDown, afterMs, beforeMs) {
 function compute() {
   var lat = parseFloat(document.getElementById('lat').value);
   var lng = parseFloat(document.getElementById('lng').value);
-  var dateStr = document.getElementById('plan-date').value;
+  var yr  = parseInt(document.getElementById('plan-year').value);
+  var mo  = parseInt(document.getElementById('plan-month').value);
+  var dy  = parseInt(document.getElementById('plan-day').value);
   var st2 = document.getElementById('compute-status');
 
   if (isNaN(lat) || isNaN(lng)) { st2.className = 'status err'; st2.textContent = 'Set location first.'; return; }
-  if (!dateStr) { st2.className = 'status err'; st2.textContent = 'Select a date.'; return; }
+  if (isNaN(yr) || isNaN(mo) || isNaN(dy)) { st2.className = 'status err'; st2.textContent = 'Enter a date.'; return; }
 
   var targetKey = document.getElementById('target-select').value;
   var targetDef = Object.assign({}, TARGETS[targetKey]);
@@ -748,8 +756,7 @@ function compute() {
 
   st2.className = 'status'; st2.textContent = 'Computing...';
 
-  var parts = dateStr.split('-');
-  var baseDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 12, 0, 0);
+  var baseDate = new Date(yr, mo - 1, dy, 12, 0, 0);
 
   // Hourly rows: noon → noon next day
   var rows = [];
@@ -789,6 +796,7 @@ function compute() {
   else if (nightRows.length && nightRows[0].target.alt > 0) infoParts.push('target up at sunset');
   if (tSet)  infoParts.push('target sets ' + fmtTime(tSet));
   if (peakRow && peakRow.target.alt > 0) infoParts.push('peak ' + peakRow.target.alt.toFixed(0) + '° @ ' + fmtTime(peakRow.date));
+  if (targetDef.mag != null) infoParts.push('mag ' + targetDef.mag.toFixed(1));
   infoParts.push('moon ' + moonIllum + '% ' + moonLabel);
   infoBar.textContent = infoParts.join(' · ');
   infoBar.style.display = 'block';
