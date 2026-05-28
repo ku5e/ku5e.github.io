@@ -21,14 +21,13 @@
     .kofi-big:hover{box-shadow:0 0 20px rgba(204,34,0,.5);}
     .divider{text-align:center;font-size:.65rem;color:var(--border);margin:.8rem 0;letter-spacing:.08em;text-transform:uppercase;}
     label{display:block;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem;}
-    input[type="text"]{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:1rem;padding:.55rem .7rem;border-radius:3px;outline:none;margin-bottom:.6rem;}
-    input[type="text"]:focus{border-color:var(--text);box-shadow:0 0 8px var(--glow);}
+    input[type="text"],input[type="email"]{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:1rem;padding:.55rem .7rem;border-radius:3px;outline:none;margin-bottom:.6rem;}
+    input[type="text"]:focus,input[type="email"]:focus{border-color:var(--text);box-shadow:0 0 8px var(--glow);}
     .unlock-btn{width:100%;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:.7rem;border-radius:3px;cursor:pointer;transition:border-color .15s,color .15s;}
     .unlock-btn:hover{border-color:var(--text);color:var(--bright);}
     #unlock-msg{font-size:.72rem;margin-top:.5rem;min-height:1.2rem;}
     .msg-err{color:var(--bright);}
     .msg-ok{color:#226622;}
-    /* Unlocked content */
     #content-locked{display:block;}
     #content-unlocked{display:none;}
     .coming-soon{text-align:center;padding:2rem 1rem;}
@@ -65,10 +64,12 @@
       </ul>
     </div>
     <a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi-big">☕ Unlock on Ko-fi — ko-fi.com/radioku5e</a>
-    <p style="font-size:.68rem;color:var(--border);text-align:center;margin-bottom:1rem;">One-time payment. After purchasing, you will receive an unlock code via Ko-fi.</p>
+    <p style="font-size:.68rem;color:var(--border);text-align:center;margin-bottom:1rem;">One-time payment. After purchasing, you will receive a unique unlock code via Ko-fi message.</p>
     <div class="divider">already have a code?</div>
+    <label for="email-input">Ko-fi Email Address</label>
+    <input type="email" id="email-input" placeholder="email you used on Ko-fi" autocomplete="off" autocorrect="off" spellcheck="false">
     <label for="code-input">Unlock Code</label>
-    <input type="text" id="code-input" placeholder="Enter your code" autocomplete="off" autocorrect="off" spellcheck="false">
+    <input type="text" id="code-input" placeholder="code from your Ko-fi message" autocomplete="off" autocorrect="off" spellcheck="false">
     <button class="unlock-btn" onclick="tryUnlock()">Unlock</button>
     <div id="unlock-msg"></div>
   </section>
@@ -100,87 +101,77 @@
 </footer>
 
 <script>
-// ── Paywall ──
-// To set your own unlock codes:
-// 1. Open browser console on this page
-// 2. Run: getHash('YOUR-CODE')
-// 3. Add the returned number to LIFETIME_HASHES or ANNUAL_HASHES
-// window.getHash = fnv1a; // uncomment during setup, remove after
+// ── Email-derived unlock codes ──
+// Each buyer gets a unique code derived from their email + this salt.
+// To generate a code for a buyer: open C:\Users\KU5E\VeraLucero\tools\astro-code-gen.html locally.
+// The salt must match between this file and the generator.
+var SALT = 'KU5E-CELESTIAL-2026';
 
-function fnv1a(str){
-  str = str.toUpperCase().trim();
+function fnv1a(str) {
   var h = 2166136261;
-  for(var i=0;i<str.length;i++){
+  for (var i = 0; i < str.length; i++) {
     h ^= str.charCodeAt(i);
     h = Math.imul(h, 16777619) >>> 0;
   }
   return h;
 }
 
-// Add your code hashes here after running fnv1a('YOUR-CODE') in console
-var LIFETIME_HASHES = [
-  // Example — replace with your actual hash:
-  // fnv1a('ASTROLIFE26') = run in console to find
-];
-
-// Annual codes expire Jan 1 of the next year
-var ANNUAL_HASHES = {
-  2026: [],
-  2027: []
-};
-
-// Dev mode: set to a valid hash to test unlock flow without Ko-fi
-// var LIFETIME_HASHES = [fnv1a('TESTCODE')];
-
-function checkUnlock(){
-  try{
-    var stored = JSON.parse(localStorage.getItem('ku5e_celestial')||'null');
-    if(!stored) return false;
-    if(stored.type==='lifetime') return true;
-    if(stored.type==='annual' && stored.expires > Date.now()) return true;
-    return false;
-  }catch(e){ return false; }
+function deriveCode(email) {
+  var normalized = email.toLowerCase().trim();
+  var hash = fnv1a(normalized + SALT);
+  // 6-char base-36 uppercase code
+  return hash.toString(36).toUpperCase().slice(0, 6);
 }
 
-function tryUnlock(){
+function checkUnlock() {
+  try {
+    var stored = JSON.parse(localStorage.getItem('ku5e_celestial') || 'null');
+    if (!stored) return false;
+    if (stored.type === 'lifetime') return true;
+    if (stored.type === 'annual' && stored.expires > Date.now()) return true;
+    return false;
+  } catch(e) { return false; }
+}
+
+function tryUnlock() {
+  var email = document.getElementById('email-input').value;
   var code = document.getElementById('code-input').value;
   var msg = document.getElementById('unlock-msg');
-  if(!code.trim()){msg.className='msg-err';msg.textContent='Enter your unlock code.';return;}
-  var h = fnv1a(code);
-  if(LIFETIME_HASHES.indexOf(h) !== -1){
-    localStorage.setItem('ku5e_celestial', JSON.stringify({type:'lifetime',ts:Date.now()}));
-    msg.className='msg-ok'; msg.textContent='Unlocked. Welcome.';
+
+  if (!email.trim()) { msg.className = 'msg-err'; msg.textContent = 'Enter the email address you used on Ko-fi.'; return; }
+  if (!code.trim()) { msg.className = 'msg-err'; msg.textContent = 'Enter your unlock code.'; return; }
+
+  var expected = deriveCode(email);
+  if (code.trim().toUpperCase() === expected) {
+    localStorage.setItem('ku5e_celestial', JSON.stringify({ type: 'lifetime', ts: Date.now() }));
+    msg.className = 'msg-ok';
+    msg.textContent = 'Unlocked. Welcome.';
     setTimeout(showUnlocked, 800);
     return;
   }
-  var year = new Date().getFullYear();
-  if(ANNUAL_HASHES[year] && ANNUAL_HASHES[year].indexOf(h) !== -1){
-    var expires = new Date(year+1,0,1).getTime();
-    localStorage.setItem('ku5e_celestial', JSON.stringify({type:'annual',expires:expires}));
-    msg.className='msg-ok'; msg.textContent='Annual access unlocked through Dec 31, '+year+'.';
-    setTimeout(showUnlocked, 800);
-    return;
-  }
-  msg.className='msg-err'; msg.textContent='Code not recognized.';
+  msg.className = 'msg-err';
+  msg.textContent = 'Code not recognized. Check email and code, or contact ku5e@ku5e.com.';
 }
 
-function showUnlocked(){
-  document.getElementById('content-locked').style.display='none';
-  document.getElementById('content-unlocked').style.display='block';
+function showUnlocked() {
+  document.getElementById('content-locked').style.display = 'none';
+  document.getElementById('content-unlocked').style.display = 'block';
 }
 
-function revokeUnlock(){
+function revokeUnlock() {
   localStorage.removeItem('ku5e_celestial');
-  document.getElementById('content-locked').style.display='block';
-  document.getElementById('content-unlocked').style.display='none';
+  document.getElementById('content-locked').style.display = 'block';
+  document.getElementById('content-unlocked').style.display = 'none';
 }
 
-document.getElementById('code-input').addEventListener('keydown',function(e){
-  if(e.key==='Enter') tryUnlock();
+document.getElementById('code-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') tryUnlock();
+});
+document.getElementById('email-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('code-input').focus();
 });
 
-// Check on load
-if(checkUnlock()) showUnlocked();
+if (checkUnlock()) showUnlocked();
 </script>
 
 </body>
