@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astrophotography Tools — ku5e</title>
+  <style>
+    :root {
+      --bg:#0a0000;--bg2:#110000;--bg3:#1a0000;
+      --border:#4d0000;--dim:#5c1111;--text:#cc2200;
+      --bright:#ff3300;--result:#ff5533;--glow:rgba(204,34,0,0.25);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{background:var(--bg);color:var(--text);font-family:'Courier New',Courier,monospace;font-size:16px;min-height:100vh;line-height:1.5;}
+    body{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+    h1{font-size:1.4rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bright);border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:.3rem;}
+    .subtitle{font-size:.75rem;color:var(--dim);margin-bottom:1.8rem;letter-spacing:.05em;}
+    h2{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem;}
+    section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1.2rem;margin-bottom:1.2rem;}
+    .tool-card{display:block;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.9rem 1rem;margin-bottom:.5rem;text-decoration:none;color:var(--text);transition:border-color .15s,color .15s;}
+    .tool-card:hover,.tool-card:active{border-color:var(--text);color:var(--bright);}
+    .tool-name{font-size:.9rem;display:block;}
+    .tool-desc{font-size:.68rem;color:var(--dim);margin-top:.2rem;display:block;}
+    .tool-card:hover .tool-desc,.tool-card:active .tool-desc{color:var(--text);}
+    .locked{opacity:.6;cursor:default;border-style:dashed;}
+    .locked .tool-name::after{content:' 🔒';font-size:.75rem;}
+    .kofi{display:block;width:100%;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:.7rem;text-align:center;text-decoration:none;border-radius:3px;margin-bottom:1.2rem;transition:border-color .15s,color .15s;}
+    .kofi:hover{border-color:var(--text);color:var(--text);}
+    .badge{font-size:.6rem;background:var(--border);color:var(--dim);padding:.1rem .35rem;border-radius:2px;letter-spacing:.06em;text-transform:uppercase;margin-left:.4rem;vertical-align:middle;}
+    .badge.new{background:#001a00;color:#226622;}
+    footer{font-size:.65rem;color:var(--border);text-align:center;letter-spacing:.05em;padding-top:1rem;border-top:1px solid var(--border);}
+    footer a{color:var(--dim);text-decoration:none;}
+  </style>
+</head>
+<body>
+
+<h1>Astrophotography Tools</h1>
+<p class="subtitle">Field-ready. Dark-adapted. All calculations run locally in your browser.</p>
+
+<a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi">☕ Buy KU5E a beer — ko-fi.com/radioku5e</a>
+
+<section>
+  <h2>Calculators</h2>
+  <a href="/tools/npf/" class="tool-card">
+    <span class="tool-name">NPF Rule <span class="badge new">live</span></span>
+    <span class="tool-desc">Maximum exposure time to avoid star trails. Accounts for aperture, pixel pitch, focal length, and declination.</span>
+  </a>
+  <a href="/tools/astro/calc/#hyperfocal" class="tool-card">
+    <span class="tool-name">Hyperfocal Distance <span class="badge new">live</span></span>
+    <span class="tool-desc">Maximum depth of field for any lens and sensor combination.</span>
+  </a>
+  <a href="/tools/astro/calc/#fov" class="tool-card">
+    <span class="tool-name">Field of View <span class="badge new">live</span></span>
+    <span class="tool-desc">Angular FOV for your sensor and focal length. Horizontal, vertical, and diagonal.</span>
+  </a>
+  <a href="/tools/astro/calc/#startrail" class="tool-card">
+    <span class="tool-name">Star Trail Length <span class="badge new">live</span></span>
+    <span class="tool-desc">Predicted trail length in degrees and pixels for any exposure duration.</span>
+  </a>
+  <a href="/tools/astro/calc/#nd" class="tool-card">
+    <span class="tool-name">ND Filter Stops <span class="badge new">live</span></span>
+    <span class="tool-desc">Convert between ND filter density, stops, and equivalent exposure times.</span>
+  </a>
+</section>
+
+<section>
+  <h2>Daily Conditions</h2>
+  <a href="/tools/astro/suncalc/" class="tool-card">
+    <span class="tool-name">Sun / Moon / Milky Way <span class="badge new">live</span></span>
+    <span class="tool-desc">Current and tonight's conditions. Rise/set times, moon phase, Milky Way core position, darkness rating by hour. Uses your location.</span>
+  </a>
+</section>
+
+<section>
+  <h2>Planning</h2>
+  <a href="/tools/astro/celestial/" class="tool-card locked">
+    <span class="tool-name">Celestial Path Planner</span>
+    <span class="tool-desc">Visualize celestial paths by date, time, and location. Plan exact compositions for specific targets. Unlock with a one-time Ko-fi purchase.</span>
+  </a>
+  <a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi" style="margin-top:.6rem;margin-bottom:0;">☕ Unlock Celestial Planner — ko-fi.com/radioku5e</a>
+</section>
+
+<footer>
+  <a href="https://ku5e.com">ku5e.com</a> &mdash; All tools run client-side. No data sent. Keep screen dim in the field.
+</footer>
+
+</body>
+</html>

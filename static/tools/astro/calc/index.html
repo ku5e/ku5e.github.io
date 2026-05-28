@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astro Calculators — ku5e</title>
+  <style>
+    :root{--bg:#0a0000;--bg2:#110000;--bg3:#1a0000;--border:#4d0000;--dim:#5c1111;--text:#cc2200;--bright:#ff3300;--result:#ff5533;--glow:rgba(204,34,0,0.25);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{background:var(--bg);color:var(--text);font-family:'Courier New',Courier,monospace;font-size:16px;min-height:100vh;line-height:1.5;}
+    body{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+    h1{font-size:1.3rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bright);border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:.3rem;}
+    .subtitle{font-size:.72rem;color:var(--dim);margin-bottom:1.4rem;letter-spacing:.05em;}
+    /* Nav tabs */
+    .calc-nav{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1.2rem;}
+    .calc-nav a{background:var(--bg3);border:1px solid var(--border);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;padding:.35rem .6rem;border-radius:3px;text-decoration:none;transition:color .15s,border-color .15s;}
+    .calc-nav a:hover,.calc-nav a.active{border-color:var(--text);color:var(--bright);}
+    /* Calc sections */
+    .calc{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1.2rem;margin-bottom:1.4rem;}
+    .calc h2{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem;}
+    .result-box{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:1rem 1.2rem;text-align:center;margin-bottom:1rem;}
+    .result-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem;}
+    .result-val{font-size:2.6rem;font-weight:bold;color:var(--result);text-shadow:0 0 16px rgba(255,85,51,.45);line-height:1;}
+    .result-unit{font-size:.85rem;color:var(--text);margin-top:.2rem;}
+    .result-sub{font-size:.72rem;color:var(--dim);margin-top:.4rem;}
+    .field{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.7rem;align-items:end;}
+    .field.full{grid-template-columns:1fr;}
+    label{display:block;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem;}
+    input[type="text"],select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:1rem;padding:.5rem .65rem;border-radius:3px;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer;user-select:none;-webkit-user-select:none;caret-color:transparent;}
+    input[type="text"].active-input{border-color:var(--text);box-shadow:0 0 8px var(--glow);}
+    select{cursor:pointer;caret-color:auto;}
+    select option{background:var(--bg3);color:var(--bright);}
+    .unit{font-size:.65rem;color:var(--dim);margin-top:.15rem;display:block;}
+    .formula{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:.6rem .9rem;font-size:.72rem;color:var(--dim);margin-top:.5rem;}
+    .formula span{color:var(--text);}
+    .kofi{display:block;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;padding:.6rem;text-align:center;text-decoration:none;border-radius:3px;margin-bottom:1.2rem;transition:border-color .15s,color .15s;}
+    .kofi:hover{border-color:var(--text);color:var(--text);}
+    .back{font-size:.65rem;color:var(--dim);text-decoration:none;display:inline-block;margin-bottom:1rem;}
+    .back:hover{color:var(--text);}
+    footer{font-size:.65rem;color:var(--border);text-align:center;letter-spacing:.05em;padding-top:1rem;border-top:1px solid var(--border);}
+    footer a{color:var(--dim);text-decoration:none;}
+    /* Numpad */
+    #np-overlay{display:none;position:fixed;inset:0;background:rgba(5,0,0,.75);z-index:200;}
+    #np-overlay.open{display:block;}
+    #np{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:2px solid var(--border);padding:.8rem;z-index:201;transform:translateY(100%);transition:transform .2s ease-out;max-width:640px;margin:0 auto;}
+    #np.open{transform:translateY(0);}
+    #np-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:.35rem;}
+    #np-disp{background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--bright);font-size:1.5rem;padding:.4rem .8rem;margin-bottom:.6rem;text-align:right;min-height:2.4rem;}
+    .npg{display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem;}
+    .nk{background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:'Courier New',Courier,monospace;font-size:1.2rem;padding:.7rem .4rem;border-radius:3px;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;transition:background .1s;}
+    .nk:active{background:var(--bg);color:var(--bright);}
+    .nk-back{color:var(--dim);font-size:1rem;}
+    .nk-done{grid-column:span 2;border-color:var(--text);color:var(--bright);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;}
+    @media(max-width:400px){.field{grid-template-columns:1fr;}.result-val{font-size:2rem;}}
+  </style>
+</head>
+<body>
+
+<a href="/tools/astro/" class="back">← Astro Tools</a>
+<h1>Astro Calculators</h1>
+<p class="subtitle">Tap any value to edit with the red keypad.</p>
+
+<a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi">☕ Buy KU5E a beer — ko-fi.com/radioku5e</a>
+
+<div class="calc-nav">
+  <a href="#hyperfocal">Hyperfocal</a>
+  <a href="#fov">Field of View</a>
+  <a href="#startrail">Star Trail</a>
+  <a href="#nd">ND Filter</a>
+  <a href="/tools/npf/">NPF Rule ↗</a>
+</div>
+
+<!-- HYPERFOCAL -->
+<div class="calc" id="hyperfocal">
+  <h2>Hyperfocal Distance</h2>
+  <div class="result-box" id="hf-result">
+    <div class="result-label">Hyperfocal Distance</div>
+    <div class="result-val" id="hf-val">—</div>
+    <div class="result-unit">meters</div>
+    <div class="result-sub" id="hf-sub"></div>
+  </div>
+  <div class="field">
+    <div>
+      <label>Focal Length (mm)</label>
+      <input type="text" id="hf-f" readonly value="24" onclick="openNP(this,'Focal Length (mm)',false,calcHF)">
+    </div>
+    <div>
+      <label>Aperture (f/)</label>
+      <input type="text" id="hf-n" readonly value="2.8" onclick="openNP(this,'Aperture (f/)',false,calcHF)">
+    </div>
+  </div>
+  <div class="field full">
+    <div>
+      <label>Sensor Format</label>
+      <select id="hf-coc" onchange="calcHF()">
+        <option value="0.029">Full Frame (35mm) — 0.029mm</option>
+        <option value="0.019">APS-C Canon — 0.019mm</option>
+        <option value="0.020">APS-C Nikon/Sony — 0.020mm</option>
+        <option value="0.015">Micro Four Thirds — 0.015mm</option>
+        <option value="0.006">Custom (0.006mm)</option>
+      </select>
+    </div>
+  </div>
+  <div class="formula">H = <span>f</span>² / (<span>N</span> × <span>c</span>) + <span>f</span> &nbsp;·&nbsp; Focus beyond H/2 = ∞ depth of field<br>
+  <span>f</span>=focal length &nbsp;<span>N</span>=f-number &nbsp;<span>c</span>=circle of confusion</div>
+</div>
+
+<!-- FOV -->
+<div class="calc" id="fov">
+  <h2>Field of View</h2>
+  <div class="result-box">
+    <div class="result-label">Horizontal × Vertical</div>
+    <div class="result-val" id="fov-val">—</div>
+    <div class="result-unit">degrees</div>
+    <div class="result-sub" id="fov-sub"></div>
+  </div>
+  <div class="field">
+    <div>
+      <label>Focal Length (mm)</label>
+      <input type="text" id="fov-f" readonly value="24" onclick="openNP(this,'Focal Length (mm)',false,calcFOV)">
+    </div>
+    <div>
+      <label>Sensor Format</label>
+      <select id="fov-sensor" onchange="calcFOV()">
+        <option value="36x24">Full Frame — 36×24mm</option>
+        <option value="22.3x14.9">APS-C Canon — 22.3×14.9mm</option>
+        <option value="23.6x15.8">APS-C Nikon/Sony — 23.6×15.8mm</option>
+        <option value="17.3x13">Micro Four Thirds — 17.3×13mm</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+  </div>
+  <div class="field" id="fov-custom-row" style="display:none;">
+    <div>
+      <label>Sensor Width (mm)</label>
+      <input type="text" id="fov-sw" readonly value="36" onclick="openNP(this,'Sensor Width (mm)',false,calcFOV)">
+    </div>
+    <div>
+      <label>Sensor Height (mm)</label>
+      <input type="text" id="fov-sh" readonly value="24" onclick="openNP(this,'Sensor Height (mm)',false,calcFOV)">
+    </div>
+  </div>
+  <div class="formula">FOV = 2 × arctan(<span>sensor</span> / (2 × <span>f</span>)) &nbsp;·&nbsp; Diagonal = √(W²+H²)</div>
+</div>
+
+<!-- STAR TRAIL -->
+<div class="calc" id="startrail">
+  <h2>Star Trail Length</h2>
+  <div class="result-box">
+    <div class="result-label">Trail Length</div>
+    <div class="result-val" id="st-val">—</div>
+    <div class="result-unit">degrees</div>
+    <div class="result-sub" id="st-sub"></div>
+  </div>
+  <div class="field">
+    <div>
+      <label>Exposure (seconds)</label>
+      <input type="text" id="st-t" readonly value="30" onclick="openNP(this,'Exposure (seconds)',false,calcST)">
+    </div>
+    <div>
+      <label>Declination (°)</label>
+      <input type="text" id="st-dec" readonly value="0" onclick="openNP(this,'Declination (°)',true,calcST)">
+    </div>
+  </div>
+  <div class="field">
+    <div>
+      <label>Focal Length (mm)</label>
+      <input type="text" id="st-f" readonly value="24" onclick="openNP(this,'Focal Length (mm)',false,calcST)">
+    </div>
+    <div>
+      <label>Sensor Format</label>
+      <select id="st-sensor" onchange="calcST()">
+        <option value="36x24x6000">Full Frame — 36×24mm</option>
+        <option value="22.3x14.9x5184">APS-C Canon</option>
+        <option value="23.6x15.8x6000">APS-C Nikon/Sony</option>
+        <option value="17.3x13x4592">Micro Four Thirds</option>
+      </select>
+    </div>
+  </div>
+  <div class="formula">Trail° = (<span>t</span> / 3600) × 15 × cos(<span>δ</span>) &nbsp;·&nbsp; Stars move 15°/hr at equator<br>Trail px = (Trail° / FOV°) × image width</div>
+</div>
+
+<!-- ND FILTER -->
+<div class="calc" id="nd">
+  <h2>ND Filter Stops</h2>
+  <div class="result-box">
+    <div class="result-label">Filtered Exposure</div>
+    <div class="result-val" id="nd-val">—</div>
+    <div class="result-unit">seconds</div>
+    <div class="result-sub" id="nd-sub"></div>
+  </div>
+  <div class="field">
+    <div>
+      <label>Base Exposure (s)</label>
+      <input type="text" id="nd-base" readonly value="0.5" onclick="openNP(this,'Base Exposure (s)',false,calcND)">
+    </div>
+    <div>
+      <label>ND Filter</label>
+      <select id="nd-filter" onchange="calcND()">
+        <option value="1">ND2 — 1 stop</option>
+        <option value="2">ND4 — 2 stops</option>
+        <option value="3">ND8 — 3 stops</option>
+        <option value="6" selected>ND64 — 6 stops</option>
+        <option value="10">ND1000 — 10 stops</option>
+        <option value="13">ND8000 — 13 stops</option>
+        <option value="15">ND32000 — 15 stops</option>
+        <option value="custom">Custom stops</option>
+      </select>
+    </div>
+  </div>
+  <div id="nd-custom-row" style="display:none;">
+    <label>Custom Stops</label>
+    <input type="text" id="nd-stops" readonly value="6" onclick="openNP(this,'ND Stops',false,calcND)">
+  </div>
+  <div class="formula">Filtered = Base × 2<sup><span>stops</span></sup> &nbsp;·&nbsp; Stops = log₂(Filtered / Base)</div>
+</div>
+
+<a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi">☕ These tools are free — Buy KU5E a beer</a>
+
+<footer>
+  <a href="/tools/astro/">← Astro Tools</a> &nbsp;·&nbsp; <a href="https://ku5e.com">ku5e.com</a> &nbsp;·&nbsp; All calculations client-side.
+</footer>
+
+<!-- Numpad -->
+<div id="np-overlay" onclick="closeNP()"></div>
+<div id="np">
+  <div id="np-lbl"></div>
+  <div id="np-disp"></div>
+  <div class="npg">
+    <button class="nk" onclick="nk('7')">7</button>
+    <button class="nk" onclick="nk('8')">8</button>
+    <button class="nk" onclick="nk('9')">9</button>
+    <button class="nk" onclick="nk('4')">4</button>
+    <button class="nk" onclick="nk('5')">5</button>
+    <button class="nk" onclick="nk('6')">6</button>
+    <button class="nk" onclick="nk('1')">1</button>
+    <button class="nk" onclick="nk('2')">2</button>
+    <button class="nk" onclick="nk('3')">3</button>
+    <button class="nk" id="nk-neg" onclick="nk('-')" style="opacity:.3;">-</button>
+    <button class="nk" onclick="nk('0')">0</button>
+    <button class="nk" onclick="nk('.')">.</button>
+    <button class="nk nk-back" onclick="nkBack()">&#9003;</button>
+    <button class="nk nk-done" onclick="closeNP()">Done</button>
+  </div>
+</div>
+
+<script>
+// ── Numpad ──
+var activeInput=null, negAllowed=false, onDoneCb=null;
+function openNP(el,lbl,neg,cb){
+  if(activeInput)activeInput.classList.remove('active-input');
+  activeInput=el; negAllowed=neg; onDoneCb=cb;
+  el.classList.add('active-input');
+  document.getElementById('np-lbl').textContent=lbl;
+  document.getElementById('np-disp').textContent=el.value;
+  document.getElementById('nk-neg').style.opacity=neg?'1':'0.3';
+  document.getElementById('np-overlay').classList.add('open');
+  document.getElementById('np').classList.add('open');
+}
+function closeNP(){
+  document.getElementById('np-overlay').classList.remove('open');
+  document.getElementById('np').classList.remove('open');
+  if(activeInput){
+    var v=document.getElementById('np-disp').textContent;
+    activeInput.value=(v===''||v==='-')?'0':v;
+    activeInput.classList.remove('active-input');
+    activeInput=null;
+  }
+  if(onDoneCb)onDoneCb();
+}
+function nk(k){
+  var d=document.getElementById('np-disp'),v=d.textContent;
+  if(k==='-'){if(!negAllowed)return;d.textContent=v.startsWith('-')?v.slice(1):'-'+v;return;}
+  if(k==='.'&&v.includes('.'))return;
+  if(v==='0'&&k!=='.')d.textContent=k;
+  else if(v==='-0')d.textContent='-'+k;
+  else d.textContent=v+k;
+}
+function nkBack(){
+  var d=document.getElementById('np-disp'),v=d.textContent;
+  d.textContent=v.length<=1?'0':v.slice(0,-1);
+}
+
+// ── Calculators ──
+function calcHF(){
+  var f=parseFloat(document.getElementById('hf-f').value);
+  var n=parseFloat(document.getElementById('hf-n').value);
+  var c=parseFloat(document.getElementById('hf-coc').value);
+  var rv=document.getElementById('hf-val'),sub=document.getElementById('hf-sub');
+  if(isNaN(f)||isNaN(n)||f<=0||n<=0){rv.textContent='—';sub.textContent='';return;}
+  var H=(f*f/(n*c)+f)/1000; // mm to m
+  rv.textContent=H.toFixed(2);
+  sub.textContent='Near limit at '+((H/2).toFixed(2))+'m · Focus past this for ∞ DOF';
+}
+
+function calcFOV(){
+  var f=parseFloat(document.getElementById('fov-f').value);
+  var sel=document.getElementById('fov-sensor').value;
+  var rv=document.getElementById('fov-val'),sub=document.getElementById('fov-sub');
+  var sw,sh;
+  if(sel==='custom'){
+    document.getElementById('fov-custom-row').style.display='grid';
+    sw=parseFloat(document.getElementById('fov-sw').value);
+    sh=parseFloat(document.getElementById('fov-sh').value);
+  }else{
+    document.getElementById('fov-custom-row').style.display='none';
+    var p=sel.split('x');sw=parseFloat(p[0]);sh=parseFloat(p[1]);
+  }
+  if(isNaN(f)||isNaN(sw)||isNaN(sh)||f<=0){rv.textContent='—';sub.textContent='';return;}
+  var fh=2*Math.atan(sw/(2*f))*180/Math.PI;
+  var fv=2*Math.atan(sh/(2*f))*180/Math.PI;
+  var fd=2*Math.atan(Math.sqrt(sw*sw+sh*sh)/(2*f))*180/Math.PI;
+  rv.textContent=fh.toFixed(1)+'° × '+fv.toFixed(1)+'°';
+  sub.textContent='Diagonal '+fd.toFixed(1)+'°';
+}
+
+function calcST(){
+  var t=parseFloat(document.getElementById('st-t').value);
+  var dec=parseFloat(document.getElementById('st-dec').value)||0;
+  var f=parseFloat(document.getElementById('st-f').value);
+  var sval=document.getElementById('st-sensor').value.split('x');
+  var sw=parseFloat(sval[0]),imgW=parseFloat(sval[2]||6000);
+  var rv=document.getElementById('st-val'),sub=document.getElementById('st-sub');
+  if(isNaN(t)||isNaN(f)||f<=0||t<=0){rv.textContent='—';sub.textContent='';return;}
+  var trailDeg=(t/3600)*15*Math.cos(dec*Math.PI/180);
+  var fovH=2*Math.atan(sw/(2*f))*180/Math.PI;
+  var trailPx=(trailDeg/fovH)*imgW;
+  rv.textContent=trailDeg.toFixed(3);
+  sub.textContent='≈ '+Math.round(trailPx)+' px at '+imgW+'px wide · FOV '+fovH.toFixed(1)+'°';
+}
+
+function calcND(){
+  var base=parseFloat(document.getElementById('nd-base').value);
+  var selVal=document.getElementById('nd-filter').value;
+  var stops;
+  if(selVal==='custom'){
+    document.getElementById('nd-custom-row').style.display='block';
+    stops=parseFloat(document.getElementById('nd-stops').value);
+  }else{
+    document.getElementById('nd-custom-row').style.display='none';
+    stops=parseFloat(selVal);
+  }
+  var rv=document.getElementById('nd-val'),sub=document.getElementById('nd-sub');
+  if(isNaN(base)||isNaN(stops)||base<=0){rv.textContent='—';sub.textContent='';return;}
+  var filtered=base*Math.pow(2,stops);
+  var display=filtered>=60?'+'+(filtered/60).toFixed(1)+'min':filtered.toFixed(1)+'s';
+  rv.textContent=filtered>=60?(filtered/60).toFixed(2):filtered.toFixed(1);
+  document.getElementById('nd-unit')||0;
+  sub.textContent=(filtered>=60?'= '+(filtered/60).toFixed(2)+' minutes':'')+ ' · Base '+base+'s × 2^'+stops+' stops';
+}
+
+// Highlight active nav item from hash
+function updateNav(){
+  var hash=location.hash||'#hyperfocal';
+  document.querySelectorAll('.calc-nav a').forEach(function(a){
+    a.classList.toggle('active',a.getAttribute('href')===hash);
+  });
+}
+window.addEventListener('hashchange',updateNav);
+updateNav();
+
+// Initial calculations
+calcHF();calcFOV();calcST();calcND();
+</script>
+
+</body>
+</html>

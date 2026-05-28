@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sun / Moon / Milky Way — ku5e</title>
+  <style>
+    :root{--bg:#0a0000;--bg2:#110000;--bg3:#1a0000;--border:#4d0000;--dim:#5c1111;--text:#cc2200;--bright:#ff3300;--result:#ff5533;--glow:rgba(204,34,0,0.25);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{background:var(--bg);color:var(--text);font-family:'Courier New',Courier,monospace;font-size:15px;min-height:100vh;line-height:1.5;}
+    body{max-width:680px;margin:0 auto;padding:1.2rem 1rem 3rem;}
+    h1{font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bright);border-bottom:1px solid var(--border);padding-bottom:.4rem;margin-bottom:.3rem;}
+    .subtitle{font-size:.7rem;color:var(--dim);margin-bottom:1.2rem;letter-spacing:.04em;}
+    section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem;margin-bottom:1rem;}
+    h2{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem;}
+    /* Location bar */
+    .loc-bar{display:flex;gap:.5rem;align-items:center;margin-bottom:.8rem;}
+    .loc-btn{background:var(--bg3);border:1px solid var(--border);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;padding:.4rem .6rem;border-radius:3px;cursor:pointer;white-space:nowrap;}
+    .loc-btn.active{border-color:var(--text);color:var(--bright);}
+    .loc-coords{font-size:.7rem;color:var(--dim);flex:1;text-align:right;}
+    /* Condition cards */
+    .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:.8rem;}
+    .card{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.7rem .6rem;text-align:center;}
+    .card-icon{font-size:1.4rem;display:block;margin-bottom:.2rem;}
+    .card-name{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);display:block;}
+    .card-val{font-size:1.1rem;color:var(--bright);display:block;margin:.2rem 0;}
+    .card-sub{font-size:.62rem;color:var(--dim);display:block;}
+    /* Times grid */
+    .times-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;}
+    .time-row{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.4rem .6rem;font-size:.7rem;}
+    .time-lbl{color:var(--dim);display:block;font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;}
+    .time-val{color:var(--text);}
+    /* Hourly table */
+    .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    table{width:100%;border-collapse:collapse;font-size:.65rem;}
+    th{color:var(--dim);text-align:left;padding:.3rem .4rem;border-bottom:1px solid var(--border);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+    td{padding:.28rem .4rem;border-bottom:1px solid #1a0000;white-space:nowrap;}
+    tr:last-child td{border-bottom:none;}
+    .dark-exc{color:#226622;} .dark-good{color:#447744;} .dark-ok{color:var(--dim);} .dark-none{color:#331111;}
+    /* Dark rating bar */
+    .dark-bar{display:inline-block;height:8px;border-radius:2px;vertical-align:middle;margin-right:4px;}
+    /* Moon phase */
+    .phase-strip{font-size:.7rem;color:var(--dim);margin-top:.3rem;}
+    .kofi{display:block;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;padding:.6rem;text-align:center;text-decoration:none;border-radius:3px;margin-bottom:1rem;transition:border-color .15s,color .15s;}
+    .kofi:hover{border-color:var(--text);color:var(--text);}
+    .back{font-size:.63rem;color:var(--dim);text-decoration:none;display:inline-block;margin-bottom:.8rem;}
+    .back:hover{color:var(--text);}
+    #status{font-size:.72rem;color:var(--dim);text-align:center;padding:.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:3px;margin-bottom:1rem;}
+    .manual-loc{display:none;gap:.5rem;margin-top:.5rem;}
+    .manual-loc.show{display:flex;}
+    .manual-loc input{background:var(--bg3);border:1px solid var(--border);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:.85rem;padding:.4rem .6rem;border-radius:3px;outline:none;width:50%;}
+    .manual-loc button{background:var(--bg3);border:1px solid var(--text);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:.7rem;padding:.4rem .7rem;border-radius:3px;cursor:pointer;}
+    footer{font-size:.63rem;color:var(--border);text-align:center;letter-spacing:.04em;padding-top:.8rem;border-top:1px solid var(--border);}
+    footer a{color:var(--dim);text-decoration:none;}
+    @media(max-width:440px){.cards{grid-template-columns:1fr 1fr;}.times-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<a href="/tools/astro/" class="back">← Astro Tools</a>
+<h1>Sun / Moon / Milky Way</h1>
+<p class="subtitle" id="date-line">Loading date...</p>
+
+<div id="status">Requesting location...</div>
+
+<div class="loc-bar">
+  <button class="loc-btn active" id="btn-auto" onclick="useAuto()">Auto Location</button>
+  <button class="loc-btn" id="btn-manual" onclick="useManual()">Manual</button>
+  <span class="loc-coords" id="coord-display">—</span>
+</div>
+<div class="manual-loc" id="manual-inputs">
+  <input type="number" id="man-lat" placeholder="Latitude" step="0.0001">
+  <input type="number" id="man-lng" placeholder="Longitude" step="0.0001">
+  <button onclick="applyManual()">Go</button>
+</div>
+
+<a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi">☕ Buy KU5E a beer — ko-fi.com/radioku5e</a>
+
+<!-- Current conditions -->
+<section id="section-current" style="display:none;">
+  <h2>Current Conditions</h2>
+  <div class="cards">
+    <div class="card">
+      <span class="card-icon">☀️</span>
+      <span class="card-name">Sun</span>
+      <span class="card-val" id="sun-alt">—</span>
+      <span class="card-sub" id="sun-sub">—</span>
+    </div>
+    <div class="card">
+      <span class="card-icon" id="moon-icon">🌕</span>
+      <span class="card-name">Moon</span>
+      <span class="card-val" id="moon-alt">—</span>
+      <span class="card-sub" id="moon-sub">—</span>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌌</span>
+      <span class="card-name">Milky Way</span>
+      <span class="card-val" id="mw-alt">—</span>
+      <span class="card-sub" id="mw-sub">—</span>
+    </div>
+  </div>
+  <div class="times-grid">
+    <div class="time-row"><span class="time-lbl">Sunrise</span><span class="time-val" id="t-sunrise">—</span></div>
+    <div class="time-row"><span class="time-lbl">Sunset</span><span class="time-val" id="t-sunset">—</span></div>
+    <div class="time-row"><span class="time-lbl">Astronomical Twilight End</span><span class="time-val" id="t-astro-end">—</span></div>
+    <div class="time-row"><span class="time-lbl">Astronomical Twilight Start</span><span class="time-val" id="t-astro-start">—</span></div>
+    <div class="time-row"><span class="time-lbl">Moonrise</span><span class="time-val" id="t-moonrise">—</span></div>
+    <div class="time-row"><span class="time-lbl">Moonset</span><span class="time-val" id="t-moonset">—</span></div>
+  </div>
+  <div class="phase-strip" id="moon-phase-strip">Moon phase: —</div>
+</section>
+
+<!-- Tonight timeline -->
+<section id="section-night" style="display:none;">
+  <h2>Tonight's Timeline</h2>
+  <div class="tbl-wrap">
+    <table id="night-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Sun°</th>
+          <th>Moon°</th>
+          <th>MW Core°</th>
+          <th>Sky</th>
+        </tr>
+      </thead>
+      <tbody id="night-body"></tbody>
+    </table>
+  </div>
+</section>
+
+<a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi">☕ These tools are free — Buy KU5E a beer</a>
+
+<footer>
+  <a href="/tools/astro/">← Astro Tools</a> &nbsp;·&nbsp; <a href="https://ku5e.com">ku5e.com</a> &nbsp;·&nbsp; All calculations client-side. No data sent.
+</footer>
+
+<script>
+// ── Astronomy Engine ──
+var RAD=Math.PI/180, DEG=180/Math.PI;
+var J1970=2440588, J2000=2451545, OBL=RAD*23.4397;
+
+function toJD(ms){ return ms/86400000 - 0.5 + J1970; }
+function fromJD(j){ return new Date((j+0.5-J1970)*86400000); }
+function toDays(d){ return toJD(d.getTime()) - J2000; }
+
+function sunCoords(d){
+  var M=RAD*(357.5291+0.98560028*d);
+  var L=M+RAD*(1.9148*Math.sin(M)+0.02*Math.sin(2*M)+0.0003*Math.sin(3*M)+102.9372);
+  return{dec:Math.asin(Math.sin(L)*Math.sin(OBL)), ra:Math.atan2(Math.cos(OBL)*Math.sin(L),Math.cos(L))};
+}
+function moonCoords(d){
+  var L=RAD*(218.316+13.176396*d), M=RAD*(134.963+13.064993*d), F=RAD*(93.272+13.229350*d);
+  var l=L+RAD*6.289*Math.sin(M), b=RAD*5.128*Math.sin(F), dt=385001-20905*Math.cos(M);
+  return{ra:Math.atan2(Math.cos(OBL)*Math.sin(l)-Math.sin(OBL)*Math.tan(b),Math.cos(l)),
+         dec:Math.asin(Math.sin(OBL)*Math.sin(l)*Math.cos(b)+Math.cos(OBL)*Math.sin(b)), dist:dt};
+}
+function lst(d,lw){ return RAD*(280.16+360.9856235*d)-lw; }
+function altFn(H,lat,dec){ return Math.asin(Math.sin(lat)*Math.sin(dec)+Math.cos(lat)*Math.cos(dec)*Math.cos(H))*DEG; }
+function azFn(H,lat,dec){ return(Math.atan2(Math.sin(H),Math.cos(H)*Math.sin(lat)-Math.tan(dec)*Math.cos(lat))*DEG+180)%360; }
+
+function getBodyPos(date,lat,lng,cFn){
+  var d=toDays(date), lw=-lng*RAD, phi=lat*RAD;
+  var c=cFn(d), H=lst(d,lw)-c.ra;
+  return{alt:altFn(H,phi,c.dec), az:azFn(H,phi,c.dec)};
+}
+
+var GC_RA=RAD*266.405, GC_DEC=RAD*-29.008;
+function getMWPos(date,lat,lng){
+  var d=toDays(date),lw=-lng*RAD,phi=lat*RAD;
+  var H=lst(d,lw)-GC_RA;
+  return{alt:altFn(H,phi,GC_DEC), az:azFn(H,phi,GC_DEC)};
+}
+
+function getMoonPhase(date){
+  var knownNM=2451549.757, syn=29.53058770576;
+  var phase=((toJD(date.getTime())-knownNM)%syn)/syn;
+  if(phase<0)phase+=1;
+  return{phase:phase, illumination:(1-Math.cos(phase*2*Math.PI))/2};
+}
+
+// Sun times: find crossings by hourly scan
+function findCrossing(date,lat,lng,cFn,threshold,rising){
+  var start=new Date(date); start.setHours(0,0,0,0);
+  var prev=getBodyPos(start,lat,lng,cFn).alt;
+  for(var h=1;h<=24;h++){
+    var t=new Date(start.getTime()+h*3600000);
+    var curr=getBodyPos(t,lat,lng,cFn).alt;
+    if(rising&&prev<threshold&&curr>=threshold){
+      var frac=(threshold-prev)/(curr-prev);
+      return new Date(start.getTime()+(h-1+frac)*3600000);
+    }
+    if(!rising&&prev>=threshold&&curr<threshold){
+      var frac=(prev-threshold)/(prev-curr);
+      return new Date(start.getTime()+(h-1+frac)*3600000);
+    }
+    prev=curr;
+  }
+  return null;
+}
+
+function getSunTimes(date,lat,lng){
+  return{
+    sunrise:findCrossing(date,lat,lng,sunCoords,-0.833,true),
+    sunset:findCrossing(date,lat,lng,sunCoords,-0.833,false),
+    astroStart:findCrossing(date,lat,lng,sunCoords,-18,true),
+    astroEnd:findCrossing(date,lat,lng,sunCoords,-18,false)
+  };
+}
+
+function getMoonTimes(date,lat,lng){
+  return{
+    rise:findCrossing(date,lat,lng,moonCoords,0,true),
+    set:findCrossing(date,lat,lng,moonCoords,0,false)
+  };
+}
+
+// ── UI ──
+var userLat=null, userLng=null, updateTimer=null;
+
+function fmt(d){
+  if(!d)return 'N/A';
+  return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+function fmtAlt(a){ return(a>=0?'+':'')+a.toFixed(1)+'°'; }
+function phaseEmoji(p){
+  var icons=['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'];
+  return icons[Math.round(p*8)%8];
+}
+function phaseLabel(p){
+  if(p<0.03||p>0.97)return'New Moon';
+  if(p<0.22)return'Waxing Crescent';
+  if(p<0.28)return'First Quarter';
+  if(p<0.47)return'Waxing Gibbous';
+  if(p<0.53)return'Full Moon';
+  if(p<0.72)return'Waning Gibbous';
+  if(p<0.78)return'Last Quarter';
+  return'Waning Crescent';
+}
+function darkClass(sunAlt,moonAlt,moonPct){
+  if(sunAlt>-6)return{cls:'dark-none',lbl:'daylight'};
+  if(sunAlt>-12)return{cls:'dark-none',lbl:'civil/nautical'};
+  var moonImpact=moonAlt>0?(moonPct*0.5):0;
+  if(sunAlt<=-18&&moonImpact<0.2)return{cls:'dark-exc',lbl:'★ excellent'};
+  if(sunAlt<=-18)return{cls:'dark-good',lbl:'◆ good'};
+  return{cls:'dark-ok',lbl:'◇ marginal'};
+}
+
+function render(lat,lng){
+  var now=new Date();
+  document.getElementById('date-line').textContent=now.toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('coord-display').textContent=lat.toFixed(4)+'°, '+lng.toFixed(4)+'°';
+
+  // Current positions
+  var sunPos=getBodyPos(now,lat,lng,sunCoords);
+  var moonPos=getBodyPos(now,lat,lng,moonCoords);
+  var mwPos=getMWPos(now,lat,lng);
+  var phase=getMoonPhase(now);
+
+  document.getElementById('sun-alt').textContent=fmtAlt(sunPos.alt);
+  document.getElementById('sun-sub').textContent='Az '+sunPos.az.toFixed(0)+'°';
+  document.getElementById('moon-alt').textContent=fmtAlt(moonPos.alt);
+  document.getElementById('moon-sub').textContent=Math.round(phase.illumination*100)+'% · Az '+moonPos.az.toFixed(0)+'°';
+  document.getElementById('moon-icon').textContent=phaseEmoji(phase.phase);
+  document.getElementById('mw-alt').textContent=fmtAlt(mwPos.alt);
+  document.getElementById('mw-sub').textContent=(mwPos.alt>10?'Visible':'Below horizon')+' · Az '+mwPos.az.toFixed(0)+'°';
+  document.getElementById('moon-phase-strip').textContent='Moon phase: '+phaseLabel(phase.phase)+' ('+Math.round(phase.illumination*100)+'% illuminated)';
+
+  // Sun/moon times
+  var st=getSunTimes(now,lat,lng);
+  var mt=getMoonTimes(now,lat,lng);
+  document.getElementById('t-sunrise').textContent=fmt(st.sunrise);
+  document.getElementById('t-sunset').textContent=fmt(st.sunset);
+  document.getElementById('t-astro-end').textContent=fmt(st.astroEnd);
+  document.getElementById('t-astro-start').textContent=fmt(st.astroStart);
+  document.getElementById('t-moonrise').textContent=fmt(mt.rise);
+  document.getElementById('t-moonset').textContent=fmt(mt.set);
+
+  // Tonight's hourly table (sunset-4h to sunrise+1h next day)
+  var tbody=document.getElementById('night-body');
+  tbody.innerHTML='';
+  var tableStart=st.sunset?new Date(st.sunset.getTime()-14400000):new Date(now); tableStart.setMinutes(0,0,0);
+  var tableEnd=new Date(tableStart.getTime()+14*3600000);
+  for(var t2=new Date(tableStart);t2<=tableEnd;t2=new Date(t2.getTime()+3600000)){
+    var sp=getBodyPos(t2,lat,lng,sunCoords);
+    var mp=getBodyPos(t2,lat,lng,moonCoords);
+    var wp=getMWPos(t2,lat,lng);
+    var ph=getMoonPhase(t2);
+    var dk=darkClass(sp.alt,mp.alt,ph.illumination);
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+t2.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</td>'+
+      '<td class="'+(sp.alt<-18?'dark-exc':sp.alt<0?'dark-ok':'dark-none')+'">'+fmtAlt(sp.alt)+'</td>'+
+      '<td class="'+(mp.alt<0?'dark-exc':'dark-none')+'">'+fmtAlt(mp.alt)+'</td>'+
+      '<td class="'+(wp.alt>10?'dark-good':wp.alt>0?'dark-ok':'dark-none')+'">'+fmtAlt(wp.alt)+'</td>'+
+      '<td class="'+dk.cls+'">'+dk.lbl+'</td>';
+    tbody.appendChild(tr);
+  }
+
+  document.getElementById('section-current').style.display='block';
+  document.getElementById('section-night').style.display='block';
+  document.getElementById('status').style.display='none';
+
+  // Auto-refresh every 60s
+  if(updateTimer)clearTimeout(updateTimer);
+  updateTimer=setTimeout(function(){render(lat,lng);},60000);
+}
+
+function useAuto(){
+  document.getElementById('btn-auto').classList.add('active');
+  document.getElementById('btn-manual').classList.remove('active');
+  document.getElementById('manual-inputs').classList.remove('show');
+  document.getElementById('status').style.display='block';
+  document.getElementById('status').textContent='Requesting GPS location...';
+  if(!navigator.geolocation){document.getElementById('status').textContent='Geolocation not supported. Use Manual.';return;}
+  navigator.geolocation.getCurrentPosition(
+    function(pos){userLat=pos.coords.latitude;userLng=pos.coords.longitude;render(userLat,userLng);},
+    function(){document.getElementById('status').textContent='Location denied. Use Manual entry.';}
+  );
+}
+
+function useManual(){
+  document.getElementById('btn-manual').classList.add('active');
+  document.getElementById('btn-auto').classList.remove('active');
+  document.getElementById('manual-inputs').classList.add('show');
+  document.getElementById('status').style.display='none';
+  if(userLat!==null)render(userLat,userLng);
+}
+
+function applyManual(){
+  var lat=parseFloat(document.getElementById('man-lat').value);
+  var lng=parseFloat(document.getElementById('man-lng').value);
+  if(isNaN(lat)||isNaN(lng)){document.getElementById('status').textContent='Enter valid lat/lng.';document.getElementById('status').style.display='block';return;}
+  userLat=lat;userLng=lng;render(lat,lng);
+}
+
+// Start
+useAuto();
+</script>
+
+</body>
+</html>

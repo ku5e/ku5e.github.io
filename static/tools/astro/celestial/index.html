@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celestial Path Planner — ku5e</title>
+  <style>
+    :root{--bg:#0a0000;--bg2:#110000;--bg3:#1a0000;--border:#4d0000;--dim:#5c1111;--text:#cc2200;--bright:#ff3300;--result:#ff5533;--glow:rgba(204,34,0,0.25);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html,body{background:var(--bg);color:var(--text);font-family:'Courier New',Courier,monospace;font-size:16px;min-height:100vh;line-height:1.5;}
+    body{max-width:600px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+    h1{font-size:1.3rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bright);border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:.3rem;}
+    .subtitle{font-size:.72rem;color:var(--dim);margin-bottom:1.6rem;letter-spacing:.05em;}
+    section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1.4rem;margin-bottom:1.2rem;}
+    h2{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem;}
+    .lock-icon{font-size:3rem;text-align:center;display:block;margin-bottom:1rem;filter:sepia(1) saturate(3) hue-rotate(330deg);}
+    .lock-desc{font-size:.8rem;color:var(--dim);margin-bottom:1.4rem;line-height:1.7;}
+    .lock-desc ul{margin:.5rem 0 .5rem 1.2rem;}
+    .lock-desc li{margin-bottom:.2rem;}
+    .kofi-big{display:block;background:var(--bg3);border:2px solid var(--text);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;padding:1rem;text-align:center;text-decoration:none;border-radius:4px;margin-bottom:1rem;box-shadow:0 0 12px var(--glow);}
+    .kofi-big:hover{box-shadow:0 0 20px rgba(204,34,0,.5);}
+    .divider{text-align:center;font-size:.65rem;color:var(--border);margin:.8rem 0;letter-spacing:.08em;text-transform:uppercase;}
+    label{display:block;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem;}
+    input[type="text"]{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:1rem;padding:.55rem .7rem;border-radius:3px;outline:none;margin-bottom:.6rem;}
+    input[type="text"]:focus{border-color:var(--text);box-shadow:0 0 8px var(--glow);}
+    .unlock-btn{width:100%;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:.7rem;border-radius:3px;cursor:pointer;transition:border-color .15s,color .15s;}
+    .unlock-btn:hover{border-color:var(--text);color:var(--bright);}
+    #unlock-msg{font-size:.72rem;margin-top:.5rem;min-height:1.2rem;}
+    .msg-err{color:var(--bright);}
+    .msg-ok{color:#226622;}
+    /* Unlocked content */
+    #content-locked{display:block;}
+    #content-unlocked{display:none;}
+    .coming-soon{text-align:center;padding:2rem 1rem;}
+    .cs-title{font-size:1.1rem;color:var(--bright);margin-bottom:.6rem;}
+    .cs-sub{font-size:.75rem;color:var(--dim);line-height:1.8;}
+    .cs-feature{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.6rem .9rem;margin-bottom:.4rem;font-size:.75rem;color:var(--dim);}
+    .cs-feature::before{content:'▸ ';color:var(--border);}
+    .kofi{display:block;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;padding:.6rem;text-align:center;text-decoration:none;border-radius:3px;margin-bottom:1rem;transition:border-color .15s,color .15s;}
+    .kofi:hover{border-color:var(--text);color:var(--text);}
+    .back{font-size:.65rem;color:var(--dim);text-decoration:none;display:inline-block;margin-bottom:1rem;}
+    .back:hover{color:var(--text);}
+    footer{font-size:.65rem;color:var(--border);text-align:center;letter-spacing:.05em;padding-top:1rem;border-top:1px solid var(--border);}
+    footer a{color:var(--dim);text-decoration:none;}
+  </style>
+</head>
+<body>
+
+<a href="/tools/astro/" class="back">← Astro Tools</a>
+<h1>Celestial Path Planner</h1>
+<p class="subtitle">Plan compositions by date, time, and location. Visualize where targets will be.</p>
+
+<!-- Locked gate -->
+<div id="content-locked">
+  <section>
+    <span class="lock-icon">🔭</span>
+    <div class="lock-desc">
+      <strong style="color:var(--text);">What this tool will do:</strong>
+      <ul>
+        <li>Show exactly where any celestial target will be at any date and time</li>
+        <li>Find optimal dates and times for specific compositions</li>
+        <li>Milky Way arch position by hour across the full year</li>
+        <li>Moon interference prediction for any target window</li>
+        <li>Save planned sessions with your POIs (local storage)</li>
+      </ul>
+    </div>
+    <a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi-big">☕ Unlock on Ko-fi — ko-fi.com/radioku5e</a>
+    <p style="font-size:.68rem;color:var(--border);text-align:center;margin-bottom:1rem;">One-time payment. After purchasing, you will receive an unlock code via Ko-fi.</p>
+    <div class="divider">already have a code?</div>
+    <label for="code-input">Unlock Code</label>
+    <input type="text" id="code-input" placeholder="Enter your code" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="unlock-btn" onclick="tryUnlock()">Unlock</button>
+    <div id="unlock-msg"></div>
+  </section>
+</div>
+
+<!-- Unlocked content -->
+<div id="content-unlocked">
+  <section>
+    <div class="coming-soon">
+      <div class="cs-title">Unlocked. Building now.</div>
+      <div class="cs-sub" style="margin-bottom:1.2rem;">
+        The Celestial Path Planner is in active development.<br>
+        Your access is saved. Check back soon.
+      </div>
+      <div class="cs-feature">Hourly target position charts by date and location</div>
+      <div class="cs-feature">Milky Way core rise/set and arch visualization</div>
+      <div class="cs-feature">Moon interference windows for any target</div>
+      <div class="cs-feature">Saved POI sessions in local storage</div>
+      <div class="cs-feature">Golden hour + blue hour composition windows</div>
+    </div>
+  </section>
+  <button onclick="revokeUnlock()" style="background:none;border:none;color:var(--border);font-family:'Courier New',Courier,monospace;font-size:.6rem;cursor:pointer;display:block;margin:0 auto .5rem;">clear unlock data</button>
+</div>
+
+<a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi">☕ Buy KU5E a beer — ko-fi.com/radioku5e</a>
+
+<footer>
+  <a href="/tools/astro/">← Astro Tools</a> &nbsp;·&nbsp; <a href="https://ku5e.com">ku5e.com</a>
+</footer>
+
+<script>
+// ── Paywall ──
+// To set your own unlock codes:
+// 1. Open browser console on this page
+// 2. Run: getHash('YOUR-CODE')
+// 3. Add the returned number to LIFETIME_HASHES or ANNUAL_HASHES
+// window.getHash = fnv1a; // uncomment during setup, remove after
+
+function fnv1a(str){
+  str = str.toUpperCase().trim();
+  var h = 2166136261;
+  for(var i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h;
+}
+
+// Add your code hashes here after running fnv1a('YOUR-CODE') in console
+var LIFETIME_HASHES = [
+  // Example — replace with your actual hash:
+  // fnv1a('ASTROLIFE26') = run in console to find
+];
+
+// Annual codes expire Jan 1 of the next year
+var ANNUAL_HASHES = {
+  2026: [],
+  2027: []
+};
+
+// Dev mode: set to a valid hash to test unlock flow without Ko-fi
+// var LIFETIME_HASHES = [fnv1a('TESTCODE')];
+
+function checkUnlock(){
+  try{
+    var stored = JSON.parse(localStorage.getItem('ku5e_celestial')||'null');
+    if(!stored) return false;
+    if(stored.type==='lifetime') return true;
+    if(stored.type==='annual' && stored.expires > Date.now()) return true;
+    return false;
+  }catch(e){ return false; }
+}
+
+function tryUnlock(){
+  var code = document.getElementById('code-input').value;
+  var msg = document.getElementById('unlock-msg');
+  if(!code.trim()){msg.className='msg-err';msg.textContent='Enter your unlock code.';return;}
+  var h = fnv1a(code);
+  if(LIFETIME_HASHES.indexOf(h) !== -1){
+    localStorage.setItem('ku5e_celestial', JSON.stringify({type:'lifetime',ts:Date.now()}));
+    msg.className='msg-ok'; msg.textContent='Unlocked. Welcome.';
+    setTimeout(showUnlocked, 800);
+    return;
+  }
+  var year = new Date().getFullYear();
+  if(ANNUAL_HASHES[year] && ANNUAL_HASHES[year].indexOf(h) !== -1){
+    var expires = new Date(year+1,0,1).getTime();
+    localStorage.setItem('ku5e_celestial', JSON.stringify({type:'annual',expires:expires}));
+    msg.className='msg-ok'; msg.textContent='Annual access unlocked through Dec 31, '+year+'.';
+    setTimeout(showUnlocked, 800);
+    return;
+  }
+  msg.className='msg-err'; msg.textContent='Code not recognized.';
+}
+
+function showUnlocked(){
+  document.getElementById('content-locked').style.display='none';
+  document.getElementById('content-unlocked').style.display='block';
+}
+
+function revokeUnlock(){
+  localStorage.removeItem('ku5e_celestial');
+  document.getElementById('content-locked').style.display='block';
+  document.getElementById('content-unlocked').style.display='none';
+}
+
+document.getElementById('code-input').addEventListener('keydown',function(e){
+  if(e.key==='Enter') tryUnlock();
+});
+
+// Check on load
+if(checkUnlock()) showUnlocked();
+</script>
+
+</body>
+</html>
