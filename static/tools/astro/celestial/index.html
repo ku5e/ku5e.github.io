@@ -57,12 +57,15 @@
     th{color:var(--dim);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .4rem;border-bottom:1px solid var(--border);text-align:left;}
     td{padding:.28rem .4rem;border-bottom:1px solid #1f0000;color:var(--text);}
     tr.now td{background:#1a0500;}
+    tr.on-target td{background:#0d1500;}
     .sky-exc{color:#00aa44;}
     .sky-good{color:#55cc00;}
     .sky-ok{color:#aaaa00;}
     .sky-poor{color:var(--dim);}
     .sky-day{color:#330000;}
     .alt-neg{color:#330000;}
+    .alt-vis{color:var(--bright);}
+    .on-mark{color:#226622;font-size:.6rem;margin-right:2px;display:inline-block;width:.7rem;}
     /* POI */
     .poi-list{margin-top:.6rem;}
     .poi-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.35rem .6rem;margin-bottom:.3rem;font-size:.72rem;}
@@ -530,6 +533,40 @@ function renderPOIList() {
   }).join('');
 }
 
+// ── Crossing finder (linear interpolation between hourly rows) ──
+function sunCrossing(rows, threshold, goingDown) {
+  for (var i = 1; i < rows.length; i++) {
+    var p = rows[i-1].sun.alt, c = rows[i].sun.alt;
+    if (goingDown && p > threshold && c <= threshold) {
+      var f = (threshold - p) / (c - p);
+      return new Date(rows[i-1].date.getTime() + f * 3600000);
+    }
+    if (!goingDown && p <= threshold && c > threshold) {
+      var f = (threshold - p) / (c - p);
+      return new Date(rows[i-1].date.getTime() + f * 3600000);
+    }
+  }
+  return null;
+}
+
+function targetCrossing(rows, threshold, goingDown, afterMs, beforeMs) {
+  for (var i = 1; i < rows.length; i++) {
+    var tms = rows[i].date.getTime();
+    if (afterMs && tms < afterMs) continue;
+    if (beforeMs && rows[i-1].date.getTime() > beforeMs) break;
+    var p = rows[i-1].target.alt, c = rows[i].target.alt;
+    if (goingDown && p > threshold && c <= threshold) {
+      var f = (threshold - p) / (c - p);
+      return new Date(rows[i-1].date.getTime() + f * 3600000);
+    }
+    if (!goingDown && p <= threshold && c > threshold) {
+      var f = (threshold - p) / (c - p);
+      return new Date(rows[i-1].date.getTime() + f * 3600000);
+    }
+  }
+  return null;
+}
+
 // ── Compute ──
 function compute() {
   var lat = parseFloat(document.getElementById('lat').value);
@@ -556,7 +593,7 @@ function compute() {
   var parts = dateStr.split('-');
   var baseDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 12, 0, 0);
 
-  // Build 25-hour window noon→noon — exactly one night, no previous-day bleed
+  // Hourly rows: noon → noon next day
   var rows = [];
   for (var h = 0; h <= 24; h++) {
     var d = new Date(baseDate.getTime() + h * 3600000);
@@ -564,32 +601,37 @@ function compute() {
     var sun = altAz(sunCoords(d).ra, sunCoords(d).dec, lat, lst);
     var moon = altAz(moonCoords(d).ra, moonCoords(d).dec, lat, lst);
     var target = getTargetAltAz(targetDef, d, lat, lng);
-    rows.push({ date: d, sun: sun, moon: moon, target: target, h: h });
+    rows.push({ date: d, sun: sun, moon: moon, target: target });
   }
 
-  // Filter to sunset-2hr .. sunrise+2hr window (roughly)
-  var nightRows = rows.filter(function(r) { return r.sun.alt < 3; });
-  if (nightRows.length === 0) nightRows = rows; // polar edge case
+  // Precise sunset/sunrise (interpolated)
+  var sunsetTime  = sunCrossing(rows, 0, true);
+  var sunriseTime = sunCrossing(rows, 0, false);
+  var ssMs = sunsetTime  ? sunsetTime.getTime()  : null;
+  var srMs = sunriseTime ? sunriseTime.getTime() : null;
 
-  // Peak info
+  // Night rows: sunset → sunrise (rows where sun is below horizon)
+  var nightRows = rows.filter(function(r) { return r.sun.alt <= 0; });
+  if (nightRows.length === 0) nightRows = rows;
+
+  // Precise target rise/set during the night window
+  var tRise = targetCrossing(rows, 0, false, ssMs, srMs);
+  var tSet  = targetCrossing(rows, 0, true,  ssMs, srMs);
   var peakRow = nightRows.slice().sort(function(a,b) { return b.target.alt - a.target.alt; })[0];
-  var riseRow = null, setRow = null;
-  for (var i = 1; i < nightRows.length; i++) {
-    if (!riseRow && nightRows[i].target.alt >= 0 && nightRows[i-1].target.alt < 0) riseRow = nightRows[i];
-    if (!setRow && nightRows[i].target.alt < 0 && nightRows[i-1].target.alt >= 0) setRow = nightRows[i];
-  }
 
   var moonPhase = getMoonPhase(baseDate);
-  var moonPct = Math.round(Math.abs(moonPhase - 0.5) * 2 * 100);
-  var moonLabel = moonPhase < 0.5 ? 'waxing' : 'waning';
   var moonIllum = Math.round((1 - Math.cos(moonPhase * 2 * Math.PI)) / 2 * 100);
+  var moonLabel = moonPhase < 0.5 ? 'waxing' : 'waning';
 
   var infoBar = document.getElementById('info-bar');
   var infoParts = [];
-  if (riseRow) infoParts.push('rises ' + fmtTime(riseRow.date));
-  if (peakRow && peakRow.target.alt > 0) infoParts.push('peaks ' + peakRow.target.alt.toFixed(0) + '° at ' + fmtTime(peakRow.date));
-  if (setRow) infoParts.push('sets ' + fmtTime(setRow.date));
-  infoParts.push('moon ' + moonIllum + '% illuminated (' + moonLabel + ')');
+  if (sunsetTime)  infoParts.push('sunset ' + fmtTime(sunsetTime));
+  if (sunriseTime) infoParts.push('sunrise ' + fmtTime(sunriseTime));
+  if (tRise) infoParts.push('target rises ' + fmtTime(tRise));
+  else if (nightRows.length && nightRows[0].target.alt > 0) infoParts.push('target up at sunset');
+  if (tSet)  infoParts.push('target sets ' + fmtTime(tSet));
+  if (peakRow && peakRow.target.alt > 0) infoParts.push('peak ' + peakRow.target.alt.toFixed(0) + '° @ ' + fmtTime(peakRow.date));
+  infoParts.push('moon ' + moonIllum + '% ' + moonLabel);
   infoBar.textContent = infoParts.join(' · ');
   infoBar.style.display = 'block';
 
@@ -600,7 +642,7 @@ function compute() {
   document.getElementById('table-section').style.display = 'block';
 
   drawChart(nightRows, targetDef.label);
-  buildTable(nightRows, targetKey);
+  buildTable(nightRows, targetKey, moonIllum);
   st2.className = 'status ok'; st2.textContent = 'Done.';
 }
 
@@ -711,9 +753,8 @@ function drawChart(rows, label) {
 }
 
 // ── Hourly Table ──
-function buildTable(rows, targetKey) {
+function buildTable(rows, targetKey, moonIllum) {
   var isMoon = targetKey === 'moon';
-  // Update header
   var thead = document.getElementById('hourly-thead');
   thead.innerHTML = '<tr>' +
     '<th>Time</th>' +
@@ -724,20 +765,20 @@ function buildTable(rows, targetKey) {
     '<th>Sky</th>' +
   '</tr>';
 
-  var moonPhaseAtMidnight = getMoonPhase(rows[Math.floor(rows.length / 2)].date);
-  var moonIllum = Math.round((1 - Math.cos(moonPhaseAtMidnight * 2 * Math.PI)) / 2 * 100);
-
   var tbody = document.getElementById('hourly-body');
   var now = new Date();
   tbody.innerHTML = rows.map(function(r) {
+    var onTarget = r.target.alt > 0;
     var isNow = Math.abs(r.date - now) < 1800000;
+    var rowClass = isNow ? 'now' : (onTarget ? 'on-target' : '');
     var skyClass = skyRating(r.sun.alt, r.moon.alt);
     var skyLabel = skyRatingLabel(r.sun.alt, r.moon.alt);
     var tAlt = r.target.alt.toFixed(1);
-    var altClass = r.target.alt < 0 ? ' class="alt-neg"' : '';
+    var altClass = onTarget ? ' class="alt-vis"' : ' class="alt-neg"';
     var moonCell = isMoon ? moonIllum + '%' : r.moon.alt.toFixed(1) + '°';
-    return '<tr' + (isNow ? ' class="now"' : '') + '>' +
-      '<td>' + fmtTime(r.date) + '</td>' +
+    var timeCell = (onTarget ? '<span class="on-mark">▸</span>' : '<span class="on-mark">&nbsp;</span>') + fmtTime(r.date);
+    return '<tr' + (rowClass ? ' class="' + rowClass + '"' : '') + '>' +
+      '<td>' + timeCell + '</td>' +
       '<td' + altClass + '>' + tAlt + '°</td>' +
       '<td>' + r.target.az.toFixed(0) + '°</td>' +
       '<td>' + moonCell + '</td>' +
