@@ -86,7 +86,6 @@
       margin-bottom: 0.35rem;
     }
 
-    input[type="number"],
     input[type="text"],
     select {
       width: 100%;
@@ -100,9 +99,13 @@
       outline: none;
       appearance: none;
       -webkit-appearance: none;
+      -moz-appearance: textfield;
     }
 
-    input[type="number"]:focus,
+    input[type="text"]::-webkit-inner-spin-button,
+    input[type="text"]::-webkit-outer-spin-button { display: none; }
+
+    input[type="text"]:focus,
     select:focus {
       border-color: var(--text);
       box-shadow: 0 0 8px var(--glow);
@@ -372,11 +375,11 @@
   <div class="field">
     <div>
       <label for="aperture">Aperture (f/)</label>
-      <input type="number" id="aperture" min="0.7" max="22" step="0.1" value="2.8" inputmode="decimal">
+      <input type="text" id="aperture" inputmode="decimal" value="2.8">
     </div>
     <div>
       <label for="focal">Focal Length (mm)</label>
-      <input type="number" id="focal" min="1" max="2000" step="1" value="24" inputmode="decimal">
+      <input type="text" id="focal" inputmode="decimal" value="24">
     </div>
   </div>
 </section>
@@ -454,7 +457,7 @@
 
   <div id="panel-manual">
     <label for="pitch-manual">Pixel Pitch</label>
-    <input type="number" id="pitch-manual" min="1" max="20" step="0.01" value="5.93" inputmode="decimal">
+    <input type="text" id="pitch-manual" inputmode="decimal" value="5.93">
     <span class="unit">micrometers (µm)</span>
   </div>
 
@@ -462,12 +465,12 @@
     <div class="field">
       <div>
         <label for="sensor-w">Sensor Width</label>
-        <input type="number" id="sensor-w" min="1" max="100" step="0.1" value="35.6" inputmode="decimal">
+        <input type="text" id="sensor-w" inputmode="decimal" value="35.6">
         <span class="unit">mm</span>
       </div>
       <div>
         <label for="sensor-px">Horizontal Pixels</label>
-        <input type="number" id="sensor-px" min="100" max="100000" step="1" value="6000" inputmode="decimal">
+        <input type="text" id="sensor-px" inputmode="numeric" value="6000">
         <span class="unit">px</span>
       </div>
     </div>
@@ -482,7 +485,7 @@
   <div class="field">
     <div>
       <label for="dec">Declination &delta;</label>
-      <input type="number" id="dec" min="-90" max="90" step="1" value="0" inputmode="decimal">
+      <input type="text" id="dec" inputmode="numeric" value="0">
       <span class="unit">degrees (&minus;90 south &rarr; 0 equator &rarr; +90 north)</span>
     </div>
     <div></div>
