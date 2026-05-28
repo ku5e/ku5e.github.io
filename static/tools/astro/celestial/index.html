@@ -170,6 +170,14 @@
         <select id="target-select" style="width:100%;" onchange="onTargetChange()">
           <optgroup label="── Solar System ──">
             <option value="moon">Moon</option>
+            <option value="mercury">Mercury</option>
+            <option value="venus">Venus</option>
+            <option value="mars">Mars</option>
+            <option value="jupiter">Jupiter</option>
+            <option value="saturn">Saturn</option>
+            <option value="uranus">Uranus</option>
+            <option value="neptune">Neptune</option>
+            <option value="pluto">Pluto</option>
           </optgroup>
           <optgroup label="── Milky Way ──">
             <option value="mw">Milky Way Core (GC)</option>
@@ -410,6 +418,63 @@ function altAz(ra, dec, lat, lst) {
   return { alt: alt * DEG, az: ((az * DEG + 180) % 360 + 360) % 360 };
 }
 
+// ── Planetary positions (Paul Schlyter orbital elements, ~1° accuracy) ──
+function solveE(M, e) {
+  var E = M;
+  for (var i = 0; i < 10; i++) E = E - (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+  return E;
+}
+
+function norm360(x) { return ((x % 360) + 360) % 360; }
+
+var PLANET_ELEMENTS = {
+  mercury: function(d) { return { N:RAD*(48.3313+3.24587e-5*d),  i:RAD*(7.0047+5.00e-8*d),    w:RAD*(29.1241+1.01444e-5*d),  a:0.387098,           e:0.205635+5.59e-10*d,   M:RAD*norm360(168.6562+4.0923344368*d) }; },
+  venus:   function(d) { return { N:RAD*(76.6799+2.46590e-5*d),  i:RAD*(3.3946+2.75e-8*d),    w:RAD*(54.8910+1.38374e-5*d),  a:0.723330,           e:0.006773-1.302e-9*d,   M:RAD*norm360(48.0052+1.6021302244*d)  }; },
+  mars:    function(d) { return { N:RAD*(49.5574+2.11081e-5*d),  i:RAD*(1.8497-1.78e-8*d),    w:RAD*(286.5016+2.92961e-5*d), a:1.523688,           e:0.093405+2.516e-9*d,   M:RAD*norm360(18.6021+0.5240207766*d)  }; },
+  jupiter: function(d) { return { N:RAD*(100.4542+2.76854e-5*d), i:RAD*(1.3030-1.557e-7*d),   w:RAD*(273.8777+1.64505e-5*d), a:5.20256,            e:0.048498+4.469e-9*d,   M:RAD*norm360(19.8950+0.0830853001*d)  }; },
+  saturn:  function(d) { return { N:RAD*(113.6634+2.38980e-5*d), i:RAD*(2.4886-1.081e-7*d),   w:RAD*(339.3939+2.97661e-5*d), a:9.55475,            e:0.055546-9.499e-9*d,   M:RAD*norm360(316.9670+0.0334442282*d) }; },
+  uranus:  function(d) { return { N:RAD*(74.0005+1.3978e-5*d),   i:RAD*(0.7733+1.9e-8*d),     w:RAD*(96.6612+3.0565e-5*d),   a:19.18171-1.55e-8*d, e:0.047318+7.45e-9*d,    M:RAD*norm360(142.5905+0.011725806*d)  }; },
+  neptune: function(d) { return { N:RAD*(131.7806+3.0173e-5*d),  i:RAD*(1.7700-2.55e-7*d),    w:RAD*(272.8461-6.027e-6*d),   a:30.05826+3.313e-8*d,e:0.008606+2.15e-9*d,    M:RAD*norm360(260.2471+0.005995147*d)  }; },
+  pluto:   function(d) { return { N:RAD*(110.30347+1.3966e-5*d), i:RAD*(17.14175),             w:RAD*(113.76329+3.836e-5*d),  a:39.48168,           e:0.24882,               M:RAD*norm360(14.53470+0.003968789*d)  }; }
+};
+
+function helioEcliptic(el) {
+  var E = solveE(el.M, el.e);
+  var xv = el.a * (Math.cos(E) - el.e);
+  var yv = el.a * (Math.sqrt(1 - el.e * el.e) * Math.sin(E));
+  var v = Math.atan2(yv, xv);
+  var r = Math.sqrt(xv * xv + yv * yv);
+  var u = v + el.w;
+  return {
+    x: r*(Math.cos(el.N)*Math.cos(u) - Math.sin(el.N)*Math.sin(u)*Math.cos(el.i)),
+    y: r*(Math.sin(el.N)*Math.cos(u) + Math.cos(el.N)*Math.sin(u)*Math.cos(el.i)),
+    z: r*(Math.sin(u)*Math.sin(el.i))
+  };
+}
+
+function earthEcliptic(d) {
+  var e = 0.016709 - 1.151e-9 * d;
+  var M = RAD * norm360(356.0470 + 0.9856002585 * d);
+  var w = RAD * (282.9404 + 4.70935e-5 * d);
+  var E = solveE(M, e);
+  var xv = Math.cos(E) - e, yv = Math.sqrt(1 - e * e) * Math.sin(E);
+  var r = Math.sqrt(xv * xv + yv * yv);
+  var lon = Math.atan2(yv, xv) + w;
+  return { x: r * Math.cos(lon), y: r * Math.sin(lon), z: 0 };
+}
+
+function planetCoords(key, date) {
+  var d = toDays(date);
+  var fn = PLANET_ELEMENTS[key];
+  if (!fn) return { ra: 0, dec: 0 };
+  var ph = helioEcliptic(fn(d));
+  var eh = earthEcliptic(d);
+  var dx = ph.x - eh.x, dy = ph.y - eh.y, dz = ph.z - eh.z;
+  var ye = dy * Math.cos(OBL) - dz * Math.sin(OBL);
+  var ze = dy * Math.sin(OBL) + dz * Math.cos(OBL);
+  return { ra: Math.atan2(ye, dx), dec: Math.atan2(ze, Math.sqrt(dx * dx + ye * ye)) };
+}
+
 function getTargetAltAz(targetDef, date, lat, lng) {
   var lst = siderealTime(date, lng);
   var ra, dec;
@@ -417,6 +482,8 @@ function getTargetAltAz(targetDef, date, lat, lng) {
     var sc = sunCoords(date); ra = sc.ra; dec = sc.dec;
   } else if (targetDef.type === 'moon') {
     var mc = moonCoords(date); ra = mc.ra; dec = mc.dec;
+  } else if (targetDef.type === 'planet') {
+    var pc = planetCoords(targetDef.key, date); ra = pc.ra; dec = pc.dec;
   } else {
     ra = targetDef.ra * RAD; dec = targetDef.dec * RAD;
   }
@@ -435,6 +502,14 @@ function getMoonPhase(date) {
 var TARGETS = {
   // Solar System
   moon:         { label: 'Moon', type: 'moon' },
+  mercury:      { label: 'Mercury', type: 'planet', key: 'mercury' },
+  venus:        { label: 'Venus', type: 'planet', key: 'venus' },
+  mars:         { label: 'Mars', type: 'planet', key: 'mars' },
+  jupiter:      { label: 'Jupiter', type: 'planet', key: 'jupiter' },
+  saturn:       { label: 'Saturn', type: 'planet', key: 'saturn' },
+  uranus:       { label: 'Uranus', type: 'planet', key: 'uranus' },
+  neptune:      { label: 'Neptune', type: 'planet', key: 'neptune' },
+  pluto:        { label: 'Pluto', type: 'planet', key: 'pluto' },
   // Milky Way
   mw:           { label: 'Milky Way Core', type: 'fixed', ra: 266.405, dec: -29.008 },
   sagittarius:  { label: 'Sagittarius Star Cloud (M24)', type: 'fixed', ra: 274.7, dec: -18.5 },
