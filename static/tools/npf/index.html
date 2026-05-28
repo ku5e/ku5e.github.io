@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NPF Rule Calculator — ku5e</title>
+  <style>
+    :root {
+      --bg:       #0a0000;
+      --bg2:      #110000;
+      --bg3:      #1a0000;
+      --border:   #4d0000;
+      --dim:      #5c1111;
+      --text:     #cc2200;
+      --bright:   #ff3300;
+      --result:   #ff5533;
+      --glow:     rgba(204,34,0,0.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    body {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--bright);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: var(--dim);
+      margin-bottom: 1.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    section {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    section h2 {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 1rem;
+    }
+
+    .field {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      align-items: end;
+    }
+
+    .field.full { grid-template-columns: 1fr; }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 0.35rem;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--bright);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1rem;
+      padding: 0.55rem 0.7rem;
+      border-radius: 3px;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="number"]:focus,
+    select:focus {
+      border-color: var(--text);
+      box-shadow: 0 0 8px var(--glow);
+    }
+
+    select option {
+      background: var(--bg3);
+      color: var(--bright);
+    }
+
+    .unit {
+      font-size: 0.68rem;
+      color: var(--dim);
+      margin-top: 0.2rem;
+      display: block;
+    }
+
+    .pitch-mode {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .pitch-mode button {
+      flex: 1;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.4rem;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .pitch-mode button.active {
+      border-color: var(--text);
+      color: var(--bright);
+    }
+
+    #panel-camera, #panel-manual, #panel-sensor { display: none; }
+    #panel-camera.show, #panel-manual.show, #panel-sensor.show { display: block; }
+
+    /* Result */
+    #result-section {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem 1.2rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    #result-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 0.4rem;
+    }
+
+    #result-value {
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: var(--result);
+      letter-spacing: 0.02em;
+      text-shadow: 0 0 18px rgba(255,85,51,0.5);
+      line-height: 1;
+    }
+
+    #result-unit {
+      font-size: 1rem;
+      color: var(--text);
+      margin-top: 0.3rem;
+    }
+
+    #result-range {
+      font-size: 0.8rem;
+      color: var(--dim);
+      margin-top: 0.6rem;
+    }
+
+    /* Formula */
+    .formula-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.7rem 1rem;
+      font-size: 0.78rem;
+      color: var(--dim);
+      margin-top: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .formula-box span { color: var(--text); }
+
+    /* Calc button */
+    #calc-btn {
+      display: block;
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--text);
+      color: var(--bright);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.85rem;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 0 10px var(--glow);
+      transition: box-shadow 0.15s;
+    }
+
+    #calc-btn:active {
+      box-shadow: 0 0 20px rgba(204,34,0,0.5);
+    }
+
+    /* Presets */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.4rem;
+    }
+
+    .preset-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      padding: 0.4rem 0.3rem;
+      cursor: pointer;
+      border-radius: 3px;
+      text-align: center;
+      line-height: 1.3;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .preset-btn:hover, .preset-btn:active {
+      border-color: var(--dim);
+      color: var(--text);
+    }
+
+    .preset-name { display: block; }
+    .preset-pitch { display: block; font-size: 0.6rem; color: var(--border); }
+
+    /* Footer */
+    footer {
+      font-size: 0.65rem;
+      color: var(--border);
+      text-align: center;
+      letter-spacing: 0.05em;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a { color: var(--dim); text-decoration: none; }
+
+    @media (max-width: 400px) {
+      #result-value { font-size: 2.8rem; }
+      .preset-grid { grid-template-columns: repeat(2, 1fr); }
+      .field { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>NPF Rule Calculator</h1>
+<p class="subtitle">Max exposure time to avoid star trails &mdash; ku5e.com</p>
+
+<!-- Result always at top for field use -->
+<div id="result-section">
+  <div id="result-label">Maximum Exposure</div>
+  <div id="result-value">—</div>
+  <div id="result-unit">seconds</div>
+  <div id="result-range"></div>
+</div>
+
+<button id="calc-btn">Calculate</button>
+
+<!-- Inputs -->
+<section>
+  <h2>Lens</h2>
+  <div class="field">
+    <div>
+      <label for="aperture">Aperture (f/)</label>
+      <input type="number" id="aperture" min="0.7" max="22" step="0.1" value="2.8" inputmode="decimal">
+    </div>
+    <div>
+      <label for="focal">Focal Length</label>
+      <input type="number" id="focal" min="1" max="2000" step="1" value="24" inputmode="decimal">
+      <span class="unit">mm</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Camera — Pixel Pitch</h2>
+
+  <div class="pitch-mode">
+    <button class="active" id="btn-camera" onclick="setMode('camera')">Presets</button>
+    <button id="btn-manual" onclick="setMode('manual')">Manual µm</button>
+    <button id="btn-sensor" onclick="setMode('sensor')">Sensor Calc</button>
+  </div>
+
+  <div id="panel-camera" class="show">
+    <label for="camera-select">Camera</label>
+    <select id="camera-select" onchange="applyPreset()">
+      <option value="">— Select camera —</option>
+      <optgroup label="Sony">
+        <option value="5.93">Sony α7 III / α7C — 5.93 µm</option>
+        <option value="3.76">Sony α7R IV / α7R V — 3.76 µm</option>
+        <option value="9.40">Sony α7S III — 9.40 µm</option>
+        <option value="5.36">Sony α7 IV — 5.36 µm</option>
+        <option value="4.15">Sony α7R III — 4.15 µm</option>
+      </optgroup>
+      <optgroup label="Nikon">
+        <option value="5.94">Nikon Z6 / Z6 II — 5.94 µm</option>
+        <option value="4.35">Nikon Z7 / Z7 II — 4.35 µm</option>
+        <option value="5.95">Nikon D750 / D780 — 5.95 µm</option>
+        <option value="4.88">Nikon D800 / D810 — 4.88 µm</option>
+        <option value="7.04">Nikon D3500 / D5600 — 3.90 µm</option>
+        <option value="3.90">Nikon Z8 / Z9 — 4.35 µm</option>
+      </optgroup>
+      <optgroup label="Canon">
+        <option value="5.36">Canon EOS R — 5.36 µm</option>
+        <option value="4.38">Canon EOS R5 — 4.38 µm</option>
+        <option value="6.56">Canon EOS R6 / R6 II — 6.56 µm</option>
+        <option value="5.72">Canon EOS 6D Mark II — 5.72 µm</option>
+        <option value="6.95">Canon EOS 6D — 6.95 µm</option>
+        <option value="4.31">Canon EOS 600D / T3i — 4.31 µm</option>
+      </optgroup>
+      <optgroup label="Fujifilm">
+        <option value="3.76">Fujifilm X-T4 / X-T3 / X-S10 — 3.76 µm</option>
+        <option value="4.17">Fujifilm X-T2 / X-Pro2 — 4.17 µm</option>
+        <option value="3.76">Fujifilm X-H2S — 3.76 µm</option>
+      </optgroup>
+      <optgroup label="Dedicated Astro">
+        <option value="3.80">ZWO ASI2600MC Pro — 3.76 µm</option>
+        <option value="2.40">ZWO ASI294MC Pro — 4.63 µm</option>
+        <option value="4.63">ZWO ASI183MC Pro — 2.40 µm</option>
+      </optgroup>
+    </select>
+    <div class="formula-box" style="margin-top:0.6rem;">
+      Pixel pitch: <span id="pitch-display">—</span> µm
+    </div>
+  </div>
+
+  <div id="panel-manual">
+    <label for="pitch-manual">Pixel Pitch</label>
+    <input type="number" id="pitch-manual" min="1" max="20" step="0.01" value="5.93" inputmode="decimal">
+    <span class="unit">micrometers (µm)</span>
+  </div>
+
+  <div id="panel-sensor">
+    <div class="field">
+      <div>
+        <label for="sensor-w">Sensor Width</label>
+        <input type="number" id="sensor-w" min="1" max="100" step="0.1" value="35.6" inputmode="decimal">
+        <span class="unit">mm</span>
+      </div>
+      <div>
+        <label for="sensor-px">Horizontal Pixels</label>
+        <input type="number" id="sensor-px" min="100" max="100000" step="1" value="6000" inputmode="decimal">
+        <span class="unit">px</span>
+      </div>
+    </div>
+    <div class="formula-box">
+      Calculated pitch: <span id="sensor-pitch-display">—</span> µm
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Target Declination (optional)</h2>
+  <div class="field">
+    <div>
+      <label for="dec">Declination &delta;</label>
+      <input type="number" id="dec" min="-90" max="90" step="1" value="0" inputmode="decimal">
+      <span class="unit">degrees (&minus;90 south &rarr; 0 equator &rarr; +90 north)</span>
+    </div>
+    <div></div>
+  </div>
+  <div class="formula-box">
+    cos(0&deg;) = 1.000 &mdash; equatorial target (fastest motion, shortest exposure).<br>
+    Higher &delta; = slower motion = longer allowed exposure.
+  </div>
+</section>
+
+<!-- Quick presets -->
+<section>
+  <h2>Quick Camera Presets</h2>
+  <div class="preset-grid" id="quick-presets">
+    <button class="preset-btn" onclick="quickSet(5.93)"><span class="preset-name">α7 III</span><span class="preset-pitch">5.93 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(3.76)"><span class="preset-name">α7R IV</span><span class="preset-pitch">3.76 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(9.40)"><span class="preset-name">α7S III</span><span class="preset-pitch">9.40 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(5.94)"><span class="preset-name">Z6 II</span><span class="preset-pitch">5.94 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(4.35)"><span class="preset-name">Z7 II</span><span class="preset-pitch">4.35 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(5.95)"><span class="preset-name">D750</span><span class="preset-pitch">5.95 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(6.56)"><span class="preset-name">R6 II</span><span class="preset-pitch">6.56 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(4.38)"><span class="preset-name">EOS R5</span><span class="preset-pitch">4.38 µm</span></button>
+    <button class="preset-btn" onclick="quickSet(5.72)"><span class="preset-name">6D II</span><span class="preset-pitch">5.72 µm</span></button>
+  </div>
+</section>
+
+<!-- Formula reference -->
+<section>
+  <h2>Formula Reference</h2>
+  <div class="formula-box">
+    t = (35 &times; <span>N</span> + 30 &times; <span>p</span>) / (<span>f</span> &times; cos(<span>&delta;</span>))<br><br>
+    <span>N</span> = aperture f-number &nbsp;&nbsp;
+    <span>p</span> = pixel pitch (µm)<br>
+    <span>f</span> = focal length (mm) &nbsp;&nbsp;
+    <span>&delta;</span> = declination (deg)<br><br>
+    Rule of thumb: result &times; 0.75 for critical sharpness.<br>
+    NPF &mdash; Michaud, Pujol, Fabre.
+  </div>
+</section>
+
+<footer>
+  <a href="https://ku5e.com">ku5e.com</a> &mdash; NPF Rule &mdash; For field use. Keep screen dim.
+</footer>
+
+<script>
+  var currentMode = 'camera';
+  var currentPitch = null;
+
+  function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('panel-camera').classList.remove('show');
+    document.getElementById('panel-manual').classList.remove('show');
+    document.getElementById('panel-sensor').classList.remove('show');
+    document.getElementById('panel-' + mode).classList.add('show');
+
+    document.getElementById('btn-camera').classList.remove('active');
+    document.getElementById('btn-manual').classList.remove('active');
+    document.getElementById('btn-sensor').classList.remove('active');
+    document.getElementById('btn-' + mode).classList.add('active');
+
+    if (mode === 'sensor') updateSensorPitch();
+    if (mode === 'camera') applyPreset();
+  }
+
+  function applyPreset() {
+    var sel = document.getElementById('camera-select');
+    var val = parseFloat(sel.value);
+    if (!isNaN(val)) {
+      currentPitch = val;
+      document.getElementById('pitch-display').textContent = val.toFixed(2);
+    } else {
+      currentPitch = null;
+      document.getElementById('pitch-display').textContent = '—';
+    }
+  }
+
+  function updateSensorPitch() {
+    var w = parseFloat(document.getElementById('sensor-w').value);
+    var px = parseFloat(document.getElementById('sensor-px').value);
+    var el = document.getElementById('sensor-pitch-display');
+    if (!isNaN(w) && !isNaN(px) && px > 0) {
+      var p = (w / px) * 1000;
+      el.textContent = p.toFixed(3);
+      currentPitch = p;
+    } else {
+      el.textContent = '—';
+      currentPitch = null;
+    }
+  }
+
+  document.getElementById('sensor-w').addEventListener('input', updateSensorPitch);
+  document.getElementById('sensor-px').addEventListener('input', updateSensorPitch);
+  document.getElementById('pitch-manual').addEventListener('input', function() {
+    currentPitch = parseFloat(this.value) || null;
+  });
+
+  function quickSet(pitch) {
+    setMode('manual');
+    document.getElementById('pitch-manual').value = pitch;
+    currentPitch = pitch;
+    calculate();
+  }
+
+  function getPitch() {
+    if (currentMode === 'camera') return currentPitch;
+    if (currentMode === 'manual') return parseFloat(document.getElementById('pitch-manual').value) || null;
+    if (currentMode === 'sensor') { updateSensorPitch(); return currentPitch; }
+    return null;
+  }
+
+  function calculate() {
+    var N = parseFloat(document.getElementById('aperture').value);
+    var f = parseFloat(document.getElementById('focal').value);
+    var p = getPitch();
+    var dec = parseFloat(document.getElementById('dec').value) || 0;
+
+    var rv = document.getElementById('result-value');
+    var rr = document.getElementById('result-range');
+
+    if (isNaN(N) || isNaN(f) || p === null || isNaN(p) || f <= 0 || p <= 0) {
+      rv.textContent = '—';
+      rr.textContent = 'Enter all values';
+      return;
+    }
+
+    var cosDec = Math.cos(dec * Math.PI / 180);
+    if (cosDec < 0.001) cosDec = 0.001; // prevent /0 near 90 deg
+
+    var t = (35 * N + 30 * p) / (f * cosDec);
+    var tCritical = t * 0.75;
+
+    rv.textContent = t.toFixed(1);
+    rr.textContent = 'Critical (' + tCritical.toFixed(1) + 's) · Precise (f/' + N.toFixed(1) + ' · ' + p.toFixed(2) + 'µm · ' + f + 'mm · δ' + dec + '°)';
+  }
+
+  document.getElementById('calc-btn').addEventListener('click', calculate);
+
+  // Auto-calc on input change
+  ['aperture','focal','dec','pitch-manual','sensor-w','sensor-px'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', function() { if (currentMode !== 'camera') calculate(); });
+  });
+  document.getElementById('camera-select').addEventListener('change', function() { applyPreset(); calculate(); });
+
+  // Initial state
+  applyPreset();
+</script>
+
+</body>
+</html>
