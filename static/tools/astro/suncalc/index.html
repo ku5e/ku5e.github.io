@@ -146,7 +146,7 @@ function toDays(d){ return toJD(d.getTime()) - J2000; }
 
 function sunCoords(d){
   var M=RAD*(357.5291+0.98560028*d);
-  var L=M+RAD*(1.9148*Math.sin(M)+0.02*Math.sin(2*M)+0.0003*Math.sin(3*M)+102.9372);
+  var L=M+RAD*(1.9148*Math.sin(M)+0.02*Math.sin(2*M)+0.0003*Math.sin(3*M)+102.9372)+Math.PI;
   return{dec:Math.asin(Math.sin(L)*Math.sin(OBL)), ra:Math.atan2(Math.cos(OBL)*Math.sin(L),Math.cos(L))};
 }
 function moonCoords(d){

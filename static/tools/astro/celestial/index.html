@@ -329,7 +329,7 @@ function sunCoords(d) {
   var n = toDays(d);
   var M = RAD * (357.5291 + 0.98560028 * n);
   var C = RAD * (1.9148 * Math.sin(M) + 0.0200 * Math.sin(2 * M) + 0.0003 * Math.sin(3 * M));
-  var lon = RAD * 280.4665 + RAD * 36000.7698 / 36525 * n + C + RAD * 102.9372 - Math.PI;
+  var lon = M + C + RAD * 102.9372 + Math.PI;
   var dec = Math.asin(Math.sin(OBL) * Math.sin(lon));
   var ra = Math.atan2(Math.cos(OBL) * Math.sin(lon), Math.cos(lon));
   return { ra: ra, dec: dec };
@@ -660,13 +660,13 @@ function drawChart(rows, label) {
       ctx.moveTo(PAD.left, y);
       ctx.lineTo(PAD.left + cw, y);
       ctx.stroke();
-      ctx.fillStyle = '#2a0000';
+      ctx.fillStyle = '#5c1111';
       ctx.font = '9px Courier New';
       ctx.fillText(alt + '°', 2, y + 3);
     }
   });
   // 0° label
-  ctx.fillStyle = '#3a0000';
+  ctx.fillStyle = '#5c1111';
   ctx.font = '9px Courier New';
   ctx.fillText('0°', 2, yOf(0) + 3);
 
@@ -697,7 +697,7 @@ function drawChart(rows, label) {
   ctx.stroke();
 
   // X-axis time labels
-  ctx.fillStyle = '#4d0000';
+  ctx.fillStyle = '#5c1111';
   ctx.font = '9px Courier New';
   ctx.textAlign = 'center';
   var step = Math.ceil(n / 8);
