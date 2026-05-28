@@ -169,16 +169,19 @@
         <label>Target</label>
         <select id="target-select" style="width:100%;" onchange="onTargetChange()">
           <optgroup label="── Solar System ──">
-            <option value="moon">Moon</option>
             <option value="mercury">Mercury</option>
             <option value="venus">Venus</option>
+            <option value="moon">Moon</option>
             <option value="mars">Mars</option>
+            <option value="ceres">Ceres</option>
             <option value="jupiter">Jupiter</option>
             <option value="saturn">Saturn</option>
             <option value="uranus">Uranus</option>
             <option value="neptune">Neptune</option>
             <option value="pluto">Pluto</option>
-            <option value="ceres">Ceres</option>
+            <option value="haumea">Haumea (mag ~17)</option>
+            <option value="makemake">Makemake (mag ~17)</option>
+            <option value="eris">Eris (mag ~19)</option>
           </optgroup>
           <optgroup label="── Milky Way ──">
             <option value="mw">Milky Way Core (GC)</option>
@@ -440,8 +443,11 @@ var PLANET_ELEMENTS = {
   saturn:  function(d) { return { N:RAD*(113.6634+2.38980e-5*d), i:RAD*(2.4886-1.081e-7*d),   w:RAD*(339.3939+2.97661e-5*d), a:9.55475,            e:0.055546-9.499e-9*d,   M:RAD*norm360(316.9670+0.0334442282*d) }; },
   uranus:  function(d) { return { N:RAD*(74.0005+1.3978e-5*d),   i:RAD*(0.7733+1.9e-8*d),     w:RAD*(96.6612+3.0565e-5*d),   a:19.18171-1.55e-8*d, e:0.047318+7.45e-9*d,    M:RAD*norm360(142.5905+0.011725806*d)  }; },
   neptune: function(d) { return { N:RAD*(131.7806+3.0173e-5*d),  i:RAD*(1.7700-2.55e-7*d),    w:RAD*(272.8461-6.027e-6*d),   a:30.05826+3.313e-8*d,e:0.008606+2.15e-9*d,    M:RAD*norm360(260.2471+0.005995147*d)  }; },
-  pluto:   function(d) { return { N:RAD*(110.30347+1.3966e-5*d), i:RAD*(17.14175),             w:RAD*(113.76329+3.836e-5*d),  a:39.48168,           e:0.24882,               M:RAD*norm360(14.53470+0.003968789*d)  }; },
-  ceres:   function(d) { return { N:RAD*(80.305+1.1975e-5*d),   i:RAD*(10.607),               w:RAD*(73.598+2.435e-5*d),     a:2.7653,             e:0.07934,               M:RAD*norm360(336.796+0.21408788*d)    }; }
+  pluto:    function(d) { return { N:RAD*(110.30347+1.3966e-5*d), i:RAD*(17.14175),  w:RAD*(113.76329+3.836e-5*d),  a:39.48168,  e:0.24882,   M:RAD*norm360(14.53470+0.003968789*d)  }; },
+  ceres:    function(d) { return { N:RAD*(80.305+1.1975e-5*d),   i:RAD*(10.607),    w:RAD*(73.598+2.435e-5*d),     a:2.7653,    e:0.07934,   M:RAD*norm360(336.796+0.21408788*d)    }; },
+  haumea:   function(d) { return { N:RAD*(121.79),                i:RAD*(28.19),     w:RAD*(239.18),                a:43.116,    e:0.19126,   M:RAD*norm360(218.21+0.003480*d)       }; },
+  makemake: function(d) { return { N:RAD*(79.36),                 i:RAD*(28.96),     w:RAD*(294.83),                a:45.436,    e:0.16126,   M:RAD*norm360(137.00+0.003218*d)       }; },
+  eris:     function(d) { return { N:RAD*(35.95),                 i:RAD*(44.04),     w:RAD*(151.31),                a:67.781,    e:0.43607,   M:RAD*norm360(198.00+0.001769*d)       }; }
 };
 
 function helioEcliptic(el) {
@@ -507,16 +513,19 @@ function getMoonPhase(date) {
 // ── Target catalog ──
 var TARGETS = {
   // Solar System (magnitudes vary — omitted)
-  moon:         { label: 'Moon', type: 'moon' },
-  mercury:      { label: 'Mercury', type: 'planet', key: 'mercury' },
-  venus:        { label: 'Venus', type: 'planet', key: 'venus' },
-  mars:         { label: 'Mars', type: 'planet', key: 'mars' },
-  jupiter:      { label: 'Jupiter', type: 'planet', key: 'jupiter' },
-  saturn:       { label: 'Saturn', type: 'planet', key: 'saturn' },
-  uranus:       { label: 'Uranus', type: 'planet', key: 'uranus' },
-  neptune:      { label: 'Neptune', type: 'planet', key: 'neptune' },
-  pluto:        { label: 'Pluto', type: 'planet', key: 'pluto' },
-  ceres:        { label: 'Ceres', type: 'planet', key: 'ceres' },
+  mercury:      { label: 'Mercury',  type: 'planet', key: 'mercury' },
+  venus:        { label: 'Venus',    type: 'planet', key: 'venus' },
+  moon:         { label: 'Moon',     type: 'moon' },
+  mars:         { label: 'Mars',     type: 'planet', key: 'mars' },
+  ceres:        { label: 'Ceres',    type: 'planet', key: 'ceres' },
+  jupiter:      { label: 'Jupiter',  type: 'planet', key: 'jupiter' },
+  saturn:       { label: 'Saturn',   type: 'planet', key: 'saturn' },
+  uranus:       { label: 'Uranus',   type: 'planet', key: 'uranus' },
+  neptune:      { label: 'Neptune',  type: 'planet', key: 'neptune' },
+  pluto:        { label: 'Pluto',    type: 'planet', key: 'pluto' },
+  haumea:       { label: 'Haumea',   type: 'planet', key: 'haumea' },
+  makemake:     { label: 'Makemake', type: 'planet', key: 'makemake' },
+  eris:         { label: 'Eris',     type: 'planet', key: 'eris' },
   // Milky Way
   mw:           { label: 'Milky Way Core', type: 'fixed', ra: 266.405, dec: -29.008 },
   sagittarius:  { label: 'Sagittarius Star Cloud (M24)', type: 'fixed', ra: 274.7,   dec: -18.5,  mag: 4.6 },
