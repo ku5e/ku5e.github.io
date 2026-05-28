@@ -5,14 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Celestial Path Planner — ku5e</title>
   <style>
-    :root{--bg:#0a0000;--bg2:#110000;--bg3:#1a0000;--border:#4d0000;--dim:#5c1111;--text:#cc2200;--bright:#ff3300;--result:#ff5533;--glow:rgba(204,34,0,0.25);}
+    :root{--bg:#0a0000;--bg2:#110000;--bg3:#1a0000;--border:#4d0000;--dim:#5c1111;--text:#cc2200;--bright:#ff3300;--result:#ff5533;--glow:rgba(204,34,0,0.25);--moon:#8b5500;--twilight:#1a0a00;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html,body{background:var(--bg);color:var(--text);font-family:'Courier New',Courier,monospace;font-size:16px;min-height:100vh;line-height:1.5;}
-    body{max-width:600px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+    body{max-width:640px;margin:0 auto;padding:1.5rem 1rem 3rem;}
     h1{font-size:1.3rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bright);border-bottom:1px solid var(--border);padding-bottom:.5rem;margin-bottom:.3rem;}
-    .subtitle{font-size:.72rem;color:var(--dim);margin-bottom:1.6rem;letter-spacing:.05em;}
-    section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1.4rem;margin-bottom:1.2rem;}
+    .subtitle{font-size:.72rem;color:var(--dim);margin-bottom:1.2rem;letter-spacing:.05em;}
+    section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1.2rem;margin-bottom:1rem;}
     h2{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem;}
+    label{display:block;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:.25rem;}
+    input[type="text"],input[type="email"],input[type="date"],input[type="number"],select{background:var(--bg3);border:1px solid var(--border);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:.9rem;padding:.45rem .6rem;border-radius:3px;outline:none;}
+    input:focus,select:focus{border-color:var(--text);box-shadow:0 0 6px var(--glow);}
+    select option{background:var(--bg3);color:var(--bright);}
+    .row{display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:.6rem;}
+    .row .field{flex:1;min-width:120px;}
+    .row .field-sm{flex:0 0 80px;}
+    .row .field-wide{flex:2;min-width:180px;}
+    .row input,.row select{width:100%;}
+    .btn{background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;padding:.45rem .8rem;border-radius:3px;cursor:pointer;transition:border-color .15s,color .15s;white-space:nowrap;}
+    .btn:hover{border-color:var(--text);color:var(--bright);}
+    .btn-sm{font-size:.65rem;padding:.3rem .6rem;}
+    .btn-primary{border-color:var(--text);color:var(--bright);}
+    .status{font-size:.68rem;color:var(--dim);margin-top:.3rem;min-height:1rem;}
+    .status.ok{color:#226622;}
+    .status.err{color:var(--bright);}
+    /* Arc chart */
+    #arc-canvas{display:block;width:100%;height:220px;border:1px solid var(--border);border-radius:3px;background:var(--bg3);}
+    .chart-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;font-size:.62rem;color:var(--dim);}
+    .legend-item{display:flex;align-items:center;gap:.3rem;}
+    .legend-dot{width:10px;height:3px;border-radius:1px;}
+    /* Hourly table */
+    .tbl-wrap{overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;font-size:.68rem;}
+    th{color:var(--dim);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .4rem;border-bottom:1px solid var(--border);text-align:left;}
+    td{padding:.28rem .4rem;border-bottom:1px solid #1f0000;color:var(--text);}
+    tr.now td{background:#1a0500;}
+    .sky-exc{color:#00aa44;}
+    .sky-good{color:#55cc00;}
+    .sky-ok{color:#aaaa00;}
+    .sky-poor{color:var(--dim);}
+    .sky-day{color:#330000;}
+    .alt-neg{color:#330000;}
+    /* POI */
+    .poi-list{margin-top:.6rem;}
+    .poi-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.35rem .6rem;margin-bottom:.3rem;font-size:.72rem;}
+    .poi-name{color:var(--bright);}
+    .poi-coords{color:var(--dim);font-size:.62rem;}
+    .poi-actions{display:flex;gap:.4rem;}
+    /* Paywall */
     .lock-icon{font-size:3rem;text-align:center;display:block;margin-bottom:1rem;filter:sepia(1) saturate(3) hue-rotate(330deg);}
     .lock-desc{font-size:.8rem;color:var(--dim);margin-bottom:1.4rem;line-height:1.7;}
     .lock-desc ul{margin:.5rem 0 .5rem 1.2rem;}
@@ -20,56 +60,50 @@
     .kofi-big{display:block;background:var(--bg3);border:2px solid var(--text);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;padding:1rem;text-align:center;text-decoration:none;border-radius:4px;margin-bottom:1rem;box-shadow:0 0 12px var(--glow);}
     .kofi-big:hover{box-shadow:0 0 20px rgba(204,34,0,.5);}
     .divider{text-align:center;font-size:.65rem;color:var(--border);margin:.8rem 0;letter-spacing:.08em;text-transform:uppercase;}
-    label{display:block;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem;}
-    input[type="text"],input[type="email"]{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--bright);font-family:'Courier New',Courier,monospace;font-size:1rem;padding:.55rem .7rem;border-radius:3px;outline:none;margin-bottom:.6rem;}
-    input[type="text"]:focus,input[type="email"]:focus{border-color:var(--text);box-shadow:0 0 8px var(--glow);}
-    .unlock-btn{width:100%;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:.7rem;border-radius:3px;cursor:pointer;transition:border-color .15s,color .15s;}
+    .unlock-btn{width:100%;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:.7rem;border-radius:3px;cursor:pointer;transition:border-color .15s,color .15s;margin-top:.4rem;}
     .unlock-btn:hover{border-color:var(--text);color:var(--bright);}
     #unlock-msg{font-size:.72rem;margin-top:.5rem;min-height:1.2rem;}
     .msg-err{color:var(--bright);}
     .msg-ok{color:#226622;}
     #content-locked{display:block;}
     #content-unlocked{display:none;}
-    .coming-soon{text-align:center;padding:2rem 1rem;}
-    .cs-title{font-size:1.1rem;color:var(--bright);margin-bottom:.6rem;}
-    .cs-sub{font-size:.75rem;color:var(--dim);line-height:1.8;}
-    .cs-feature{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.6rem .9rem;margin-bottom:.4rem;font-size:.75rem;color:var(--dim);}
-    .cs-feature::before{content:'▸ ';color:var(--border);}
     .kofi{display:block;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;padding:.6rem;text-align:center;text-decoration:none;border-radius:3px;margin-bottom:1rem;transition:border-color .15s,color .15s;}
     .kofi:hover{border-color:var(--text);color:var(--text);}
     .back{font-size:.65rem;color:var(--dim);text-decoration:none;display:inline-block;margin-bottom:1rem;}
     .back:hover{color:var(--text);}
     footer{font-size:.65rem;color:var(--border);text-align:center;letter-spacing:.05em;padding-top:1rem;border-top:1px solid var(--border);}
     footer a{color:var(--dim);text-decoration:none;}
+    .custom-ra-dec{display:none;}
+    .info-bar{font-size:.7rem;color:var(--result);background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:.4rem .7rem;margin-top:.6rem;}
   </style>
 </head>
 <body>
 
 <a href="/tools/astro/" class="back">← Astro Tools</a>
 <h1>Celestial Path Planner</h1>
-<p class="subtitle">Plan compositions by date, time, and location. Visualize where targets will be.</p>
+<p class="subtitle">Plan compositions by date, time, and location. All calculations run locally.</p>
 
 <!-- Locked gate -->
 <div id="content-locked">
   <section>
     <span class="lock-icon">🔭</span>
     <div class="lock-desc">
-      <strong style="color:var(--text);">What this tool will do:</strong>
+      <strong style="color:var(--text);">What this tool does:</strong>
       <ul>
         <li>Show exactly where any celestial target will be at any date and time</li>
-        <li>Find optimal dates and times for specific compositions</li>
+        <li>Find optimal windows for specific compositions</li>
         <li>Milky Way arch position by hour across the full year</li>
         <li>Moon interference prediction for any target window</li>
-        <li>Save planned sessions with your POIs (local storage)</li>
+        <li>Save Points of Interest with your location (local storage)</li>
       </ul>
     </div>
     <a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi-big">☕ Unlock on Ko-fi — ko-fi.com/radioku5e</a>
     <p style="font-size:.68rem;color:var(--border);text-align:center;margin-bottom:1rem;">One-time payment. After purchasing, you will receive a unique unlock code via Ko-fi message.</p>
     <div class="divider">already have a code?</div>
     <label for="email-input">Ko-fi Email Address</label>
-    <input type="email" id="email-input" placeholder="email you used on Ko-fi" autocomplete="off" autocorrect="off" spellcheck="false">
+    <input type="email" id="email-input" style="width:100%;margin-bottom:.6rem;" placeholder="email you used on Ko-fi" autocomplete="off" autocorrect="off" spellcheck="false">
     <label for="code-input">Unlock Code</label>
-    <input type="text" id="code-input" placeholder="code from your Ko-fi message" autocomplete="off" autocorrect="off" spellcheck="false">
+    <input type="text" id="code-input" style="width:100%;margin-bottom:.6rem;" placeholder="code from your Ko-fi message" autocomplete="off" autocorrect="off" spellcheck="false">
     <button class="unlock-btn" onclick="tryUnlock()">Unlock</button>
     <div id="unlock-msg"></div>
   </section>
@@ -77,21 +111,108 @@
 
 <!-- Unlocked content -->
 <div id="content-unlocked">
+
+  <!-- Location -->
   <section>
-    <div class="coming-soon">
-      <div class="cs-title">Unlocked. Building now.</div>
-      <div class="cs-sub" style="margin-bottom:1.2rem;">
-        The Celestial Path Planner is in active development.<br>
-        Your access is saved. Check back soon.
+    <h2>Location</h2>
+    <div class="row">
+      <div class="field">
+        <label>Latitude</label>
+        <input type="number" id="lat" step="0.0001" placeholder="28.5383" style="width:100%;">
       </div>
-      <div class="cs-feature">Hourly target position charts by date and location</div>
-      <div class="cs-feature">Milky Way core rise/set and arch visualization</div>
-      <div class="cs-feature">Moon interference windows for any target</div>
-      <div class="cs-feature">Saved POI sessions in local storage</div>
-      <div class="cs-feature">Golden hour + blue hour composition windows</div>
+      <div class="field">
+        <label>Longitude</label>
+        <input type="number" id="lng" step="0.0001" placeholder="-81.3792" style="width:100%;">
+      </div>
+      <div>
+        <button class="btn btn-sm" onclick="getGPS()">GPS</button>
+      </div>
+    </div>
+    <div class="row" style="align-items:center;">
+      <div class="field">
+        <label>Save as POI</label>
+        <input type="text" id="poi-name-input" placeholder="location name" style="width:100%;">
+      </div>
+      <div>
+        <button class="btn btn-sm" onclick="savePOI()">Save</button>
+      </div>
+    </div>
+    <div id="gps-status" class="status"></div>
+    <div id="poi-list" class="poi-list"></div>
+  </section>
+
+  <!-- Date & Target -->
+  <section>
+    <h2>Target & Date</h2>
+    <div class="row">
+      <div class="field-wide">
+        <label>Target</label>
+        <select id="target-select" style="width:100%;" onchange="onTargetChange()">
+          <option value="mw">Milky Way Core (GC)</option>
+          <option value="moon">Moon</option>
+          <option value="andromeda">Andromeda Galaxy (M31)</option>
+          <option value="orion">Orion Nebula (M42)</option>
+          <option value="pleiades">Pleiades (M45)</option>
+          <option value="scorpius">Scorpius Heart (Antares)</option>
+          <option value="sagittarius">Sagittarius Star Cloud (M24)</option>
+          <option value="custom">Custom RA / Dec</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="plan-date" style="width:100%;">
+      </div>
+    </div>
+    <div class="custom-ra-dec row" id="custom-ra-dec-row">
+      <div class="field">
+        <label>RA (degrees)</label>
+        <input type="number" id="custom-ra" step="0.01" min="0" max="360" placeholder="0–360" style="width:100%;">
+      </div>
+      <div class="field">
+        <label>Dec (degrees)</label>
+        <input type="number" id="custom-dec" step="0.01" min="-90" max="90" placeholder="-90 to 90" style="width:100%;">
+      </div>
+    </div>
+    <div style="margin-top:.6rem;">
+      <button class="btn btn-primary" onclick="compute()">Compute Path</button>
+    </div>
+    <div id="compute-status" class="status"></div>
+  </section>
+
+  <!-- Arc chart -->
+  <section id="chart-section" style="display:none;">
+    <h2>Altitude Arc — <span id="chart-title"></span></h2>
+    <canvas id="arc-canvas"></canvas>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#cc2200;"></div> Target</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8b5500;"></div> Moon</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2a1000;width:10px;height:10px;border-radius:2px;"></div> Astronomical twilight</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1a0500;width:10px;height:10px;border-radius:2px;"></div> Dark window</div>
+    </div>
+    <div id="info-bar" class="info-bar" style="display:none;"></div>
+  </section>
+
+  <!-- Hourly table -->
+  <section id="table-section" style="display:none;">
+    <h2>Hourly Position — <span id="table-title"></span></h2>
+    <div class="tbl-wrap">
+      <table id="hourly-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Target Alt</th>
+            <th>Target Az</th>
+            <th>Moon Alt</th>
+            <th>Sun Alt</th>
+            <th>Sky</th>
+          </tr>
+        </thead>
+        <tbody id="hourly-body"></tbody>
+      </table>
     </div>
   </section>
-  <button onclick="revokeUnlock()" style="background:none;border:none;color:var(--border);font-family:'Courier New',Courier,monospace;font-size:.6rem;cursor:pointer;display:block;margin:0 auto .5rem;">clear unlock data</button>
+
+  <button onclick="revokeUnlock()" style="background:none;border:none;color:var(--border);font-family:'Courier New',Courier,monospace;font-size:.6rem;cursor:pointer;display:block;margin:.5rem auto;">clear unlock data</button>
 </div>
 
 <a href="https://ko-fi.com/radioku5e" target="_blank" class="kofi">☕ Buy KU5E a beer — ko-fi.com/radioku5e</a>
@@ -101,10 +222,7 @@
 </footer>
 
 <script>
-// ── Email-derived unlock codes ──
-// Each buyer gets a unique code derived from their email + this salt.
-// To generate a code for a buyer: open C:\Users\KU5E\VeraLucero\tools\astro-code-gen.html locally.
-// The salt must match between this file and the generator.
+// ── Paywall ──
 var SALT = 'KU5E-CELESTIAL-2026';
 
 function fnv1a(str) {
@@ -117,18 +235,15 @@ function fnv1a(str) {
 }
 
 function deriveCode(email) {
-  var normalized = email.toLowerCase().trim();
-  var hash = fnv1a(normalized + SALT);
-  // 6-char base-36 uppercase code
-  return hash.toString(36).toUpperCase().slice(0, 6);
+  return fnv1a(email.toLowerCase().trim() + SALT).toString(36).toUpperCase().slice(0, 6);
 }
 
 function checkUnlock() {
   try {
-    var stored = JSON.parse(localStorage.getItem('ku5e_celestial') || 'null');
-    if (!stored) return false;
-    if (stored.type === 'lifetime') return true;
-    if (stored.type === 'annual' && stored.expires > Date.now()) return true;
+    var s = JSON.parse(localStorage.getItem('ku5e_celestial') || 'null');
+    if (!s) return false;
+    if (s.type === 'lifetime') return true;
+    if (s.type === 'annual' && s.expires > Date.now()) return true;
     return false;
   } catch(e) { return false; }
 }
@@ -137,25 +252,21 @@ function tryUnlock() {
   var email = document.getElementById('email-input').value;
   var code = document.getElementById('code-input').value;
   var msg = document.getElementById('unlock-msg');
-
-  if (!email.trim()) { msg.className = 'msg-err'; msg.textContent = 'Enter the email address you used on Ko-fi.'; return; }
+  if (!email.trim()) { msg.className = 'msg-err'; msg.textContent = 'Enter the email you used on Ko-fi.'; return; }
   if (!code.trim()) { msg.className = 'msg-err'; msg.textContent = 'Enter your unlock code.'; return; }
-
-  var expected = deriveCode(email);
-  if (code.trim().toUpperCase() === expected) {
+  if (code.trim().toUpperCase() === deriveCode(email)) {
     localStorage.setItem('ku5e_celestial', JSON.stringify({ type: 'lifetime', ts: Date.now() }));
-    msg.className = 'msg-ok';
-    msg.textContent = 'Unlocked. Welcome.';
+    msg.className = 'msg-ok'; msg.textContent = 'Unlocked. Welcome.';
     setTimeout(showUnlocked, 800);
-    return;
+  } else {
+    msg.className = 'msg-err'; msg.textContent = 'Code not recognized. Check email and code, or contact ku5e@ku5e.com.';
   }
-  msg.className = 'msg-err';
-  msg.textContent = 'Code not recognized. Check email and code, or contact ku5e@ku5e.com.';
 }
 
 function showUnlocked() {
   document.getElementById('content-locked').style.display = 'none';
   document.getElementById('content-unlocked').style.display = 'block';
+  initUI();
 }
 
 function revokeUnlock() {
@@ -164,13 +275,394 @@ function revokeUnlock() {
   document.getElementById('content-unlocked').style.display = 'none';
 }
 
-document.getElementById('code-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') tryUnlock();
-});
-document.getElementById('email-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') document.getElementById('code-input').focus();
-});
+document.getElementById('code-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') tryUnlock(); });
+document.getElementById('email-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') document.getElementById('code-input').focus(); });
 
+// ── Astronomy Engine ──
+var RAD = Math.PI / 180, DEG = 180 / Math.PI;
+var J1970 = 2440588, J2000 = 2451545, OBL = RAD * 23.4397;
+
+function toJD(ms) { return ms / 86400000 - 0.5 + J1970; }
+function toDays(d) { return toJD(d.getTime()) - J2000; }
+
+function sunCoords(d) {
+  var n = toDays(d);
+  var M = RAD * (357.5291 + 0.98560028 * n);
+  var C = RAD * (1.9148 * Math.sin(M) + 0.0200 * Math.sin(2 * M) + 0.0003 * Math.sin(3 * M));
+  var lon = RAD * 280.4665 + RAD * 36000.7698 / 36525 * n + C + RAD * 102.9372 - Math.PI;
+  var dec = Math.asin(Math.sin(OBL) * Math.sin(lon));
+  var ra = Math.atan2(Math.cos(OBL) * Math.sin(lon), Math.cos(lon));
+  return { ra: ra, dec: dec };
+}
+
+function moonCoords(d) {
+  var n = toDays(d);
+  var L = RAD * (218.316 + 13.176396 * n);
+  var M = RAD * (134.963 + 13.064993 * n);
+  var F = RAD * (93.272 + 13.229350 * n);
+  var l = L + RAD * 6.289 * Math.sin(M);
+  var b = RAD * 5.128 * Math.sin(F);
+  var dt = 385001 - 20905 * Math.cos(M);
+  var dec = Math.asin(Math.sin(OBL) * Math.sin(b) + Math.cos(OBL) * Math.cos(b) * Math.sin(l) * (Math.cos(b) * Math.cos(l)));
+  dec = Math.asin(Math.sin(OBL) * Math.sin(b) + Math.cos(b) * Math.cos(OBL) * Math.sin(l));
+  var ra = Math.atan2(Math.sin(l) * Math.cos(OBL) - Math.tan(b) * Math.sin(OBL), Math.cos(l));
+  return { ra: ra, dec: dec, dist: dt };
+}
+
+function siderealTime(d, lng) {
+  var n = toDays(d);
+  return RAD * (280.16 + 360.9856235 * n) + lng * RAD;
+}
+
+function altAz(ra, dec, lat, lst) {
+  var ha = lst - ra;
+  var latR = lat * RAD;
+  var alt = Math.asin(Math.sin(latR) * Math.sin(dec) + Math.cos(latR) * Math.cos(dec) * Math.cos(ha));
+  var az = Math.atan2(Math.sin(ha), Math.cos(ha) * Math.sin(latR) - Math.tan(dec) * Math.cos(latR));
+  return { alt: alt * DEG, az: ((az * DEG + 180) % 360 + 360) % 360 };
+}
+
+function getTargetAltAz(targetDef, date, lat, lng) {
+  var lst = siderealTime(date, lng);
+  var ra, dec;
+  if (targetDef.type === 'sun') {
+    var sc = sunCoords(date); ra = sc.ra; dec = sc.dec;
+  } else if (targetDef.type === 'moon') {
+    var mc = moonCoords(date); ra = mc.ra; dec = mc.dec;
+  } else {
+    ra = targetDef.ra * RAD; dec = targetDef.dec * RAD;
+  }
+  return altAz(ra, dec, lat, lst);
+}
+
+function getMoonPhase(date) {
+  var knownNM = 2451549.757;
+  var syn = 29.53058770576;
+  var jd = toJD(date.getTime());
+  var phase = ((jd - knownNM) % syn + syn) % syn / syn;
+  return phase;
+}
+
+// ── Target catalog ──
+var TARGETS = {
+  mw:         { label: 'Milky Way Core', type: 'fixed', ra: 266.405, dec: -29.008 },
+  moon:       { label: 'Moon', type: 'moon' },
+  andromeda:  { label: 'Andromeda (M31)', type: 'fixed', ra: 10.68, dec: 41.27 },
+  orion:      { label: 'Orion Nebula (M42)', type: 'fixed', ra: 83.82, dec: -5.39 },
+  pleiades:   { label: 'Pleiades (M45)', type: 'fixed', ra: 56.75, dec: 24.12 },
+  scorpius:   { label: 'Antares (Scorpius)', type: 'fixed', ra: 247.35, dec: -26.43 },
+  sagittarius:{ label: 'Sagittarius Star Cloud (M24)', type: 'fixed', ra: 274.7, dec: -18.5 },
+  custom:     { label: 'Custom', type: 'fixed', ra: 0, dec: 0 }
+};
+
+// ── UI state ──
+var currentLat = null, currentLng = null;
+
+function initUI() {
+  var today = new Date();
+  var y = today.getFullYear();
+  var m = String(today.getMonth() + 1).padStart(2, '0');
+  var d2 = String(today.getDate()).padStart(2, '0');
+  document.getElementById('plan-date').value = y + '-' + m + '-' + d2;
+  renderPOIList();
+}
+
+function getGPS() {
+  var st = document.getElementById('gps-status');
+  st.className = 'status'; st.textContent = 'Requesting location...';
+  if (!navigator.geolocation) { st.className = 'status err'; st.textContent = 'Geolocation not supported.'; return; }
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    currentLat = pos.coords.latitude;
+    currentLng = pos.coords.longitude;
+    document.getElementById('lat').value = currentLat.toFixed(4);
+    document.getElementById('lng').value = currentLng.toFixed(4);
+    st.className = 'status ok'; st.textContent = 'Location set: ' + currentLat.toFixed(4) + ', ' + currentLng.toFixed(4);
+  }, function() {
+    st.className = 'status err'; st.textContent = 'Location denied. Enter manually.';
+  });
+}
+
+function onTargetChange() {
+  var val = document.getElementById('target-select').value;
+  document.getElementById('custom-ra-dec-row').style.display = (val === 'custom') ? 'flex' : 'none';
+}
+
+// ── POI Manager ──
+function getPOIs() {
+  try { return JSON.parse(localStorage.getItem('ku5e_pois') || '[]'); } catch(e) { return []; }
+}
+function savePOIs(list) { localStorage.setItem('ku5e_pois', JSON.stringify(list)); }
+
+function savePOI() {
+  var name = document.getElementById('poi-name-input').value.trim();
+  var lat = parseFloat(document.getElementById('lat').value);
+  var lng = parseFloat(document.getElementById('lng').value);
+  if (!name || isNaN(lat) || isNaN(lng)) {
+    document.getElementById('gps-status').className = 'status err';
+    document.getElementById('gps-status').textContent = 'Enter a name, latitude, and longitude first.';
+    return;
+  }
+  var pois = getPOIs();
+  pois.push({ name: name, lat: lat, lng: lng });
+  savePOIs(pois);
+  document.getElementById('poi-name-input').value = '';
+  document.getElementById('gps-status').className = 'status ok';
+  document.getElementById('gps-status').textContent = 'POI saved: ' + name;
+  renderPOIList();
+}
+
+function loadPOI(idx) {
+  var pois = getPOIs();
+  var p = pois[idx];
+  document.getElementById('lat').value = p.lat;
+  document.getElementById('lng').value = p.lng;
+  document.getElementById('gps-status').className = 'status ok';
+  document.getElementById('gps-status').textContent = 'Loaded: ' + p.name;
+}
+
+function deletePOI(idx) {
+  var pois = getPOIs();
+  pois.splice(idx, 1);
+  savePOIs(pois);
+  renderPOIList();
+}
+
+function renderPOIList() {
+  var pois = getPOIs();
+  var el = document.getElementById('poi-list');
+  if (pois.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = pois.map(function(p, i) {
+    return '<div class="poi-item">' +
+      '<div><span class="poi-name">' + p.name + '</span> <span class="poi-coords">' + p.lat.toFixed(4) + ', ' + p.lng.toFixed(4) + '</span></div>' +
+      '<div class="poi-actions">' +
+        '<button class="btn btn-sm" onclick="loadPOI(' + i + ')">Load</button>' +
+        '<button class="btn btn-sm" onclick="deletePOI(' + i + ')">Del</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ── Compute ──
+function compute() {
+  var lat = parseFloat(document.getElementById('lat').value);
+  var lng = parseFloat(document.getElementById('lng').value);
+  var dateStr = document.getElementById('plan-date').value;
+  var st2 = document.getElementById('compute-status');
+
+  if (isNaN(lat) || isNaN(lng)) { st2.className = 'status err'; st2.textContent = 'Set location first.'; return; }
+  if (!dateStr) { st2.className = 'status err'; st2.textContent = 'Select a date.'; return; }
+
+  var targetKey = document.getElementById('target-select').value;
+  var targetDef = Object.assign({}, TARGETS[targetKey]);
+
+  if (targetKey === 'custom') {
+    var cra = parseFloat(document.getElementById('custom-ra').value);
+    var cdec = parseFloat(document.getElementById('custom-dec').value);
+    if (isNaN(cra) || isNaN(cdec)) { st2.className = 'status err'; st2.textContent = 'Enter RA and Dec.'; return; }
+    targetDef.ra = cra; targetDef.dec = cdec;
+    targetDef.label = 'Custom (' + cra.toFixed(1) + '°, ' + cdec.toFixed(1) + '°)';
+  }
+
+  st2.className = 'status'; st2.textContent = 'Computing...';
+
+  var parts = dateStr.split('-');
+  var baseDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 12, 0, 0);
+
+  // Build 26-hour window starting at local noon the day before (covers full night)
+  var rows = [];
+  var startHour = -2; // noon-2 = 10AM
+  for (var h = startHour; h <= 24; h++) {
+    var d = new Date(baseDate.getTime() + h * 3600000 - 12 * 3600000);
+    var lst = siderealTime(d, lng);
+    var sun = altAz(sunCoords(d).ra, sunCoords(d).dec, lat, lst);
+    var moon = altAz(moonCoords(d).ra, moonCoords(d).dec, lat, lst);
+    var target = getTargetAltAz(targetDef, d, lat, lng);
+    rows.push({ date: d, sun: sun, moon: moon, target: target, h: h });
+  }
+
+  // Filter to sunset-2hr .. sunrise+2hr window (roughly)
+  var nightRows = rows.filter(function(r) { return r.sun.alt < 3; });
+  if (nightRows.length === 0) nightRows = rows; // polar edge case
+
+  // Peak info
+  var peakRow = nightRows.slice().sort(function(a,b) { return b.target.alt - a.target.alt; })[0];
+  var riseRow = null, setRow = null;
+  for (var i = 1; i < nightRows.length; i++) {
+    if (!riseRow && nightRows[i].target.alt >= 0 && nightRows[i-1].target.alt < 0) riseRow = nightRows[i];
+    if (!setRow && nightRows[i].target.alt < 0 && nightRows[i-1].target.alt >= 0) setRow = nightRows[i];
+  }
+
+  var moonPhase = getMoonPhase(baseDate);
+  var moonPct = Math.round(Math.abs(moonPhase - 0.5) * 2 * 100);
+  var moonLabel = moonPhase < 0.5 ? 'waxing' : 'waning';
+  var moonIllum = Math.round((1 - Math.cos(moonPhase * 2 * Math.PI)) / 2 * 100);
+
+  var infoBar = document.getElementById('info-bar');
+  var infoParts = [];
+  if (riseRow) infoParts.push('rises ' + fmtTime(riseRow.date));
+  if (peakRow && peakRow.target.alt > 0) infoParts.push('peaks ' + peakRow.target.alt.toFixed(0) + '° at ' + fmtTime(peakRow.date));
+  if (setRow) infoParts.push('sets ' + fmtTime(setRow.date));
+  infoParts.push('moon ' + moonIllum + '% illuminated (' + moonLabel + ')');
+  infoBar.textContent = infoParts.join(' · ');
+  infoBar.style.display = 'block';
+
+  var label = targetDef.label;
+  document.getElementById('chart-title').textContent = label;
+  document.getElementById('table-title').textContent = label;
+  document.getElementById('chart-section').style.display = 'block';
+  document.getElementById('table-section').style.display = 'block';
+
+  drawChart(nightRows, targetDef.label);
+  buildTable(nightRows);
+  st2.className = 'status ok'; st2.textContent = 'Done.';
+}
+
+function fmtTime(d) {
+  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+// ── Arc Chart ──
+function drawChart(rows, label) {
+  var canvas = document.getElementById('arc-canvas');
+  var W = canvas.offsetWidth || 600;
+  var H = 220;
+  canvas.width = W;
+  canvas.height = H;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+
+  var PAD = { top: 10, bot: 24, left: 32, right: 8 };
+  var cw = W - PAD.left - PAD.right;
+  var ch = H - PAD.top - PAD.bot;
+  var n = rows.length;
+
+  function xOf(i) { return PAD.left + (i / (n - 1)) * cw; }
+  function yOf(alt) { return PAD.top + ch - ((alt + 10) / 100) * ch; }
+
+  // Background bands: sky conditions
+  for (var i = 0; i < n - 1; i++) {
+    var r = rows[i];
+    var x1 = xOf(i), x2 = xOf(i + 1);
+    var sunAlt = r.sun.alt;
+    var col;
+    if (sunAlt > -6) col = '#1a0300';
+    else if (sunAlt > -12) col = '#150200';
+    else if (sunAlt > -18) col = '#100100';
+    else col = '#0a0000';
+    ctx.fillStyle = col;
+    ctx.fillRect(x1, PAD.top, x2 - x1, ch);
+  }
+
+  // Horizon line
+  ctx.strokeStyle = '#3a0000';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(PAD.left, yOf(0));
+  ctx.lineTo(PAD.left + cw, yOf(0));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Grid lines at 30°, 60°, 90°
+  ctx.strokeStyle = '#1f0000';
+  ctx.lineWidth = 1;
+  [30, 60, 90].forEach(function(alt) {
+    var y = yOf(alt);
+    if (y >= PAD.top && y <= PAD.top + ch) {
+      ctx.beginPath();
+      ctx.moveTo(PAD.left, y);
+      ctx.lineTo(PAD.left + cw, y);
+      ctx.stroke();
+      ctx.fillStyle = '#2a0000';
+      ctx.font = '9px Courier New';
+      ctx.fillText(alt + '°', 2, y + 3);
+    }
+  });
+  // 0° label
+  ctx.fillStyle = '#3a0000';
+  ctx.font = '9px Courier New';
+  ctx.fillText('0°', 2, yOf(0) + 3);
+
+  // Moon arc
+  ctx.strokeStyle = '#6b4000';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  var started = false;
+  rows.forEach(function(r, i) {
+    var x = xOf(i), y = yOf(r.moon.alt);
+    if (r.moon.alt > -5) {
+      if (!started) { ctx.moveTo(x, y); started = true; } else { ctx.lineTo(x, y); }
+    } else { started = false; ctx.moveTo(x, y); }
+  });
+  ctx.stroke();
+
+  // Target arc
+  ctx.strokeStyle = '#cc2200';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  started = false;
+  rows.forEach(function(r, i) {
+    var x = xOf(i), y = yOf(r.target.alt);
+    if (r.target.alt > -5) {
+      if (!started) { ctx.moveTo(x, y); started = true; } else { ctx.lineTo(x, y); }
+    } else { started = false; ctx.moveTo(x, y); }
+  });
+  ctx.stroke();
+
+  // X-axis time labels
+  ctx.fillStyle = '#4d0000';
+  ctx.font = '9px Courier New';
+  ctx.textAlign = 'center';
+  var step = Math.ceil(n / 8);
+  for (var j = 0; j < n; j += step) {
+    var rx = xOf(j);
+    var t = rows[j].date;
+    var label2 = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+    ctx.fillText(label2, rx, H - 4);
+  }
+  ctx.textAlign = 'left';
+}
+
+// ── Hourly Table ──
+function buildTable(rows) {
+  var tbody = document.getElementById('hourly-body');
+  var now = new Date();
+  tbody.innerHTML = rows.map(function(r) {
+    var isNow = Math.abs(r.date - now) < 1800000;
+    var skyClass = skyRating(r.sun.alt, r.moon.alt);
+    var skyLabel = skyRatingLabel(r.sun.alt, r.moon.alt);
+    var tAlt = r.target.alt.toFixed(1);
+    var altClass = r.target.alt < 0 ? ' class="alt-neg"' : '';
+    return '<tr' + (isNow ? ' class="now"' : '') + '>' +
+      '<td>' + fmtTime(r.date) + '</td>' +
+      '<td' + altClass + '>' + tAlt + '°</td>' +
+      '<td>' + r.target.az.toFixed(0) + '°</td>' +
+      '<td>' + r.moon.alt.toFixed(1) + '°</td>' +
+      '<td>' + r.sun.alt.toFixed(1) + '°</td>' +
+      '<td class="' + skyClass + '">' + skyLabel + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function skyRating(sunAlt, moonAlt) {
+  if (sunAlt > -6) return 'sky-day';
+  if (sunAlt > -12) return 'sky-poor';
+  if (sunAlt > -18) return 'sky-ok';
+  if (moonAlt > 20) return 'sky-ok';
+  if (moonAlt > 5) return 'sky-good';
+  return 'sky-exc';
+}
+
+function skyRatingLabel(sunAlt, moonAlt) {
+  if (sunAlt > -6) return 'day';
+  if (sunAlt > -12) return 'civil';
+  if (sunAlt > -18) return 'naut';
+  if (moonAlt > 20) return 'moon-hi';
+  if (moonAlt > 5) return 'dark+';
+  return 'dark';
+}
+
+// ── Init ──
 if (checkUnlock()) showUnlocked();
 </script>
 
