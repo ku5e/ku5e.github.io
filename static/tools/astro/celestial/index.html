@@ -168,14 +168,50 @@
       <div class="field-wide">
         <label>Target</label>
         <select id="target-select" style="width:100%;" onchange="onTargetChange()">
-          <option value="mw">Milky Way Core (GC)</option>
-          <option value="moon">Moon</option>
-          <option value="andromeda">Andromeda Galaxy (M31)</option>
-          <option value="orion">Orion Nebula (M42)</option>
-          <option value="pleiades">Pleiades (M45)</option>
-          <option value="scorpius">Scorpius Heart (Antares)</option>
-          <option value="sagittarius">Sagittarius Star Cloud (M24)</option>
-          <option value="custom">Custom RA / Dec</option>
+          <optgroup label="── Solar System ──">
+            <option value="moon">Moon</option>
+          </optgroup>
+          <optgroup label="── Milky Way ──">
+            <option value="mw">Milky Way Core (GC)</option>
+            <option value="sagittarius">Sagittarius Star Cloud (M24)</option>
+          </optgroup>
+          <optgroup label="── Nebulae ──">
+            <option value="orion">Orion Nebula (M42)</option>
+            <option value="horsehead">Horsehead &amp; Flame (B33)</option>
+            <option value="rosette">Rosette Nebula (NGC 2237)</option>
+            <option value="crab">Crab Nebula (M1)</option>
+            <option value="lagoon">Lagoon Nebula (M8)</option>
+            <option value="trifid">Trifid Nebula (M20)</option>
+            <option value="eagle">Eagle Nebula (M16)</option>
+            <option value="omega_neb">Omega Nebula (M17)</option>
+            <option value="ring">Ring Nebula (M57)</option>
+            <option value="dumbbell">Dumbbell Nebula (M27)</option>
+            <option value="veil">Veil Nebula (NGC 6960)</option>
+            <option value="northamerica">North America Nebula (NGC 7000)</option>
+            <option value="helix">Helix Nebula (NGC 7293)</option>
+            <option value="carina">Carina Nebula (NGC 3372)</option>
+          </optgroup>
+          <optgroup label="── Galaxies ──">
+            <option value="andromeda">Andromeda (M31)</option>
+            <option value="triangulum">Triangulum (M33)</option>
+            <option value="bodes">Bode's Galaxy (M81)</option>
+            <option value="whirlpool">Whirlpool (M51)</option>
+            <option value="sombrero">Sombrero (M104)</option>
+            <option value="leotriplet">Leo Triplet (M65)</option>
+          </optgroup>
+          <optgroup label="── Clusters ──">
+            <option value="pleiades">Pleiades (M45)</option>
+            <option value="beehive">Beehive (M44)</option>
+            <option value="hercules">Hercules Cluster (M13)</option>
+            <option value="doublecluster">Double Cluster (NGC 869)</option>
+            <option value="omegacen">Omega Centauri (NGC 5139)</option>
+          </optgroup>
+          <optgroup label="── Stars ──">
+            <option value="scorpius">Antares (Scorpius)</option>
+          </optgroup>
+          <optgroup label="──────────────">
+            <option value="custom">Custom RA / Dec</option>
+          </optgroup>
         </select>
       </div>
       <div class="field">
@@ -388,14 +424,43 @@ function getMoonPhase(date) {
 
 // ── Target catalog ──
 var TARGETS = {
-  mw:         { label: 'Milky Way Core', type: 'fixed', ra: 266.405, dec: -29.008 },
-  moon:       { label: 'Moon', type: 'moon' },
-  andromeda:  { label: 'Andromeda (M31)', type: 'fixed', ra: 10.68, dec: 41.27 },
-  orion:      { label: 'Orion Nebula (M42)', type: 'fixed', ra: 83.82, dec: -5.39 },
-  pleiades:   { label: 'Pleiades (M45)', type: 'fixed', ra: 56.75, dec: 24.12 },
-  scorpius:   { label: 'Antares (Scorpius)', type: 'fixed', ra: 247.35, dec: -26.43 },
-  sagittarius:{ label: 'Sagittarius Star Cloud (M24)', type: 'fixed', ra: 274.7, dec: -18.5 },
-  custom:     { label: 'Custom', type: 'fixed', ra: 0, dec: 0 }
+  // Solar System
+  moon:         { label: 'Moon', type: 'moon' },
+  // Milky Way
+  mw:           { label: 'Milky Way Core', type: 'fixed', ra: 266.405, dec: -29.008 },
+  sagittarius:  { label: 'Sagittarius Star Cloud (M24)', type: 'fixed', ra: 274.7, dec: -18.5 },
+  // Nebulae
+  orion:        { label: 'Orion Nebula (M42)', type: 'fixed', ra: 83.82, dec: -5.39 },
+  horsehead:    { label: 'Horsehead & Flame (B33)', type: 'fixed', ra: 85.25, dec: -2.46 },
+  rosette:      { label: 'Rosette Nebula (NGC 2237)', type: 'fixed', ra: 97.5, dec: 4.95 },
+  crab:         { label: 'Crab Nebula (M1)', type: 'fixed', ra: 83.63, dec: 22.01 },
+  lagoon:       { label: 'Lagoon Nebula (M8)', type: 'fixed', ra: 270.9, dec: -24.4 },
+  trifid:       { label: 'Trifid Nebula (M20)', type: 'fixed', ra: 270.6, dec: -23.0 },
+  eagle:        { label: 'Eagle Nebula (M16)', type: 'fixed', ra: 274.67, dec: -13.79 },
+  omega_neb:    { label: 'Omega Nebula (M17)', type: 'fixed', ra: 275.2, dec: -16.2 },
+  ring:         { label: 'Ring Nebula (M57)', type: 'fixed', ra: 283.4, dec: 33.03 },
+  dumbbell:     { label: 'Dumbbell Nebula (M27)', type: 'fixed', ra: 299.9, dec: 22.72 },
+  veil:         { label: 'Veil Nebula (NGC 6960)', type: 'fixed', ra: 312.8, dec: 30.7 },
+  northamerica: { label: 'North America Nebula (NGC 7000)', type: 'fixed', ra: 314.7, dec: 44.5 },
+  helix:        { label: 'Helix Nebula (NGC 7293)', type: 'fixed', ra: 337.4, dec: -20.8 },
+  carina:       { label: 'Carina Nebula (NGC 3372)', type: 'fixed', ra: 161.0, dec: -59.9 },
+  // Galaxies
+  andromeda:    { label: 'Andromeda (M31)', type: 'fixed', ra: 10.68, dec: 41.27 },
+  triangulum:   { label: 'Triangulum (M33)', type: 'fixed', ra: 23.46, dec: 30.66 },
+  bodes:        { label: "Bode's Galaxy (M81)", type: 'fixed', ra: 148.89, dec: 69.07 },
+  whirlpool:    { label: 'Whirlpool (M51)', type: 'fixed', ra: 202.47, dec: 47.20 },
+  sombrero:     { label: 'Sombrero (M104)', type: 'fixed', ra: 190.0, dec: -11.62 },
+  leotriplet:   { label: 'Leo Triplet (M65)', type: 'fixed', ra: 169.73, dec: 13.09 },
+  // Clusters
+  pleiades:     { label: 'Pleiades (M45)', type: 'fixed', ra: 56.75, dec: 24.12 },
+  beehive:      { label: 'Beehive (M44)', type: 'fixed', ra: 130.1, dec: 19.98 },
+  hercules:     { label: 'Hercules Cluster (M13)', type: 'fixed', ra: 250.42, dec: 36.46 },
+  doublecluster:{ label: 'Double Cluster (NGC 869)', type: 'fixed', ra: 34.75, dec: 57.13 },
+  omegacen:     { label: 'Omega Centauri (NGC 5139)', type: 'fixed', ra: 201.7, dec: -47.5 },
+  // Stars
+  scorpius:     { label: 'Antares (Scorpius)', type: 'fixed', ra: 247.35, dec: -26.43 },
+  // Custom
+  custom:       { label: 'Custom', type: 'fixed', ra: 0, dec: 0 }
 };
 
 // ── Numpad ──
