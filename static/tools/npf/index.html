@@ -99,14 +99,13 @@
       outline: none;
       appearance: none;
       -webkit-appearance: none;
-      -moz-appearance: textfield;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      caret-color: transparent;
     }
 
-    input[type="text"]::-webkit-inner-spin-button,
-    input[type="text"]::-webkit-outer-spin-button { display: none; }
-
-    input[type="text"]:focus,
-    select:focus {
+    input[type="text"].active-input {
       border-color: var(--text);
       box-shadow: 0 0 8px var(--glow);
     }
@@ -158,7 +157,6 @@
     }
 
     .acc-list.open { display: block; }
-
     .acc-list input[type="radio"] { display: none; }
 
     .cam-label {
@@ -174,7 +172,6 @@
     }
 
     .cam-label:last-of-type { border-bottom: none; }
-
     .cam-label:active { background: var(--bg3); }
 
     .acc-list input[type="radio"]:checked + .cam-label {
@@ -301,9 +298,7 @@
       transition: box-shadow 0.15s;
     }
 
-    #calc-btn:active {
-      box-shadow: 0 0 20px rgba(204,34,0,0.5);
-    }
+    #calc-btn:active { box-shadow: 0 0 20px rgba(204,34,0,0.5); }
 
     /* Presets */
     .preset-grid {
@@ -347,6 +342,103 @@
 
     footer a { color: var(--dim); text-decoration: none; }
 
+    /* ── Custom Numpad ── */
+    #numpad-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,0,0,0.75);
+      z-index: 200;
+    }
+
+    #numpad-overlay.open { display: block; }
+
+    #numpad {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--bg2);
+      border-top: 2px solid var(--border);
+      padding: 0.8rem;
+      z-index: 201;
+      transform: translateY(100%);
+      transition: transform 0.2s ease-out;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    #numpad.open { transform: translateY(0); }
+
+    #numpad-field-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 0.4rem;
+    }
+
+    #numpad-display {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--bright);
+      font-size: 1.6rem;
+      padding: 0.4rem 0.8rem;
+      margin-bottom: 0.7rem;
+      text-align: right;
+      min-height: 2.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    .numpad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.4rem;
+    }
+
+    .nk {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.3rem;
+      padding: 0.75rem 0.5rem;
+      border-radius: 3px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.1s, color 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nk:active {
+      background: var(--bg);
+      color: var(--bright);
+      border-color: var(--dim);
+    }
+
+    .nk-neg { color: var(--dim); }
+    .nk-neg.allowed { color: var(--text); }
+
+    .nk-back {
+      grid-column: span 1;
+      color: var(--dim);
+      font-size: 1.1rem;
+    }
+
+    .nk-done {
+      grid-column: span 2;
+      background: var(--bg3);
+      border-color: var(--text);
+      color: var(--bright);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .nk-done:active {
+      background: var(--bg);
+      box-shadow: 0 0 12px var(--glow);
+    }
+
     @media (max-width: 400px) {
       #result-value { font-size: 2.8rem; }
       .preset-grid { grid-template-columns: repeat(2, 1fr); }
@@ -374,12 +466,12 @@
   <h2>Lens</h2>
   <div class="field">
     <div>
-      <label for="aperture">Aperture (f/)</label>
-      <input type="text" id="aperture" inputmode="decimal" value="2.8">
+      <label>Aperture (f/)</label>
+      <input type="text" id="aperture" readonly value="2.8" onclick="openNumpad(this,'Aperture (f/)',false)">
     </div>
     <div>
-      <label for="focal">Focal Length (mm)</label>
-      <input type="text" id="focal" inputmode="decimal" value="24">
+      <label>Focal Length (mm)</label>
+      <input type="text" id="focal" readonly value="24" onclick="openNumpad(this,'Focal Length (mm)',false)">
     </div>
   </div>
 </section>
@@ -465,21 +557,21 @@
   </div>
 
   <div id="panel-manual">
-    <label for="pitch-manual">Pixel Pitch</label>
-    <input type="text" id="pitch-manual" inputmode="decimal" value="5.93">
+    <label>Pixel Pitch</label>
+    <input type="text" id="pitch-manual" readonly value="5.93" onclick="openNumpad(this,'Pixel Pitch (µm)',false)">
     <span class="unit">micrometers (µm)</span>
   </div>
 
   <div id="panel-sensor">
     <div class="field">
       <div>
-        <label for="sensor-w">Sensor Width</label>
-        <input type="text" id="sensor-w" inputmode="decimal" value="35.6">
+        <label>Sensor Width</label>
+        <input type="text" id="sensor-w" readonly value="35.6" onclick="openNumpad(this,'Sensor Width (mm)',false)">
         <span class="unit">mm</span>
       </div>
       <div>
-        <label for="sensor-px">Horizontal Pixels</label>
-        <input type="text" id="sensor-px" inputmode="numeric" value="6000">
+        <label>Horizontal Pixels</label>
+        <input type="text" id="sensor-px" readonly value="6000" onclick="openNumpad(this,'Horizontal Pixels',false)">
         <span class="unit">px</span>
       </div>
     </div>
@@ -493,8 +585,8 @@
   <h2>Target Declination (optional)</h2>
   <div class="field">
     <div>
-      <label for="dec">Declination &delta;</label>
-      <input type="text" id="dec" inputmode="numeric" value="0">
+      <label>Declination &delta;</label>
+      <input type="text" id="dec" readonly value="0" onclick="openNumpad(this,'Declination (°)',true)">
       <span class="unit">degrees (&minus;90 south &rarr; 0 equator &rarr; +90 north)</span>
     </div>
     <div></div>
@@ -508,7 +600,7 @@
 <!-- Quick presets -->
 <section>
   <h2>Quick Camera Presets</h2>
-  <div class="preset-grid" id="quick-presets">
+  <div class="preset-grid">
     <button class="preset-btn" onclick="quickSet(5.93)"><span class="preset-name">α7 III</span><span class="preset-pitch">5.93 µm</span></button>
     <button class="preset-btn" onclick="quickSet(3.76)"><span class="preset-name">α7R IV</span><span class="preset-pitch">3.76 µm</span></button>
     <button class="preset-btn" onclick="quickSet(9.40)"><span class="preset-name">α7S III</span><span class="preset-pitch">9.40 µm</span></button>
@@ -530,7 +622,7 @@
     <span>p</span> = pixel pitch (µm)<br>
     <span>f</span> = focal length (mm) &nbsp;&nbsp;
     <span>&delta;</span> = declination (deg)<br><br>
-    Rule of thumb: result &times; 0.75 for critical sharpness.<br>
+    Result &times; 0.75 = critical sharpness threshold.<br>
     NPF &mdash; Michaud, Pujol, Fabre.
   </div>
 </section>
@@ -539,56 +631,121 @@
   <a href="https://ku5e.com">ku5e.com</a> &mdash; NPF Rule &mdash; For field use. Keep screen dim.
 </footer>
 
+<!-- Custom numpad -->
+<div id="numpad-overlay" onclick="closeNumpad()"></div>
+<div id="numpad">
+  <div id="numpad-field-label">Field</div>
+  <div id="numpad-display"></div>
+  <div class="numpad-grid">
+    <button class="nk" onclick="nk('7')">7</button>
+    <button class="nk" onclick="nk('8')">8</button>
+    <button class="nk" onclick="nk('9')">9</button>
+    <button class="nk" onclick="nk('4')">4</button>
+    <button class="nk" onclick="nk('5')">5</button>
+    <button class="nk" onclick="nk('6')">6</button>
+    <button class="nk" onclick="nk('1')">1</button>
+    <button class="nk" onclick="nk('2')">2</button>
+    <button class="nk" onclick="nk('3')">3</button>
+    <button class="nk nk-neg" id="nk-neg" onclick="nk('-')">-</button>
+    <button class="nk" onclick="nk('0')">0</button>
+    <button class="nk" onclick="nk('.')">.</button>
+    <button class="nk nk-back" onclick="nkBack()">&#9003;</button>
+    <button class="nk nk-done" onclick="closeNumpad()">Done</button>
+  </div>
+</div>
+
 <script>
   var currentMode = 'camera';
   var currentPitch = null;
+  var activeInput = null;
+  var negAllowed = false;
 
-  // Accordion
+  // ── Numpad ──
+  function openNumpad(el, label, allowNeg) {
+    if (activeInput) activeInput.classList.remove('active-input');
+    activeInput = el;
+    negAllowed = allowNeg;
+    el.classList.add('active-input');
+    document.getElementById('numpad-field-label').textContent = label;
+    document.getElementById('numpad-display').textContent = el.value;
+    var negBtn = document.getElementById('nk-neg');
+    negBtn.classList.toggle('allowed', allowNeg);
+    negBtn.style.opacity = allowNeg ? '1' : '0.3';
+    document.getElementById('numpad-overlay').classList.add('open');
+    document.getElementById('numpad').classList.add('open');
+  }
+
+  function closeNumpad() {
+    document.getElementById('numpad-overlay').classList.remove('open');
+    document.getElementById('numpad').classList.remove('open');
+    if (activeInput) {
+      activeInput.classList.remove('active-input');
+      var val = document.getElementById('numpad-display').textContent;
+      activeInput.value = val === '' || val === '-' ? '0' : val;
+      activeInput = null;
+    }
+    if (currentMode === 'sensor') updateSensorPitch();
+    if (currentMode === 'manual') {
+      currentPitch = parseFloat(document.getElementById('pitch-manual').value) || null;
+    }
+    calculate();
+  }
+
+  function nk(key) {
+    var disp = document.getElementById('numpad-display');
+    var v = disp.textContent;
+    if (key === '-') {
+      if (!negAllowed) return;
+      disp.textContent = v.startsWith('-') ? v.slice(1) : '-' + v;
+      return;
+    }
+    if (key === '.' && v.includes('.')) return;
+    if (v === '0' && key !== '.') { disp.textContent = key; return; }
+    if (v === '-0') { disp.textContent = '-' + key; return; }
+    disp.textContent = v + key;
+  }
+
+  function nkBack() {
+    var disp = document.getElementById('numpad-display');
+    var v = disp.textContent;
+    disp.textContent = v.length <= 1 ? '0' : v.slice(0, -1);
+  }
+
+  // ── Accordion ──
   var openBrand = null;
 
   function toggleBrand(id) {
     var list = document.getElementById('acc-' + id);
     var btn = list.previousElementSibling;
-
     if (openBrand && openBrand !== id) {
-      var prevList = document.getElementById('acc-' + openBrand);
-      prevList.classList.remove('open');
-      prevList.previousElementSibling.classList.remove('open');
+      var prev = document.getElementById('acc-' + openBrand);
+      prev.classList.remove('open');
+      prev.previousElementSibling.classList.remove('open');
     }
-
     var isOpen = list.classList.contains('open');
     list.classList.toggle('open', !isOpen);
     btn.classList.toggle('open', !isOpen);
     openBrand = isOpen ? null : id;
   }
 
-  // Radio selection
   document.getElementById('acc-container').addEventListener('change', function(e) {
     if (e.target.type === 'radio') {
       var val = parseFloat(e.target.value);
       currentPitch = val;
       document.getElementById('pitch-display').textContent = val.toFixed(2);
-
-      // Mark brand button as having selection
       document.querySelectorAll('.acc-brand').forEach(function(b) { b.classList.remove('has-selection'); });
       e.target.closest('.acc-list').previousElementSibling.classList.add('has-selection');
-
       calculate();
     }
   });
 
+  // ── Mode ──
   function setMode(mode) {
     currentMode = mode;
-    document.getElementById('panel-camera').classList.remove('show');
-    document.getElementById('panel-manual').classList.remove('show');
-    document.getElementById('panel-sensor').classList.remove('show');
-    document.getElementById('panel-' + mode).classList.add('show');
-
-    document.getElementById('btn-camera').classList.remove('active');
-    document.getElementById('btn-manual').classList.remove('active');
-    document.getElementById('btn-sensor').classList.remove('active');
-    document.getElementById('btn-' + mode).classList.add('active');
-
+    ['camera','manual','sensor'].forEach(function(m) {
+      document.getElementById('panel-' + m).classList.toggle('show', m === mode);
+      document.getElementById('btn-' + m).classList.toggle('active', m === mode);
+    });
     if (mode === 'sensor') updateSensorPitch();
   }
 
@@ -606,12 +763,6 @@
     }
   }
 
-  document.getElementById('sensor-w').addEventListener('input', updateSensorPitch);
-  document.getElementById('sensor-px').addEventListener('input', updateSensorPitch);
-  document.getElementById('pitch-manual').addEventListener('input', function() {
-    currentPitch = parseFloat(this.value) || null;
-  });
-
   function quickSet(pitch) {
     setMode('manual');
     document.getElementById('pitch-manual').value = pitch;
@@ -626,37 +777,28 @@
     return null;
   }
 
+  // ── Calculate ──
   function calculate() {
-    var N = parseFloat(document.getElementById('aperture').value);
-    var f = parseFloat(document.getElementById('focal').value);
-    var p = getPitch();
+    var N   = parseFloat(document.getElementById('aperture').value);
+    var f   = parseFloat(document.getElementById('focal').value);
+    var p   = getPitch();
     var dec = parseFloat(document.getElementById('dec').value) || 0;
-
-    var rv = document.getElementById('result-value');
-    var rr = document.getElementById('result-range');
+    var rv  = document.getElementById('result-value');
+    var rr  = document.getElementById('result-range');
 
     if (isNaN(N) || isNaN(f) || p === null || isNaN(p) || f <= 0 || p <= 0) {
-      rv.textContent = '—';
-      rr.textContent = 'Enter all values';
-      return;
+      rv.textContent = '—'; rr.textContent = 'Enter all values'; return;
     }
 
     var cosDec = Math.cos(dec * Math.PI / 180);
     if (cosDec < 0.001) cosDec = 0.001;
 
     var t = (35 * N + 30 * p) / (f * cosDec);
-    var tCritical = t * 0.75;
-
     rv.textContent = t.toFixed(1);
-    rr.textContent = 'Critical (' + tCritical.toFixed(1) + 's) · f/' + N.toFixed(1) + ' · ' + p.toFixed(2) + 'µm · ' + f + 'mm · δ' + dec + '°';
+    rr.textContent = 'Critical (' + (t * 0.75).toFixed(1) + 's) · f/' + N.toFixed(1) + ' · ' + p.toFixed(2) + 'µm · ' + f + 'mm · δ' + dec + '°';
   }
 
   document.getElementById('calc-btn').addEventListener('click', calculate);
-
-  ['aperture','focal','dec','pitch-manual','sensor-w','sensor-px'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.addEventListener('input', function() { if (currentMode !== 'camera') calculate(); });
-  });
 </script>
 
 </body>
