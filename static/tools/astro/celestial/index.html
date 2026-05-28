@@ -214,7 +214,7 @@
     <h2>Hourly Position — <span id="table-title"></span></h2>
     <div class="tbl-wrap">
       <table id="hourly-table">
-        <thead>
+        <thead id="hourly-thead">
           <tr>
             <th>Time</th>
             <th>Target Alt</th>
@@ -556,11 +556,10 @@ function compute() {
   var parts = dateStr.split('-');
   var baseDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 12, 0, 0);
 
-  // Build 26-hour window starting at local noon the day before (covers full night)
+  // Build 25-hour window noon→noon — exactly one night, no previous-day bleed
   var rows = [];
-  var startHour = -2; // noon-2 = 10AM
-  for (var h = startHour; h <= 24; h++) {
-    var d = new Date(baseDate.getTime() + h * 3600000 - 12 * 3600000);
+  for (var h = 0; h <= 24; h++) {
+    var d = new Date(baseDate.getTime() + h * 3600000);
     var lst = siderealTime(d, lng);
     var sun = altAz(sunCoords(d).ra, sunCoords(d).dec, lat, lst);
     var moon = altAz(moonCoords(d).ra, moonCoords(d).dec, lat, lst);
@@ -601,7 +600,7 @@ function compute() {
   document.getElementById('table-section').style.display = 'block';
 
   drawChart(nightRows, targetDef.label);
-  buildTable(nightRows);
+  buildTable(nightRows, targetKey);
   st2.className = 'status ok'; st2.textContent = 'Done.';
 }
 
@@ -712,7 +711,22 @@ function drawChart(rows, label) {
 }
 
 // ── Hourly Table ──
-function buildTable(rows) {
+function buildTable(rows, targetKey) {
+  var isMoon = targetKey === 'moon';
+  // Update header
+  var thead = document.getElementById('hourly-thead');
+  thead.innerHTML = '<tr>' +
+    '<th>Time</th>' +
+    '<th>Alt</th>' +
+    '<th>Az</th>' +
+    (isMoon ? '<th>Illum</th>' : '<th>Moon Alt</th>') +
+    '<th>Sun Alt</th>' +
+    '<th>Sky</th>' +
+  '</tr>';
+
+  var moonPhaseAtMidnight = getMoonPhase(rows[Math.floor(rows.length / 2)].date);
+  var moonIllum = Math.round((1 - Math.cos(moonPhaseAtMidnight * 2 * Math.PI)) / 2 * 100);
+
   var tbody = document.getElementById('hourly-body');
   var now = new Date();
   tbody.innerHTML = rows.map(function(r) {
@@ -721,11 +735,12 @@ function buildTable(rows) {
     var skyLabel = skyRatingLabel(r.sun.alt, r.moon.alt);
     var tAlt = r.target.alt.toFixed(1);
     var altClass = r.target.alt < 0 ? ' class="alt-neg"' : '';
+    var moonCell = isMoon ? moonIllum + '%' : r.moon.alt.toFixed(1) + '°';
     return '<tr' + (isNow ? ' class="now"' : '') + '>' +
       '<td>' + fmtTime(r.date) + '</td>' +
       '<td' + altClass + '>' + tAlt + '°</td>' +
       '<td>' + r.target.az.toFixed(0) + '°</td>' +
-      '<td>' + r.moon.alt.toFixed(1) + '°</td>' +
+      '<td>' + moonCell + '</td>' +
       '<td>' + r.sun.alt.toFixed(1) + '°</td>' +
       '<td class="' + skyClass + '">' + skyLabel + '</td>' +
     '</tr>';
