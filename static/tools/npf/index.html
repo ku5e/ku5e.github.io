@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NPF Rule Calculator — ku5e</title>
+  <title>Star Exposure Calculator — ku5e</title>
   <style>
     :root {
       --bg:       #0a0000;
@@ -444,19 +444,64 @@
       .preset-grid { grid-template-columns: repeat(2, 1fr); }
       .field { grid-template-columns: 1fr; }
     }
+
+    #r500-section {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1rem 1.2rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    #r500-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 0.3rem;
+    }
+
+    #r500-value {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    #r500-unit {
+      font-size: 0.8rem;
+      color: var(--dim);
+      margin-top: 0.2rem;
+    }
+
+    #r500-note {
+      font-size: 0.65rem;
+      color: var(--border);
+      margin-top: 0.4rem;
+      letter-spacing: 0.04em;
+    }
   </style>
 </head>
 <body>
 
-<h1>NPF Rule Calculator</h1>
-<p class="subtitle">Max exposure time to avoid star trails &mdash; ku5e.com</p>
+<h1>Star Exposure Calculator</h1>
+<p class="subtitle">NPF Rule + Rule of 500 &mdash; max exposure to avoid star trails &mdash; ku5e.com</p>
 
 <!-- Result always at top for field use -->
 <div id="result-section">
-  <div id="result-label">Maximum Exposure</div>
+  <div id="result-label">NPF &mdash; Maximum Exposure (More Accurate)</div>
   <div id="result-value">—</div>
   <div id="result-unit">seconds</div>
   <div id="result-range"></div>
+</div>
+
+<div id="r500-section">
+  <div id="r500-label">Rule of 500</div>
+  <div id="r500-value">—</div>
+  <div id="r500-unit">seconds</div>
+  <div id="r500-note">NPF result above is more accurate</div>
 </div>
 
 <a href="https://ko-fi.com/radioku5e" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--dim);color:var(--dim);font-family:'Courier New',Courier,monospace;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;padding:.55rem;text-align:center;text-decoration:none;border-radius:3px;margin-bottom:.8rem;">☕ Buy KU5E a beer — ko-fi.com/radioku5e</a>
@@ -474,6 +519,19 @@
       <label>Focal Length (mm)</label>
       <input type="text" id="focal" readonly value="24" onclick="openNumpad(this,'Focal Length (mm)',false)">
     </div>
+  </div>
+</section>
+
+<section>
+  <h2>Crop Factor &mdash; Rule of 500</h2>
+  <div class="pitch-mode">
+    <button class="active" id="cf-10" onclick="setCrop(1.0)">1.0&times; FF</button>
+    <button id="cf-15" onclick="setCrop(1.5)">1.5&times; APS-C</button>
+    <button id="cf-16" onclick="setCrop(1.6)">1.6&times; Canon</button>
+    <button id="cf-20" onclick="setCrop(2.0)">2.0&times; MFT</button>
+  </div>
+  <div class="formula-box">
+    Crop factor: <span id="crop-display">1.0</span>&times; &nbsp;&nbsp; Effective FL: <span id="eff-fl-display">&mdash;</span> mm
   </div>
 </section>
 
@@ -618,13 +676,14 @@
 <section>
   <h2>Formula Reference</h2>
   <div class="formula-box">
-    t = (35 &times; <span>N</span> + 30 &times; <span>p</span>) / (<span>f</span> &times; cos(<span>&delta;</span>))<br><br>
-    <span>N</span> = aperture f-number &nbsp;&nbsp;
-    <span>p</span> = pixel pitch (µm)<br>
-    <span>f</span> = focal length (mm) &nbsp;&nbsp;
-    <span>&delta;</span> = declination (deg)<br><br>
-    Result &times; 0.75 = critical sharpness threshold.<br>
-    NPF &mdash; Michaud, Pujol, Fabre.
+    <span style="color:var(--bright)">NPF (More Accurate)</span><br>
+    t = (35 &times; <span>N</span> + 30 &times; <span>p</span>) / (<span>f</span> &times; cos(<span>&delta;</span>))<br>
+    <span>N</span> = aperture &nbsp; <span>p</span> = pixel pitch (µm) &nbsp; <span>f</span> = focal length (mm) &nbsp; <span>&delta;</span> = declination<br>
+    Result &times; 0.75 = critical sharpness. &mdash; Michaud, Pujol, Fabre.<br><br>
+    <span style="color:var(--bright)">Rule of 500</span><br>
+    t = 500 / (<span>f</span> &times; <span>CF</span>)<br>
+    <span>CF</span> = crop factor &nbsp; FF: 1.0 &nbsp; APS-C: 1.5&ndash;1.6 &nbsp; MFT: 2.0<br>
+    Simple but ignores aperture, pixel size, and target declination.
   </div>
 </section>
 
@@ -660,6 +719,7 @@
   var currentPitch = null;
   var activeInput = null;
   var negAllowed = false;
+  var cropFactor = 1.0;
 
   // ── Numpad ──
   function openNumpad(el, label, allowNeg) {
@@ -764,6 +824,16 @@
     }
   }
 
+  function setCrop(cf) {
+    cropFactor = cf;
+    document.getElementById('crop-display').textContent = cf.toFixed(1);
+    var cfIds = {'1': 'cf-10', '1.5': 'cf-15', '1.6': 'cf-16', '2': 'cf-20'};
+    Object.values(cfIds).forEach(function(id) { document.getElementById(id).classList.remove('active'); });
+    var key = String(cf);
+    if (cfIds[key]) document.getElementById(cfIds[key]).classList.add('active');
+    calculate();
+  }
+
   function quickSet(pitch) {
     setMode('manual');
     document.getElementById('pitch-manual').value = pitch;
@@ -786,6 +856,15 @@
     var dec = parseFloat(document.getElementById('dec').value) || 0;
     var rv  = document.getElementById('result-value');
     var rr  = document.getElementById('result-range');
+    var r5v = document.getElementById('r500-value');
+
+    if (!isNaN(f) && f > 0) {
+      var effFL = f * cropFactor;
+      r5v.textContent = (500 / effFL).toFixed(1);
+      document.getElementById('eff-fl-display').textContent = effFL.toFixed(0);
+    } else {
+      r5v.textContent = '—';
+    }
 
     if (isNaN(N) || isNaN(f) || p === null || isNaN(p) || f <= 0 || p <= 0) {
       rv.textContent = '—'; rr.textContent = 'Enter all values'; return;
